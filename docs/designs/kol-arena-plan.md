@@ -60,7 +60,7 @@ Only what the architecture does not already say.
 
 Layer 0
 
-- auth: argon2id hashes; session token 32 random bytes, cookie `arena_session` HttpOnly, Secure, SameSite=Strict, 14 days, stored as SHA-256; login rate limit 5 failures per IP per 15 min, then 15 min lock; first admin created at install from config if no admin exists. Fills platform «человек запроса».
+- auth: argon2id hashes; session token 32 random bytes, cookie `arena_session` HttpOnly, Secure, SameSite=Strict, 14 days, stored as SHA-256; login rate limit 5 failures per IP per 15 min, then 15 min lock; first admin created at install from config if no admin exists. Admin adds staff and revokes access; revoking deletes that person's sessions at once (S13). Fills platform «человек запроса».
 - journal: exactly the agreed API: `record(person, block, object, action, before, after)` -> id, `history(block, object)`. `before` and `after` are JSON; secrets never written.
 
 Layer 1
@@ -68,7 +68,7 @@ Layer 1
 - registry: KOL id = prototype slug (stable); new KOLs get a slug from name, deduplicated. Seed migration from prototype JSON (public fields only). `publish_wallets` refuses a wallet held by another KOL.
 - snapshots: tables `snapshot(date, status, opened_at, closed_at)`, `member(date, kol, reason)`, `metric(date, kol, source, fetched_at, d1, d7, d30, wr7, wr30, wr_all, avg_pos, hold_s, last_min_at_fetch, traded_24h, unreal, total, vol30, days30, wins, losses, pnl_rank, in_top_today)`; `traded_24h` (KE: last trade within 1,440 min at fetch; ST: today's history entry has buys or sells) feeds streaks. Nulls stay null. `close` copies the latest earlier metric row (with its source and fetched_at) for members without one. `open` on a closed date reopens it. Seed migration: snapshot 2026-10-18 closed, members and metrics from the prototype.
 - score: pure `score(metrics, at)` in `score/backend/src/formula.rs` with an ASCII diagram of the four parts; `rank(date)` stores parts, score, tier, badges, rank; order Score desc, d30 desc, name asc. Install ranks 2026-10-18 if not ranked.
-- board: `/api/board?date=` returns rows with only allowlisted fields (separate public DTO type). Stale: `now - fetched_at > 48h`. Card `/api/kol/:id?date=`. Ticker items built here; slot «бегущая строка» adds filler items.
+- board: `/api/board?date=` returns rows with only allowlisted fields (separate public DTO type). Stale: `now - fetched_at > 48h`. Card `/api/kol/:id?date=` with every published wallet and its Solscan link `https://solscan.io/account/<address>` (S8). Ticker items built here; slot «бегущая строка» adds filler items.
 - fight: `resolve(fighters, date)` pure function; rounds per requirements section 7; void, tie split, all-win void, rounds tie -> higher Score, Score tie -> Draw. `/api/fight/image` renders SVG with `resvg` and embedded TTF fonts (OFL files committed under `plugins/fight/backend/fonts/`) to a 1200x630 PNG, cached in memory by (ids, date, snapshot closed_at), so a re-collected date never serves an old image; LRU of 200. The server injects `og:` and `twitter:` meta into `index.html` for `/fight` so X shows the image.
 
 Layer 2
