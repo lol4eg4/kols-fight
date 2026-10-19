@@ -68,6 +68,29 @@ describe("dictionary", () => {
     expect(missing).toEqual([]);
   });
 
+  test("no UI text is written in JSX: only proper nouns and glyphs (the plan's lint rule)", () => {
+    const PROPER_NOUNS = new Set(["KOL ARENA", "KOL FIGHT"]);
+    const files = [
+      ...walk(resolve(root, "web/src"), [".tsx"]),
+      ...walk(resolve(root, "platform/design/src"), [".tsx"]),
+      ...pluginNames.flatMap((n) => walk(resolve(root, "plugins", n, "frontend/src"), [".tsx"])),
+    ];
+    const found: string[] = [];
+    for (const file of files) {
+      const src = readFileSync(file, "utf8").replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:])\/\/.*$/gm, "$1");
+      // text between tags: at least two letters in a row
+      for (const m of src.matchAll(/>([^<>{}=;()]*[A-Za-z]{2,}[^<>{}=;()]*)</g)) {
+        const text = m[1]!.trim();
+        if (text && !PROPER_NOUNS.has(text)) found.push(`${file.replace(root, "")}: >${text}<`);
+      }
+      // texts a reader or a screen reader gets from attributes
+      for (const m of src.matchAll(/\b(?:aria-label|title|placeholder|alt|label|message|reason|hint|pauseLabel|resumeLabel|closeLabel|retryLabel|pendingLabel|winnerLabel|noDataLabel|statusLabel|numberLabel|measures|why)="([^"]*[A-Za-z]{2,}[^"]*)"/g)) {
+        found.push(`${file.replace(root, "")}: ${m[0]}`);
+      }
+    }
+    expect(found).toEqual([]);
+  });
+
   test("every string that looks like a dictionary key exists (covers keys kept in tables)", () => {
     const missing: string[] = [];
     for (const file of sources()) {
