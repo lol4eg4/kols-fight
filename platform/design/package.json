@@ -1,0 +1,17 @@
+{
+  "name": "@arena/design",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./styles.css": "./src/styles.css"
+  },
+  "dependencies": {
+    "@fontsource/golos-text": "^5.2.0",
+    "@fontsource/jetbrains-mono": "^5.2.0",
+    "@fontsource/press-start-2p": "^5.2.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  }
+}
