@@ -1,12 +1,39 @@
 {
-  "name": "kol-fight-web",
+  "name": "@arena/shell",
   "private": true,
   "type": "module",
+  "exports": {
+    ".": "./src/shell/index.ts"
+  },
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit && vite build"
+    "gen": "bun ../scripts/gen-plugins.ts && bun ../scripts/gen-tokens.ts",
+    "build": "bun run gen && tsc --noEmit && vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
+    "@arena/design": "workspace:*",
+    "@arena/auth": "workspace:*",
+    "@arena/board": "workspace:*",
+    "@arena/duel": "workspace:*",
+    "@arena/fight": "workspace:*",
+    "@arena/fomo": "workspace:*",
+    "@arena/guess": "workspace:*",
+    "@arena/journal": "workspace:*",
+    "@arena/kolexplorer": "workspace:*",
+    "@arena/moves": "workspace:*",
+    "@arena/network": "workspace:*",
+    "@arena/picker": "workspace:*",
+    "@arena/radar": "workspace:*",
+    "@arena/registry": "workspace:*",
+    "@arena/roster": "workspace:*",
+    "@arena/schedule": "workspace:*",
+    "@arena/score": "workspace:*",
+    "@arena/snapshots": "workspace:*",
+    "@arena/solanatracker": "workspace:*",
+    "@arena/streaks": "workspace:*",
+    "@arena/tournament": "workspace:*",
+    "@arena/wallets": "workspace:*",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   },
