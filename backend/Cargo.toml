@@ -1,14 +1,49 @@
 [package]
 name = "server"
-version = "0.1.0"
-edition = "2024"
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[lib]
+name = "server"
+path = "src/lib.rs"
+
+[[bin]]
+name = "server"
+path = "src/main.rs"
 
 [dependencies]
-axum = "0.8"
-tokio = { version = "1", features = ["macros", "rt-multi-thread", "net"] }
-sqlx = { version = "0.8", default-features = false, features = ["runtime-tokio", "postgres", "migrate", "macros"] }
-tower-http = { version = "0.6", features = ["fs"] }
-serde_json = { version = "1", features = ["preserve_order"] }
+arena-platform.workspace = true
+axum.workspace = true
+serde_json = { workspace = true, features = ["preserve_order"] }
+sqlx.workspace = true
+tokio.workspace = true
+tower-http.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+
+plugin-auth.workspace = true
+plugin-board.workspace = true
+plugin-duel.workspace = true
+plugin-fight.workspace = true
+plugin-fomo.workspace = true
+plugin-guess.workspace = true
+plugin-journal.workspace = true
+plugin-kolexplorer.workspace = true
+plugin-moves.workspace = true
+plugin-network.workspace = true
+plugin-picker.workspace = true
+plugin-radar.workspace = true
+plugin-registry.workspace = true
+plugin-roster.workspace = true
+plugin-schedule.workspace = true
+plugin-score.workspace = true
+plugin-snapshots.workspace = true
+plugin-solanatracker.workspace = true
+plugin-streaks.workspace = true
+plugin-tournament.workspace = true
+plugin-wallets.workspace = true
 
 [dev-dependencies]
-tower = { version = "0.5", features = ["util"] }
+async-trait.workspace = true
+tower.workspace = true
