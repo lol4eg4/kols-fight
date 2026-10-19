@@ -34,7 +34,11 @@ import {
   buttonClass,
 } from "@arena/design";
 import type { BracketRound, ScoreBreakdownLabels, ScorePart, Tier } from "@arena/design";
-import { t } from "../i18n";
+import { addDictionary, t } from "../i18n";
+import { dict } from "./en";
+
+// The gallery brings its own strings: they load with this chunk and never reach a client page.
+addDictionary("gallery", dict);
 
 // Sample data: names are proper nouns from the prototype; figures are made up to show every state.
 

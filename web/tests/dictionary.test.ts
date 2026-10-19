@@ -2,12 +2,16 @@ import { describe, expect, test } from "bun:test";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { resolve } from "node:path";
 import { dict as shellDict } from "../src/shell/en";
+import { dict as galleryDict } from "../src/shell/gallery/en";
 import { walk } from "./imports-lib";
 
 const root = resolve(import.meta.dir, "../..");
 const pluginNames = readdirSync(resolve(root, "plugins")).filter((n) => existsSync(resolve(root, "plugins", n, "plugin.toml")));
 
-const dicts = new Map<string, Record<string, string>>([["shell", shellDict]]);
+const dicts = new Map<string, Record<string, string>>([
+  ["shell", shellDict],
+  ["gallery", galleryDict],
+]);
 for (const n of pluginNames) {
   const mod = (await import(`../../plugins/${n}/frontend/src/en.ts`)) as { dict: Record<string, string> };
   dicts.set(n, mod.dict);
@@ -28,7 +32,7 @@ describe("dictionary", () => {
   test("keys of each dictionary start with the owner's prefix", () => {
     for (const [owner, dict] of dicts) {
       for (const key of Object.keys(dict)) {
-        const ok = owner === "shell" ? key.startsWith("shell.") || key.startsWith("gallery.") : key.startsWith(`${owner}.`);
+        const ok = key.startsWith(`${owner}.`);
         expect(ok ? "" : `${owner}: ${key}`).toBe("");
       }
     }
@@ -76,6 +80,10 @@ describe("dictionary", () => {
 
   test("every shell and gallery key is used somewhere (no dead strings)", () => {
     const text = sources().map((f) => readFileSync(f, "utf8")).join("\n");
-    expect(Object.keys(shellDict).filter((k) => !text.includes(`"${k}"`))).toEqual([]);
+    expect([...Object.keys(shellDict), ...Object.keys(galleryDict)].filter((k) => !text.includes(`"${k}"`))).toEqual([]);
+  });
+
+  test("the main bundle does not carry the gallery strings: the shell dictionary has no gallery key", () => {
+    expect(Object.keys(shellDict).filter((k) => k.startsWith("gallery."))).toEqual([]);
   });
 });
