@@ -1,0 +1,1 @@
+{"service":{"cmd":"scripts/site.sh task","teardown":"scripts/site.sh teardown","url_path":"/"}}

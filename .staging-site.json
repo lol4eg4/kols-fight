@@ -1,0 +1,5 @@
+{
+  "cmd": "scripts/site.sh staging",
+  "url_path": "/",
+  "check_path": "/api/health"
+}
