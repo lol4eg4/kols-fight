@@ -1,0 +1,12 @@
+[package]
+name = "plugin-picker"
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[dependencies]
+api-registry.workspace = true
+api-roster.workspace = true
+api-score.workspace = true
+arena-platform.workspace = true
+sqlx.workspace = true

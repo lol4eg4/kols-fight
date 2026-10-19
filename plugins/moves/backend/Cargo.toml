@@ -1,0 +1,11 @@
+[package]
+name = "plugin-moves"
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[dependencies]
+api-score.workspace = true
+api-snapshots.workspace = true
+arena-platform.workspace = true
+sqlx.workspace = true
