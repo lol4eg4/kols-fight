@@ -1,0 +1,11 @@
+name = "moves"
+layer = 4
+version = "0.1.0"
+tags = ["public"]
+uses = ["score", "snapshots"]
+emits = []
+listens = []
+slots = []
+fills = ["board/rank_change", "board/ticker"]
+widgets = []
+screens = []

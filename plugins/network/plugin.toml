@@ -1,0 +1,11 @@
+name = "network"
+layer = 3
+version = "0.1.0"
+tags = ["public"]
+uses = ["roster", "wallets", "score", "snapshots", "registry"]
+emits = []
+listens = []
+slots = []
+fills = ["board/network_section", "board/network_filter"]
+widgets = []
+screens = []

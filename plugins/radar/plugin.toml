@@ -1,0 +1,11 @@
+name = "radar"
+layer = 2
+version = "0.1.0"
+tags = ["public"]
+uses = ["solanatracker", "snapshots"]
+emits = []
+listens = []
+slots = []
+fills = ["board/radar_section"]
+widgets = []
+screens = []

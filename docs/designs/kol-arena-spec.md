@@ -9,7 +9,7 @@ Clients (Solana token teams) pick KOLs by onchain results. Today the repo is an 
 ## Child specs
 
 1. F1 Rust foundation. Priority critical. Depends on nothing.
-2. F2 Web foundation and design system. Priority critical. Depends on nothing (runs beside F1).
+2. F2 Web foundation and design system. Priority critical. Depends on the committed manifests only (runs beside F1; it never edits `plugin.toml`).
 3. A Arena core: registry, snapshots, score, board, fight. Depends on F1, F2.
 4. B Daily data: kolexplorer, solanatracker, schedule, radar. Depends on F1, F2.
 5. C Network: roster, wallets, fomo, network, picker. Depends on F1, F2.
@@ -24,6 +24,29 @@ F2 ──┘          ├──> B ─┤
 ```
 
 Sequencing: F1 and F2 fix every cross-plugin contract (api crates, plugin.toml, shell registry, design pieces). After that, lanes touch only their own plugin folders, so they run in parallel without conflicts. Reordering lanes before F breaks that.
+
+## Contracts fixed before any child starts
+
+- `plugins/*/plugin.toml` for all 21 plugins are committed (format in F1). They name every `uses`, event, slot, fill, widget and screen. After F1 and F2, each lane owns the manifests of its own plugins and may add to them; a change to another plugin's manifest or `api` crate goes through the coordinator.
+- Score formula input: `score(metrics)` exactly as the architecture says. Activity uses `last_min_at_fetch`. Accuracy uses `wr30`, or `wr_all` when `wr30` is null (network KOLs from Solana Tracker), counted only when `d30 > 0`. Expected day-0 ranking for all 122 KOLs: `data/prototype/expected_ranking_2026-10-18.json` (rank, slug, name, score, tier); generated from the formula and checked against the 25 screenshot values below.
+- Fixtures: `data/prototype/arena_data_v2.json`, `data/prototype/kolexplorer-2026-10-19.html`, `data/fixtures/solanatracker/st_wallet_tekkerrss.json`, `st_history_tekkerrss_30d.json`, `st_positions_tekkerrss.json`, `st_kols_30d.json`.
+- Events (backend, payload): `snapshot_opened { date }` (schedule), `table_read { date }` and `x_handle_verified { kol }` (roster).
+- Page events (web, payload): `fighter_added { kol }`, `fight_over { ids, date, winner | null }` (fight).
+- API slot `board/in_network`: trait `InNetwork { async fn is_member(&self, person, kol) -> bool }` in `plugins/board/api`; default false; filled by roster.
+- Screen slots (host / name: filler, props). Props are ids only.
+  - board / network_section: network, `{ date }`.
+  - board / radar_section: radar, `{ date }`.
+  - board / network_filter: network, `{ date }`; returns the set of network KOL ids for the leaderboard tab.
+  - board / rank_change: moves, `{ date, kol }`.
+  - board / extra_badges: streaks, `{ date, kol }`.
+  - board / ticker: moves, `{ date }`; adds ticker items.
+  - board / duel_of_day: duel, `{ date }`.
+  - board / below_fight: tournament, `{ date }`.
+  - fight / before_fight: guess, `{ ids, date }`.
+  - schedule / other_sources: roster, `{}`.
+  - roster / wallet_status: wallets, `{ kol }`.
+- Widgets: fight / add_to_fight `{ kol }` placed by board and network; fight / fighter_picker `{}` placed by board.
+- DTO types: F1 designs the Rust types from the architecture's operations and the metric fields in plan section 4; they are documented with rustdoc and frozen at the F merge. F2 mirrors the public DTOs as TypeScript types in `@arena/shell` (`web/src/shell/types.ts`).
 
 ## Shared rules for every child
 
@@ -147,6 +170,11 @@ Acceptance:
 - Journal tests: record and history.
 - Games tests: moves only when both days fresh; duel deterministic per date; tournament with a draw advances the higher rank; streaks appear only with enough history.
 - On the task site: login, wrong password message, lockout, logout; staff cannot open `/team/staff`.
+
+## Checks in a lane worktree vs after the merge
+
+- In a lane worktree: the lane's crate tests and `bun test`, `cargo build`, `bun run build`, and a local run of the server binary on a free port against a `TestDb`-style throwaway database to click through its own screens. Other lanes' plugins answer «not built»; screens show their error or empty states.
+- After the merge, by the coordinator: everything marked «on the task site», live runs, E2E.
 
 ## E2E (after merge)
 

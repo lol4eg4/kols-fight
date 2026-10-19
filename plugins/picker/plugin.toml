@@ -1,0 +1,11 @@
+name = "picker"
+layer = 3
+version = "0.1.0"
+tags = ["staff"]
+uses = ["roster", "score", "registry"]
+emits = []
+listens = []
+slots = []
+fills = []
+widgets = []
+screens = [{ name = "picker", path = "/team/picker", tag = "staff" }]

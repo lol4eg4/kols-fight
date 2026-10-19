@@ -1,0 +1,11 @@
+name = "auth"
+layer = 0
+version = "0.1.0"
+tags = ["public", "staff", "admin"]
+uses = ["journal"]
+emits = []
+listens = []
+slots = []
+fills = ["platform/person_of_request"]
+widgets = []
+screens = [{ name = "login", path = "/team/login", tag = "public" }, { name = "staff", path = "/team/staff", tag = "admin" }]

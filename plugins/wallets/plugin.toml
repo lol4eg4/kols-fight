@@ -1,0 +1,11 @@
+name = "wallets"
+layer = 3
+version = "0.1.0"
+tags = ["staff"]
+uses = ["roster", "kolexplorer", "solanatracker", "registry", "journal"]
+emits = []
+listens = ["table_read", "x_handle_verified"]
+slots = []
+fills = ["roster/wallet_status"]
+widgets = []
+screens = [{ name = "wallets", path = "/team/wallets", tag = "staff" }]

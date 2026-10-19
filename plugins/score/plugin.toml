@@ -1,0 +1,11 @@
+name = "score"
+layer = 1
+version = "0.1.0"
+tags = []
+uses = ["snapshots", "registry"]
+emits = []
+listens = []
+slots = []
+fills = []
+widgets = []
+screens = []

@@ -1,0 +1,11 @@
+name = "solanatracker"
+layer = 2
+version = "0.1.0"
+tags = []
+uses = ["registry", "snapshots"]
+emits = []
+listens = []
+slots = []
+fills = []
+widgets = []
+screens = []
