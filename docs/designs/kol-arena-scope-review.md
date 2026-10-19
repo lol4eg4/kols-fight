@@ -99,3 +99,22 @@ Input for Architecture, Design and Plan. The Brief (`kol-arena.md`) is the sourc
 - Paid APIs (Solscan, TwitterScore).
 - Push alerts to Telegram or email on collection failure: admin page shows it instead.
 - Production deploy.
+
+## Design review (2026-10-19)
+
+Person-facing decisions: Brief, section «Дизайн». Tokens: `DESIGN.md`. Score: 5/10 before, 9/10 after (no mockups: the owner's prototype is the visual reference; no new look).
+
+What already exists: `DESIGN.md` (from the prototype), the 6 prototype screenshots, architecture section 5 (design-system pieces: pixel avatar, tier chip, Score bar, money, Score breakdown, ticker, HP bar, round row, bracket).
+
+NOT in scope: light theme; new mockups; RU strings (one dictionary now, translation later); pink halo behind the fight section (dropped); big hero mascot (replaced by Duel of the day, coin stays as logo).
+
+Implementation tasks:
+
+- T1 (P1) Design tokens: CSS variables from `DESIGN.md` front matter; self-hosted fonts via `@fontsource/press-start-2p`, `@fontsource/golos-text`, `@fontsource/jetbrains-mono` (latin + cyrillic); theme selection, caret, scrollbars, focus ring from the palette.
+- T2 (P1) Overlay routing: `/kol/:id` and `/fight?ids=&date=` over `/`; ×, Esc and back close; direct entry closes to `/`; focus trap and focus return.
+- T3 (P1) Leaderboard: table at 1100px+, table minus 24h and position at 760–1099px, list of cards below 760px (list semantics, name as heading, sort order in list label); per-row source mark with time tooltip; per-source snapshot line under the table.
+- T4 (P1) States: skeleton rows; board load error with Try again; empty search with Clear filters; per-KOL stale chip; whole-snapshot-late banner; radar quiet vs not updated; tooltips on hover, focus and tap; focusable disabled buttons with visible reason.
+- T5 (P1) Fight window: VS with optional guess; round card (what and why, values with source and date, bars, ★, why line, HP damage); void, tie, all-win rounds; K.O. with counted rounds, Score tie-break, Draw; guess result and tally (hidden without storage); Where Score comes from side by side, per part on phone; Share panel (Copy link, Post on X, Download image); 1200×630 image; aria-live round results; reduced motion.
+- T6 (P2) Phone header: icon logo + Board, Network, Fight, Score in one row at 360px; skip links; ticker pause.
+- T7 (P2) Tournament: manual pick, Top-8, Our network (disabled under 8 with reason); tree on desktop, stacked rounds on phone; draw advances the higher-ranked KOL.
+- T8 (P2) Team section: left menu, dropdown on phone; start page Wallets with status counters; login error, lockout and expired-session states; FOMO match result lines.
