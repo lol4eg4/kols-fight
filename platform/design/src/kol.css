@@ -1,5 +1,43 @@
 /* KOL Arena pieces: PixelAvatar, Logo, TierBadge, ScoreBar, Money, NoData, ScoreBreakdown, Ticker, HpBar, RoundRow, Bracket. */
 
+/* ---------- Heading ---------- */
+.ds-heading {
+  overflow-wrap: anywhere;
+}
+.ds-heading--display {
+  font-family: var(--stack-pixel);
+  font-weight: var(--type-display-font-weight);
+  font-size: var(--type-display-font-size);
+  line-height: var(--type-display-line-height);
+  letter-spacing: var(--type-display-letter-spacing);
+}
+.ds-heading--section {
+  font-family: var(--stack-pixel);
+  font-weight: var(--type-section-title-font-weight);
+  font-size: var(--type-section-title-font-size);
+  line-height: var(--type-section-title-line-height);
+  letter-spacing: var(--type-section-title-letter-spacing);
+}
+.ds-heading--title {
+  font-family: var(--stack-body);
+  font-weight: var(--type-title-font-weight);
+  font-size: var(--type-title-font-size);
+  line-height: var(--type-title-line-height);
+}
+.ds-heading--coin {
+  color: var(--color-coin);
+}
+.ds-heading--pink {
+  color: var(--color-pink);
+}
+.ds-heading--text {
+  color: var(--color-text);
+}
+/* KOL ARENA: yellow with a hard pink shadow 4px right and down, no blur */
+.ds-heading--display.ds-heading--coin {
+  text-shadow: 4px 4px 0 var(--color-pink);
+}
+
 /* ---------- PixelAvatar ---------- */
 .ds-avatar {
   display: block;

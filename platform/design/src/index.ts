@@ -35,6 +35,8 @@ export { ErrorLine } from "./components/ErrorLine";
 export type { ErrorLineProps } from "./components/ErrorLine";
 export { Container } from "./components/Container";
 export type { ContainerProps } from "./components/Container";
+export { Heading } from "./components/Heading";
+export type { HeadingProps } from "./components/Heading";
 export { Logo } from "./components/Logo";
 export type { LogoProps } from "./components/Logo";
 

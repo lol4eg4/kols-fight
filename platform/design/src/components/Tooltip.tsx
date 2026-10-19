@@ -52,7 +52,10 @@ export function Tooltip({ content, children, focusable = true, inline = true }: 
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") {
+        e.preventDefault(); // the first Esc closes the tip only, not the dialog the tip sits in
+        setOpen(false);
+      }
     };
     const onDown = (e: PointerEvent) => {
       if (!trigger.current?.contains(e.target as Node)) setOpen(false);

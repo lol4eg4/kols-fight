@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef } from "react";
-import type { ReactNode, SyntheticEvent } from "react";
+import type { KeyboardEvent, ReactNode, SyntheticEvent } from "react";
 import { cx } from "../cx";
 
 export interface DialogProps {
@@ -53,12 +53,35 @@ export function Dialog({ open, onClose, title, titleHidden, closeLabel, footer, 
     onClose();
   };
 
+  // The native modal keeps the page behind inert, but Tab at the ends may leave for the browser's own UI,
+  // and focus then lands on the page body. Wrap it round here so focus never leaves the dialog.
+  const trap = (e: KeyboardEvent<HTMLDialogElement>) => {
+    const d = ref.current;
+    if (e.key !== "Tab" || !d) return;
+    const stops = tabStops(d);
+    if (stops.length === 0) {
+      e.preventDefault();
+      return;
+    }
+    const first = stops[0]!;
+    const last = stops[stops.length - 1]!;
+    const at = document.activeElement;
+    if (e.shiftKey && (at === first || at === d)) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && at === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  };
+
   return (
     <dialog
       ref={ref}
       className={cx("ds-dialog", `ds-dialog--${tone}`)}
       aria-labelledby={titleId}
       onCancel={cancel}
+      onKeyDown={trap}
       onClick={(e) => {
         if (e.target === ref.current) onClose(); // the dim background
       }}
@@ -76,6 +99,15 @@ export function Dialog({ open, onClose, title, titleHidden, closeLabel, footer, 
         {footer && <div className="ds-dialog__footer">{footer}</div>}
       </div>
     </dialog>
+  );
+}
+
+const TABBABLE = 'a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), summary, [tabindex]:not([tabindex="-1"])';
+
+/** Elements Tab can reach inside the dialog, in order. Hidden and inert ones are skipped. */
+function tabStops(root: HTMLElement): HTMLElement[] {
+  return [...root.querySelectorAll<HTMLElement>(TABBABLE)].filter(
+    (el) => el.getClientRects().length > 0 && getComputedStyle(el).visibility !== "hidden" && !el.closest("[inert]") && el.tabIndex >= 0,
   );
 }
 

@@ -84,7 +84,7 @@ export interface TabPanelProps {
 export function TabPanel({ idBase, tab, value, children }: TabPanelProps) {
   if (tab !== value) return null;
   return (
-    <div role="tabpanel" id={panelId(idBase, tab)} aria-labelledby={tabId(idBase, tab)} tabIndex={0} className="ds-tabpanel">
+    <div role="tabpanel" id={panelId(idBase, tab)} aria-labelledby={tabId(idBase, tab)} className="ds-tabpanel">
       {children}
     </div>
   );
