@@ -1,4 +1,6 @@
-import { createRoot } from "react-dom/client";
-import App from "./App";
+import "@arena/design/styles.css";
+import "./shell/shell.css";
+import { mountApp } from "./shell";
+import { plugins } from "./plugins.gen";
 
-createRoot(document.getElementById("root")!).render(<App />);
+mountApp(document.getElementById("root")!, plugins);
