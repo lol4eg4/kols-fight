@@ -173,7 +173,7 @@ Deliver: plan section 4, layer 3; team screens Network, Wallets, FOMO match, Pic
 Acceptance:
 
 - Roster tests: CSV parse with a fixture the lane writes at `plugins/roster/tests/fixtures/sheet.csv`: header `Name,Group,Low $,High $,Deliverable / note,FOMO,Wallet,` (trailing unnamed column), 6 invented KOLs with invented rates and invented base58 addresses, one text note and one EVM address in Wallet (never real names, rates or addresses); a second fixture with a Pump.fun column and no Wallet column; a third missing FOMO (fails); header change fails, removed row, keep flag for the 9 prototype KOLs, formats keywords, no rate in any public response or bundle.
-- Wallets tests: every transition of the state machine, manual confirm without KOL record refused, conflict on shared wallet, journal rows.
+- Wallets tests: a sheet address with trades becomes confirmed (source «sheet»), without trades stays «not found» with the reason; a changed sheet address retires the old candidate; every transition of the state machine, manual confirm without KOL record refused, conflict on shared wallet, journal rows.
 - FOMO tests on a fake RPC: intersection, 0.5% tolerance, Token-2022, error lines.
 - On the task site: sheet read works with `tmp/site.env`; Wallets shows counts per status; first wallet pass for the network runs and the counts are recorded in `tmp/wallet-pass.txt` for the Test report.
 
