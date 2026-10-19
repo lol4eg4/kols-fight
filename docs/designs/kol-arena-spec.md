@@ -46,7 +46,20 @@ Sequencing: F1 and F2 fix every cross-plugin contract (api crates, plugin.toml, 
   - schedule / other_sources: roster, `{}`.
   - roster / wallet_status: wallets, `{ kol }`.
 - Widgets: fight / add_to_fight `{ kol }` placed by board and network; fight / fighter_picker `{}` placed by board.
-- DTO types: F1 designs the Rust types from the architecture's operations and the metric fields in plan section 4; they are documented with rustdoc and frozen at the F merge. F2 mirrors the public DTOs as TypeScript types in `@arena/shell` (`web/src/shell/types.ts`).
+- DTO types: F1 designs the Rust types and errors from the architecture's operations and the metric fields in plan section 4, documents them with rustdoc, and they are frozen at the F merge. Lanes start only after that merge. Each lane writes the TypeScript types for its own routes in its plugin frontend.
+- Fight rules (from the owner's requirements, section 7). Rounds in order, winner by:
+  1. Arena Score: higher.
+  2. PnL 30 days (d30): higher.
+  3. PnL 7 days (d7): higher.
+  4. PnL 24 hours (d1): higher.
+  5. Win rate: higher; `wr30`, or `wr_all` marked with an asterisk when `wr30` is null.
+  6. Win rate 7 days (wr7): higher.
+  7. Position size (avg_pos): higher.
+  8. Freshness of the last trade (minutes since last trade at fetch): lower.
+  A round where any fighter has no value is void («not counted: not everyone has data»). The round's best value wins 1 point; several fighters tied on the best value split it equally (1/k each); when every fighter ties, the round is void. Each fighter starts with 8 HP segments; each counted round a fighter does not win (or split) costs 1 segment. Winner: most points; equal points -> higher Arena Score («Tie on rounds — X wins on higher Arena Score»); equal Score too -> Draw. The result lists counted rounds («6 of 8 rounds counted») and a 2-3 line summary naming the rounds each fighter won.
+- Metric precedence per KOL per date: a KOL in today's KE top 100 gets KE metrics; other KOLs with a published wallet get Solana Tracker metrics; Solana Tracker skips KOLs KE wrote for that date. A network KOL that is also in the KE top keeps KE metrics; if its confirmed network wallet differs from its KE wallet, wallets shows a conflict and neither is published until staff resolves it.
+- Re-running a closed date: schedule reopens it and runs both sources again. A source that succeeds replaces its own rows for that date; a source that fails keeps the rows it wrote earlier that date; KE members are copied from the previous date only when the date has none. Then close and rank again.
+- Leak checks: each lane tests its own public routes against an allowlist of public DTO keys. After the merge the coordinator adds `backend/tests/leak.rs`, which walks every public route on the seeded database, and the bundle grep.
 
 ## Shared rules for every child
 
@@ -137,13 +150,13 @@ Acceptance:
 
 Owns: `plugins/{kolexplorer,solanatracker,schedule,radar}/`.
 
-Deliver: plan section 4, layer 2. Fixtures from `tmp/fixtures/` copied into `plugins/solanatracker/tests/fixtures/`; KE fixture from `data/prototype/kolexplorer-2026-10-19.html`. Collection screen `/team/collection` with the «другие источники» slot and «Run now» (admin).
+Deliver: plan section 4, layer 2. Fixtures from `data/fixtures/solanatracker/`; KE fixture from `data/prototype/kolexplorer-2026-10-19.html`. Collection screen `/team/collection` with the «другие источники» slot and «Run now» (admin).
 
 Acceptance:
 
 - Parser and client tests with fixtures and a fake server: success, under-50 rows, missing attribute, 401, 403, 429, 5xx, profile failure.
 - Schedule test: open, event, KE, ST, close, rank in order; failure in KE copies members; lock held -> «already running»; restart with an open old snapshot closes it.
-- One live run on the task site (manual «Run now») writes a snapshot for today; live Solana Tracker calls in this lane: at most 160 (one run).
+- Live Solana Tracker calls inside the lane: at most 10, only to confirm a response shape the fixtures lack. The full live run (about 160 calls) happens after the merge, by the coordinator.
 
 ## C Network
 
@@ -153,7 +166,7 @@ Deliver: plan section 4, layer 3; team screens Network, Wallets, FOMO match, Pic
 
 Acceptance:
 
-- Roster tests: CSV parse with a fake-rates fixture, header change fails, removed row, keep flag for the 9 prototype KOLs, formats keywords, no rate in any public response or bundle.
+- Roster tests: CSV parse with a fixture the lane writes at `plugins/roster/tests/fixtures/sheet.csv`: header `Name,Group,Low $,High $,Deliverable / note,FOMO,Pump.fun`, 6 invented KOLs with invented rates (never real names or rates); header change fails, removed row, keep flag for the 9 prototype KOLs, formats keywords, no rate in any public response or bundle.
 - Wallets tests: every transition of the state machine, manual confirm without KOL record refused, conflict on shared wallet, journal rows.
 - FOMO tests on a fake RPC: intersection, 0.5% tolerance, Token-2022, error lines.
 - On the task site: sheet read works with `tmp/site.env`; Wallets shows counts per status; first wallet pass for the network runs and the counts are recorded in `tmp/wallet-pass.txt` for the Test report.
