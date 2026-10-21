@@ -1,46 +1,56 @@
-// Today's board, as the picker and the add-to-fight buttons need it: names, ranks, tiers, the network mark.
-// Loaded once per page and shared; a failed load is not kept, so "Try again" asks the server again.
+// The board the picker and the add-to-fight buttons need: names, ranks, tiers, the network mark.
+// Today's board, or the date the home page shows. Loaded once per date and shared; a failed load is
+// not kept, so "Try again" asks the server again.
 
 import { useCallback, useEffect, useState } from "react";
 import { api } from "@arena/shell";
 import type { ApiResult, ApiState } from "@arena/shell";
 import type { BoardKol, BoardList } from "./types";
 
-let pending: Promise<ApiResult<BoardList>> | null = null;
-let done: ApiResult<BoardList> | null = null;
+const pending = new Map<string, Promise<ApiResult<BoardList>>>();
+const done = new Map<string, ApiResult<BoardList>>();
 
-function load(): Promise<ApiResult<BoardList>> {
-  if (!pending) {
-    pending = api<BoardList>("/api/board").then((r) => {
-      if (r.error) pending = null;
-      else done = r;
+function load(date: string | null): Promise<ApiResult<BoardList>> {
+  const key = date ?? "";
+  let p = pending.get(key);
+  if (!p) {
+    p = api<BoardList>(date ? `/api/board?date=${encodeURIComponent(date)}` : "/api/board").then((r) => {
+      if (r.error) pending.delete(key);
+      else done.set(key, r);
       return r;
     });
+    pending.set(key, p);
   }
-  return pending;
+  return p;
 }
 
 function toState(r: ApiResult<BoardList>): ApiState<BoardList> {
   return r.error ? { status: "error", error: r.error } : { status: "ready", data: r.data };
 }
 
-export function useBoard(): ApiState<BoardList> & { reload: () => void } {
-  const [state, setState] = useState<ApiState<BoardList>>(() => (done ? toState(done) : { status: "loading" }));
+/** The board of `date`, or today's board when it is null. */
+export function useBoard(date: string | null = null): ApiState<BoardList> & { reload: () => void } {
+  const key = date ?? "";
+  const [state, setState] = useState<ApiState<BoardList>>(() => {
+    const d = done.get(key);
+    return d ? toState(d) : { status: "loading" };
+  });
   const [tick, setTick] = useState(0);
   useEffect(() => {
     let live = true;
-    if (done) {
-      setState(toState(done));
+    const d = done.get(key);
+    if (d) {
+      setState(toState(d));
       return;
     }
     setState({ status: "loading" });
-    void load().then((r) => {
+    void load(date).then((r) => {
       if (live) setState(toState(r));
     });
     return () => {
       live = false;
     };
-  }, [tick]);
+  }, [key, date, tick]);
   const reload = useCallback(() => setTick((n) => n + 1), []);
   return { ...state, reload };
 }

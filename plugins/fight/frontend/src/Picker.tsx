@@ -1,9 +1,9 @@
 import { useId, useMemo, useRef, useState } from "react";
 import type { KeyboardEvent } from "react";
 import { Button, Card, ErrorLine, Field, PixelAvatar, Skeleton, TierBadge } from "@arena/design";
-import { navigate, t } from "@arena/shell";
+import { navigate, t, useSearchParams } from "@arena/shell";
 import { byKol, useBoard } from "./board";
-import { MAX_FIGHTERS, canFight, fightPath, isFull, networkKols, randomPick, searchKols, topTwo } from "./logic";
+import { MAX_FIGHTERS, boardDate, canFight, fightPath, isFull, networkKols, randomPick, searchKols, topTwo } from "./logic";
 import { addPending, clearPending, removePending, useFightStore } from "./store";
 import type { BoardKol } from "./types";
 
@@ -16,7 +16,9 @@ export interface PickerProps {
 
 /** Up to 4 fighter slots, a search over the board, quick fights and the FIGHT button. Leads to /fight?ids=. */
 export function Picker({ headingLevel = 3, replace = false }: PickerProps) {
-  const board = useBoard();
+  // On a past day's board, fights run on that day's data.
+  const date = boardDate(useSearchParams().get("date"));
+  const board = useBoard(date);
   const { pending, last } = useFightStore();
   const [query, setQuery] = useState("");
   const [said, setSaid] = useState("");
@@ -47,7 +49,7 @@ export function Picker({ headingLevel = 3, replace = false }: PickerProps) {
     searchRef.current?.focus();
   };
 
-  const go = (ids: readonly string[], date?: string | null) => navigate(fightPath(ids, date), { replace });
+  const go = (ids: readonly string[], on: string | null = date) => navigate(fightPath(ids, on), { replace });
 
   const onSearchKey = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {

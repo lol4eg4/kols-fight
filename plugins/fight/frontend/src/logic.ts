@@ -41,6 +41,11 @@ export function parseFightQuery(search: string): FightQuery {
   return { ids, date: date === "" ? null : date };
 }
 
+/** The board date from the page's `date` parameter ("2026-10-18"), or null for today. */
+export function boardDate(raw: string | null): string | null {
+  return raw && /^\d{4}-\d{2}-\d{2}$/.test(raw) ? raw : null;
+}
+
 function query(ids: readonly string[], date: string | null | undefined): string {
   const list = ids.map(encodeURIComponent).join(",");
   return date ? `ids=${list}&date=${encodeURIComponent(date)}` : `ids=${list}`;

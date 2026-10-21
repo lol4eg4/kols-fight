@@ -1,15 +1,15 @@
 import { Button } from "@arena/design";
-import { t } from "@arena/shell";
+import { t, useSearchParams } from "@arena/shell";
 import type { WidgetProps } from "@arena/shell";
 import { byKol, useBoard } from "./board";
-import { isFull } from "./logic";
+import { boardDate, isFull } from "./logic";
 import { Picker } from "./Picker";
 import { addPending, removePending, useFightStore } from "./store";
 
 /** "⚔️ Fight" on a board row or a KOL card: puts the KOL in the pending fight, or takes them out again. */
 export function AddToFight({ kol }: WidgetProps<"fight/add_to_fight">) {
   const { pending } = useFightStore();
-  const board = useBoard();
+  const board = useBoard(boardDate(useSearchParams().get("date")));
   const name = board.status === "ready" ? (byKol(board.data.rows).get(kol)?.name ?? kol) : kol;
   const inFight = pending.includes(kol);
   const label = (

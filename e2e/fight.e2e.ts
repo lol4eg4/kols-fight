@@ -40,7 +40,7 @@ test.describe("fight", () => {
     await page.keyboard.press("Enter");
 
     const dialog = page.getByRole("dialog");
-    await expect(page).toHaveURL(/\/fight\?ids=decu,cooker,tekkerrss/);
+    await expect(page).toHaveURL(`/fight?ids=decu,cooker,tekkerrss&date=${DAY0}`);
     await expect(dialog.getByRole("heading", { name: "Decu vs Cooker vs Tekkerrss", level: 2 })).toBeVisible();
     await expect(dialog.getByRole("region", { name: "Fighters" })).toBeVisible();
     await shot(page, "fight-vs", 1280);
@@ -57,7 +57,7 @@ test.describe("fight", () => {
     await page.setViewportSize({ width: 1280, height: 900 });
 
     const link = await dialog.getByLabel("Fight link").inputValue();
-    expect(link).toMatch(/\/fight\?ids=decu,cooker,tekkerrss&date=\d{4}-\d{2}-\d{2}/);
+    expect(link).toContain(`/fight?ids=decu,cooker,tekkerrss&date=${DAY0}`);
 
     await page.goto(link);
     const again = page.getByRole("dialog");

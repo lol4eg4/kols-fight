@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import {
+  boardDate,
   MAX_FIGHTERS,
   VS,
   addFighter,
@@ -63,6 +64,13 @@ const FIGHT: Pick<FightResult, "fighters" | "rounds"> = {
 };
 
 describe("fight address", () => {
+  test("board date comes from a valid date parameter only", () => {
+    expect(boardDate("2026-10-18")).toBe("2026-10-18");
+    expect(boardDate(null)).toBeNull();
+    expect(boardDate("")).toBeNull();
+    expect(boardDate("18.10.2026")).toBeNull();
+  });
+
   test("reads ids in order, drops blanks and repeats, keeps the date", () => {
     expect(parseFightQuery("?ids=decu,cooker&date=2026-10-18")).toEqual({ ids: ["decu", "cooker"], date: "2026-10-18" });
     expect(parseFightQuery("?ids= decu,,cooker,decu ,")).toEqual({ ids: ["decu", "cooker"], date: null });
