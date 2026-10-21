@@ -261,7 +261,7 @@ fn sql_names_only_own_schema() {
         for entry in std::fs::read_dir(&dir).into_iter().flatten() {
             let path = entry.unwrap().path();
             let sql = std::fs::read_to_string(&path).unwrap();
-            for e in foreign_prefixes(&sql, own, &plugins) {
+            for e in foreign_prefixes(&strip_sql_comments(&sql), own, &plugins) {
                 errors.push(format!("{}: {e}", path.display()));
             }
         }
@@ -283,6 +283,10 @@ fn sql_checker_catches_bad_sql() {
     assert!(bad("DELETE FROM pg_catalog.pg_class"));
     assert!(bad("SELECT 1 WHERE EXISTS (SELECT 1 FROM board.x)"));
     assert!(bad("CREATE TABLE things (id int)"));
+    assert_eq!(
+        strip_sql_comments("-- wallets.x\nSELECT 1 /* board.y */ FROM t WHERE a = '--k'"),
+        "\nSELECT 1  FROM t WHERE a = '--k'"
+    );
     assert!(!bad(
         "SELECT m.id, m.kol FROM roster.members m JOIN roster.rates r ON r.kol = m.kol"
     ));
@@ -310,6 +314,46 @@ fn sql_checker_catches_bad_sql() {
 }
 
 /// Code with comments removed and string/char literal contents blanked.
+/// SQL without `--` and `/* */` comments; quoted text is kept as written.
+fn strip_sql_comments(sql: &str) -> String {
+    let c: Vec<char> = sql.chars().collect();
+    let mut out = String::with_capacity(sql.len());
+    let mut i = 0;
+    while i < c.len() {
+        match (c[i], c.get(i + 1)) {
+            ('-', Some('-')) => {
+                while i < c.len() && c[i] != '\n' {
+                    i += 1;
+                }
+            }
+            ('/', Some('*')) => {
+                i += 2;
+                while i < c.len() && !(c[i] == '*' && c.get(i + 1) == Some(&'/')) {
+                    i += 1;
+                }
+                i += 2;
+            }
+            (q @ ('\'' | '"'), _) => {
+                out.push(q);
+                i += 1;
+                while i < c.len() && c[i] != q {
+                    out.push(c[i]);
+                    i += 1;
+                }
+                if i < c.len() {
+                    out.push(q);
+                    i += 1;
+                }
+            }
+            (ch, _) => {
+                out.push(ch);
+                i += 1;
+            }
+        }
+    }
+    out
+}
+
 fn strip_comments_and_strings(src: &str) -> String {
     let mut out = String::new();
     scan(src, &mut |piece| match piece {
