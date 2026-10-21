@@ -1304,7 +1304,9 @@ dependencies = [
  "arena-platform",
  "async-trait",
  "chrono",
+ "serde_json",
  "sqlx",
+ "tokio",
 ]
 
 [[package]]
@@ -1344,7 +1346,9 @@ dependencies = [
  "arena-platform",
  "async-trait",
  "chrono",
+ "serde_json",
  "sqlx",
+ "tokio",
 ]
 
 [[package]]
@@ -1355,7 +1359,9 @@ dependencies = [
  "arena-platform",
  "async-trait",
  "chrono",
+ "serde_json",
  "sqlx",
+ "tokio",
 ]
 
 [[package]]
