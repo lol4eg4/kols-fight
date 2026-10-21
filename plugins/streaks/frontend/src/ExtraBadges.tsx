@@ -1,4 +1,4 @@
-import { Badge, ErrorLine, Skeleton } from "@arena/design";
+import { Badge, Skeleton } from "@arena/design";
 import { t } from "@arena/shell";
 import type { SlotProps } from "@arena/shell";
 import { useStreaks } from "./streaks";
@@ -14,10 +14,8 @@ function label(s: Streak): { text: string; hint: string; icon: string } {
 export function ExtraBadges({ date, kol }: SlotProps<"board/extra_badges">) {
   const state = useStreaks(date);
   if (state.status === "loading") return <Skeleton label={t("streaks.loading")} variant="lines" count={1} />;
-  if (state.status === "error") {
-    // No snapshot for the day: no history, so no badges.
-    return state.error.status === 404 ? null : <ErrorLine message={t("streaks.error")} />;
-  }
+  // No snapshot, or a failed load: no badges. The board shows its own error, not one per row.
+  if (state.status === "error") return null;
   const mine = state.data.streaks.find((x) => x.kol === kol);
   if (!mine || mine.badges.length === 0) return null;
   return (

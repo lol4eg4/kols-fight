@@ -118,7 +118,7 @@ function KolRow({ row, checked, onToggle }: { row: Row; checked: boolean; onTogg
       </div>
       <div className="picker-facts">
         {row.x_handle ? (
-          <a href={`https://x.com/${row.x_handle}`} target="_blank" rel="noopener noreferrer" aria-label={t("picker.x_for", { name: row.name })}>
+          <a href={`https://x.com/${encodeURIComponent(row.x_handle)}`} target="_blank" rel="noopener noreferrer" aria-label={t("picker.x_for", { name: row.name })}>
             @{row.x_handle}
           </a>
         ) : (
@@ -155,7 +155,8 @@ export default function Picker() {
   const set = (key: keyof Filters) => (e: { target: { value: string } }) => setFilters((f) => ({ ...f, [key]: e.target.value }));
 
   const rows = list.status === "ready" ? list.data.rows : [];
-  const picked = useMemo(() => rows.filter((r) => checked.has(r.kol)).map((r) => r.kol), [rows, checked]);
+  // Every checked KOL, also those the current filter hides.
+  const picked = useMemo(() => [...checked], [checked]);
   const toggle = (kol: string) =>
     setChecked((c) => {
       const next = new Set(c);

@@ -74,12 +74,12 @@ test.describe("fight", () => {
     // On day 0 the 24-hour and 7-day win rate rounds have no data for Tekkerrss (Solana Tracker only).
     const voids = await playToKo(page, dialog);
     await expect(dialog.locator(".fight-ko__winner")).toHaveText("Decu wins");
-    if (voids.length > 0) {
-      const opacity = await dialog.locator(".ds-round--void .ds-round__fighters").first().evaluate((e) => getComputedStyle(e).opacity);
-      expect(Number(opacity)).toBeLessThan(1);
-      await expect(dialog.locator(".ds-round--void .ds-round__status").first()).toContainText("Not counted");
-    }
     // All eight rounds are listed under Rounds at the K.O.
     await expect(dialog.locator(".fight-all-rounds .ds-round")).toHaveCount(8);
+    // No void round means the data changed under the test: skip, so the gap shows in the report.
+    test.skip(voids.length === 0, "day 0 has no void round in this data");
+    const opacity = await dialog.locator(".ds-round--void .ds-round__fighters").first().evaluate((e) => getComputedStyle(e).opacity);
+    expect(Number(opacity)).toBeLessThan(1);
+    await expect(dialog.locator(".ds-round--void .ds-round__status").first()).toContainText("Not counted");
   });
 });

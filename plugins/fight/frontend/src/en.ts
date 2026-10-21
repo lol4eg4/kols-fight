@@ -12,6 +12,7 @@ export const dict: Record<string, string> = {
   // Errors of GET /api/fight: one plain line each
   "fight.error.400": "This fight can't run: {message}. Fix the fighters below.",
   "fight.error.404": "There is no board snapshot for {date}.",
+  "fight.error.404_none": "No board data yet, so there is no fight to run.",
   "fight.error.404_latest": "Fight on the latest data",
   "fight.error.503": "Fights are switched off right now. Try again in a minute.",
   "fight.error.other": "The fight did not load: {message}",

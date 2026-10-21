@@ -6,7 +6,7 @@ import type { DuelFighter } from "./duel";
 
 function Side({ f, won }: { f: DuelFighter; won: boolean }) {
   return (
-    <Link to={`/kol/${encodeURIComponent(f.kol)}`} aria-label={t("duel.fighter", { name: f.name, rank: f.rank ?? 0, score: f.score })}>
+    <Link to={`/kol/${encodeURIComponent(f.kol)}`} aria-label={f.rank === null ? t("duel.fighter_unranked", { name: f.name, score: f.score }) : t("duel.fighter", { name: f.name, rank: f.rank, score: f.score })}>
       <PixelAvatar id={f.kol} size={48} />
       <strong>{f.name}</strong>
       <TierBadge tier={f.tier} />
@@ -38,7 +38,7 @@ export function DuelOfDay({ date }: SlotProps<"board/duel_of_day">) {
       <Side f={a} won={d.winner === a.kol} />
       <span aria-hidden="true">⚔</span>
       <Side f={b} won={d.winner === b.kol} />
-      <Link to={`/fight?ids=${encodeURIComponent(a.kol)},${encodeURIComponent(b.kol)}&date=${d.date}`}>{t("duel.watch")}</Link>
+      <Link to={`/fight?ids=${encodeURIComponent(a.kol)},${encodeURIComponent(b.kol)}&date=${encodeURIComponent(d.date)}`}>{t("duel.watch")}</Link>
     </Card>
   );
 }

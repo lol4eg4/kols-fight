@@ -236,7 +236,7 @@ export function Leaderboard({ board, urlDate }: LeaderboardProps) {
       </div>
 
       <div className="board-tabpanel" role="tabpanel" id={`board-lb-panel-${f.tab}`} aria-labelledby={`board-lb-tab-${f.tab}`}>
-        {empty ? (
+        {f.tab === "network" && networkIds === null ? null : empty ? (
           <EmptyState
             message={empty}
             action={

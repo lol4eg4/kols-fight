@@ -4,6 +4,7 @@ import {
   Button,
   Card,
   Dialog,
+  EmptyState,
   ErrorLine,
   Field,
   HpBar,
@@ -183,6 +184,18 @@ export default function FightWindow() {
           <p className="fight-line">{t("fight.error.400", { message: e.message })}</p>
           <Picker headingLevel={3} replace />
         </>
+      );
+    } else if (e.status === 404 && q.date === null) {
+      // No snapshot at all yet: there is no other day to go to, so offer to ask again.
+      body = (
+        <EmptyState
+          message={t("fight.error.404_none")}
+          action={
+            <Button variant="secondary" onClick={state.reload}>
+              {t("fight.retry")}
+            </Button>
+          }
+        />
       );
     } else if (e.status === 404) {
       body = (

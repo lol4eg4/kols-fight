@@ -1,4 +1,4 @@
-import { Badge, ErrorLine, Skeleton } from "@arena/design";
+import { Badge, Skeleton } from "@arena/design";
 import { t } from "@arena/shell";
 import type { SlotProps } from "@arena/shell";
 import { useMoves } from "./moves";
@@ -20,10 +20,8 @@ function look(n: number): { tone: "plus" | "minus" | "muted"; icon: string } {
 export function RankChange({ date, kol }: SlotProps<"board/rank_change">) {
   const state = useMoves(date);
   if (state.status === "loading") return <Skeleton label={t("moves.loading")} variant="lines" count={1} />;
-  if (state.status === "error") {
-    // No snapshot for the day: nothing to compare, so no arrow.
-    return state.error.status === 404 ? null : <ErrorLine message={t("moves.error")} />;
-  }
+  // No snapshot, or a failed load: no arrow. The board shows its own error, not one per row.
+  if (state.status === "error") return null;
   const c = state.data.changes.find((x) => x.kol === kol);
   if (!c) return null; // not fresh on both days: no arrow
   const period: Period = c.day !== null ? "day" : "week";

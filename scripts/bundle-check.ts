@@ -1,4 +1,4 @@
-// Checks that the chunks a client page loads (`/`, `/kol/:id`, `/fight`) hold no secret and no
+// Checks that nothing built into web/dist (every JS and CSS chunk, client and staff) holds a secret or a
 // private sheet cell. Run after `bun run build` in web/:
 //   bun scripts/bundle-check.ts --env <site.env> --sheet <sheet.csv>
 // Prints only counts and where a match was found, never the matched value.
@@ -7,52 +7,12 @@ import { join } from "node:path";
 
 const ROOT = join(import.meta.dir, "..");
 const DIST = join(ROOT, "web/dist");
-const CLIENT_PATHS = ["/", "/kol/:id", "/fight"];
 const SECRET_KEYS = ["SOLANA_TRACKER_API_KEY", "NETWORK_SHEET_CSV_URL", "FIRST_ADMIN_PASSWORD"];
 const PRIVATE_COLUMNS = ["Group", "Low $", "High $", "Deliverable / note"];
 
-type Chunk = { file: string; src?: string; isEntry?: boolean; imports?: string[]; dynamicImports?: string[]; css?: string[] };
-type Manifest = Record<string, Chunk>;
-
-/** Source file of each client screen, from the plugin manifests and each plugin's `screens` loaders. */
-export function clientScreenSources(root: string): string[] {
-  const out: string[] = [];
-  for (const name of readdirSync(join(root, "plugins"))) {
-    let toml: string;
-    try {
-      toml = readFileSync(join(root, "plugins", name, "plugin.toml"), "utf8");
-    } catch {
-      continue;
-    }
-    const index = readFileSync(join(root, "plugins", name, "frontend/src/index.ts"), "utf8");
-    for (const m of toml.matchAll(/\{\s*name\s*=\s*"([^"]+)"\s*,\s*path\s*=\s*"([^"]+)"/g)) {
-      const [, screen, path] = m;
-      if (!CLIENT_PATHS.includes(path!)) continue;
-      const load = index.match(new RegExp(`\\b${screen}\\s*:\\s*\\(\\)\\s*=>\\s*import\\("\\./([^"]+)"\\)`));
-      if (!load) throw new Error(`plugins/${name}: no loader for screen ${screen} (${path})`);
-      out.push(`../plugins/${name}/frontend/src/${load[1]}.tsx`);
-    }
-  }
-  return out;
-}
-
-/** Output files a client page can load: the entry's static imports, plus each client screen with everything it imports. */
-export function clientFiles(manifest: Manifest, screens: string[]): Set<string> {
-  const files = new Set<string>();
-  const seen = new Set<string>();
-  const walk = (key: string, dynamic: boolean) => {
-    if (seen.has(key)) return;
-    seen.add(key);
-    const c = manifest[key];
-    if (!c) throw new Error(`not in the Vite manifest: ${key}`);
-    files.add(c.file);
-    for (const css of c.css ?? []) files.add(css);
-    for (const i of c.imports ?? []) walk(i, dynamic);
-    if (dynamic) for (const i of c.dynamicImports ?? []) walk(i, dynamic);
-  };
-  for (const [key, c] of Object.entries(manifest)) if (c.isEntry) walk(key, false);
-  for (const s of screens) walk(s, true);
-  return files;
+/** Every JS and CSS file under `dir`, as paths relative to it. */
+export function builtFiles(dir: string): string[] {
+  return (readdirSync(dir, { recursive: true, encoding: "utf8" }) as string[]).filter((f) => /\.(js|css)$/.test(f)).sort();
 }
 
 /** Values of the secret keys in a `KEY=value` env file. */
@@ -100,8 +60,8 @@ export function privateCells(csv: string): string[] {
     const w = (r[wallet] ?? "").trim();
     if (wallet >= 0 && !/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(w)) cells.add(w);
   }
-  // Short cells (a bare number, "-") match minified code by chance; they say nothing private.
-  return [...cells].filter((c) => c.length >= 5);
+  // Very short cells ("-", a bare 1 to 3 digit number) match minified code by chance; they say nothing private.
+  return [...cells].filter((c) => c.length >= 3 && !(c.length < 4 && /^\d+$/.test(c)));
 }
 
 function arg(name: string): string {
@@ -112,10 +72,8 @@ function arg(name: string): string {
 }
 
 if (import.meta.main) {
-  const manifest: Manifest = JSON.parse(readFileSync(join(DIST, ".vite/manifest.json"), "utf8"));
-  const screens = clientScreenSources(ROOT);
-  if (screens.length < CLIENT_PATHS.length) throw new Error(`found ${screens.length} client screens, want ${CLIENT_PATHS.length}`);
-  const files = clientFiles(manifest, screens);
+  const files = builtFiles(DIST);
+  if (files.length === 0) throw new Error("web/dist has no JS or CSS: run `bun run build` in web/ first");
   const secrets = secretsFromEnv(readFileSync(arg("--env"), "utf8"));
   if (secrets.length < SECRET_KEYS.length) throw new Error(`env file holds ${secrets.length} of ${SECRET_KEYS.length} secrets`);
   const cells = privateCells(readFileSync(arg("--sheet"), "utf8"));
@@ -126,6 +84,6 @@ if (import.meta.main) {
     secrets.forEach((s, i) => text.includes(s) && (found++, console.log(`LEAK ${f}: secret #${i + 1}`)));
     cells.forEach((c, i) => text.includes(c) && (found++, console.log(`LEAK ${f}: sheet cell #${i + 1}`)));
   }
-  console.log(`${files.size} client files, ${secrets.length} secrets, ${cells.length} sheet cells checked: ${found} leaks`);
+  console.log(`${files.length} built files, ${secrets.length} secrets, ${cells.length} sheet cells checked: ${found} leaks`);
   process.exit(found ? 1 : 0);
 }

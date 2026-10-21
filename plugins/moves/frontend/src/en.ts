@@ -1,7 +1,6 @@
 // UI strings of the moves plugin. Every key starts with "moves.".
 export const dict: Record<string, string> = {
   "moves.loading": "Loading rank changes",
-  "moves.error": "Rank changes are not available now.",
 
   "moves.up_day": "Up {n} since yesterday",
   "moves.down_day": "Down {n} since yesterday",
