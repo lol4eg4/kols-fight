@@ -6,10 +6,9 @@ use tokio::{sync::Mutex, time::Instant};
 /// Public site.
 pub const BASE_URL: &str = "https://kolexplorer.com";
 
-/// Names the product. TODO(owner): put the real contact page URL here before the first live
-/// run; `.invalid` is a placeholder that never resolves.
-pub const USER_AGENT: &str =
-    "KOLArena/0.1 (daily read of public KOL data; contact: https://kol-arena.invalid/contact)";
+/// Names the product and how often it reads. Add a contact page URL once the product has a
+/// public domain.
+pub const USER_AGENT: &str = "KOLArena/0.1 (daily read of public KOL data)";
 
 /// One profile request every 3 seconds.
 pub const PROFILE_GAP: Duration = Duration::from_secs(3);
