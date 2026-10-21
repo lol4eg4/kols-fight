@@ -75,10 +75,9 @@ describe("registerPlugins", () => {
     const reg = registerPlugins(plugins, SHELL_SCREENS);
     expect(reg.plugins).toHaveLength(21);
     expect(reg.screens.map((s) => s.key)).toContain("shell/design");
-    // the skeletons have no screens yet: every manifest screen is there, with no loader
     const board = reg.screens.find((s) => s.key === "board/home")!;
     expect(board.path).toBe("/");
-    expect(board.load).toBeNull();
+    expect(typeof board.load).toBe("function");
     // every staff or admin screen has no eager code: loaders are functions or null, never components
     for (const s of reg.screens) expect(s.load === null || typeof s.load === "function").toBe(true);
   });

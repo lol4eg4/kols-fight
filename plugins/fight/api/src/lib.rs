@@ -175,6 +175,12 @@ pub struct FightResult {
     pub counted_rounds: u8,
     /// Requested ids not on that snapshot's board (unknown KOL, typo in a link).
     pub missing: Vec<KolId>,
+    /// «6 of 8 rounds counted».
+    #[serde(default)]
+    pub counted_line: String,
+    /// Two or three lines: the outcome, then the rounds each fighter won or split.
+    #[serde(default)]
+    pub summary: Vec<String>,
 }
 
 /// Fight call failed.
