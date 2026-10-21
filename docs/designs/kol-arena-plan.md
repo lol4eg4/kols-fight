@@ -74,7 +74,7 @@ Layer 1
 Layer 2
 
 - kolexplorer: fetch `https://kolexplorer.com/` once, parse rows by `data-address`, `data-twitter` and cell order; under 50 rows or missing attributes -> failed run, nothing written, members copied from the previous snapshot. Profile pages `/kol/<slug>` for top 100: avg position and hold, one request every 3 seconds (about 5 minutes per run), results cached per KOL for 24 hours in the plugin's schema, so a re-run the same day reuses them; failures leave those two null. The leaderboard page is cached for the run too. User-Agent names the product and a contact page. Parser tests on saved HTML fixtures.
-- solanatracker: client with 3 req/s limiter, retries only on 5xx (2 tries, backoff), never on 4xx. 401/403 -> run failed with «key rejected» or «plan lacks PnL»; 429 -> stop the run, mark partial. `kol_list(date)` stored per date for radar and «📡 В топе дня». `wallet_by_handle` matches `identity.twitter`, case-insensitive, without `@`; also exposes FOMO handle from identity for the wallets block.
+- solanatracker: client with 2.5 req/s limiter (free plan allows 3), retries only on 5xx (2 tries, backoff), never on 4xx. 401/403 -> run failed with «key rejected» or «plan lacks PnL»; 429 -> stop the run, mark partial. `kol_list(date)` stored per date for radar and «📡 В топе дня». `wallet_by_handle` matches `identity.twitter`, case-insensitive, without `@`; also exposes FOMO handle from identity for the wallets block.
 - schedule: runs table; 06:00 job: open, emit «снимок открыт», KE run, ST run, close, rank. Screen `/team/collection`.
 - radar: list from today's ST KOL list minus board members; if today's list is missing -> «Radar not updated today» with the last list date.
 

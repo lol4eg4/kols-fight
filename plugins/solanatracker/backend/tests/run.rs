@@ -470,10 +470,10 @@ async fn requests_are_spaced_by_the_limiter() {
 }
 
 #[tokio::test]
-async fn default_limiter_is_three_per_second() {
+async fn default_limiter_stays_under_the_free_plans_three_per_second() {
     let o = Options::default();
-    assert!(o.min_interval >= Duration::from_millis(333));
-    assert!(o.min_interval <= Duration::from_millis(340));
+    assert!(o.min_interval > Duration::from_millis(334));
+    assert!(o.min_interval <= Duration::from_millis(500));
     assert_eq!(o.base_url, "https://data.solanatracker.io");
 }
 

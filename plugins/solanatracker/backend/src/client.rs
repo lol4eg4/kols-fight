@@ -1,4 +1,4 @@
-//! HTTP client for the Solana Tracker Data API: key header, 3 requests per second,
+//! HTTP client for the Solana Tracker Data API: key header, 2.5 requests per second,
 //! retry only on 5xx.
 
 use api_solanatracker::StFailure;
@@ -15,7 +15,8 @@ pub const BASE_URL: &str = "https://data.solanatracker.io";
 #[derive(Clone, Debug)]
 pub struct Options {
     pub base_url: String,
-    /// Minimum time between two requests: 334 ms is 3 per second.
+    /// Minimum time between two requests. The free plan allows 3 per second; at exactly 334 ms
+    /// network jitter puts a 4th request in some second and the API answers 429.
     pub min_interval: Duration,
     /// Wait before the second try after a 5xx.
     pub retry_backoff: Duration,
@@ -26,7 +27,7 @@ impl Default for Options {
     fn default() -> Self {
         Options {
             base_url: BASE_URL.to_string(),
-            min_interval: Duration::from_millis(334),
+            min_interval: Duration::from_millis(400),
             retry_backoff: Duration::from_secs(1),
             timeout: Duration::from_secs(30),
         }
