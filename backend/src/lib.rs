@@ -272,10 +272,15 @@ pub fn app(state: AppState, plugin_routes: Router) -> Router {
         .layer(middleware::from_fn(admin_origin_guard))
 }
 
-/// Every `/api/admin` request passes auth's `Origin` check (CSRF), whatever plugin serves it.
+/// Every `/api/admin` and `/api/team` request passes auth's `Origin` check (CSRF), whatever
+/// plugin serves it.
 async fn admin_origin_guard(req: axum::extract::Request, next: Next) -> Response {
     let path = req.uri().path();
-    if path == "/api/admin" || path.starts_with("/api/admin/") {
+    let guarded = ["/api/admin", "/api/team"].iter().any(|p| {
+        path.strip_prefix(p)
+            .is_some_and(|r| r.is_empty() || r.starts_with('/'))
+    });
+    if guarded {
         plugin_auth::origin_guard(req, next).await
     } else {
         next.run(req).await

@@ -331,26 +331,34 @@ async fn spa_fallback_injects_page_meta() {
 }
 
 #[tokio::test]
-async fn admin_writes_need_this_site_origin() {
+async fn staff_writes_need_this_site_origin() {
     let dir = dist("origin");
     let (app, _) = demo_app(&TAGS, dir.clone());
-    let post = |origin: Option<&str>| {
-        let mut req = Request::post("/api/admin/anything").header("host", "arena.example");
-        if let Some(o) = origin {
-            req = req.header("origin", o);
-        }
-        req.body(Body::empty()).unwrap()
-    };
-    assert_eq!(call(&app, post(None)).await.0, StatusCode::FORBIDDEN);
+    for base in ["/api/admin", "/api/team"] {
+        let uri = format!("{base}/anything");
+        let post = |origin: Option<&str>| {
+            let mut req = Request::post(&uri).header("host", "arena.example");
+            if let Some(o) = origin {
+                req = req.header("origin", o);
+            }
+            req.body(Body::empty()).unwrap()
+        };
+        assert_eq!(call(&app, post(None)).await.0, StatusCode::FORBIDDEN);
+        assert_eq!(
+            call(&app, post(Some("https://evil.example"))).await.0,
+            StatusCode::FORBIDDEN
+        );
+        assert_eq!(
+            call(&app, post(Some("https://arena.example"))).await.0,
+            StatusCode::NOT_FOUND
+        );
+        let (status, _) = call(&app, get_as(&uri, None)).await;
+        assert_eq!(status, StatusCode::NOT_FOUND);
+    }
+    let req = Request::post("/api/teams").header("host", "arena.example");
     assert_eq!(
-        call(&app, post(Some("https://evil.example"))).await.0,
-        StatusCode::FORBIDDEN
-    );
-    assert_eq!(
-        call(&app, post(Some("https://arena.example"))).await.0,
+        call(&app, req.body(Body::empty()).unwrap()).await.0,
         StatusCode::NOT_FOUND
     );
-    let (status, _) = call(&app, get_as("/api/admin/anything", None)).await;
-    assert_eq!(status, StatusCode::NOT_FOUND);
     remove_dist(&dir);
 }
