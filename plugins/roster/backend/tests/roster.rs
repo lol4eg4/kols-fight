@@ -362,7 +362,13 @@ fn prototype_rows() -> Vec<(
     &'static str,
 )> {
     vec![
-        ("J7tradingjournal / J7", "J7tradingjournal", "1103", "1204", ""),
+        (
+            "J7tradingjournal / J7",
+            "J7tradingjournal",
+            "1103",
+            "1204",
+            "",
+        ),
         ("Levis", "LevisNFT", "1105", "1206", ""),
         ("Maurits", "mauritsneo", "1107", "1208", ""),
         ("juicy", "Juicycooks", "1109", "1210", ""),
@@ -639,7 +645,9 @@ async fn a_sheet_without_the_wallet_column_keeps_the_sheet_wallets() {
     let before = wallets().await;
     assert_eq!(before.len(), 1);
     let report = env
-        .sync("Name,Group,Low $,High $,Deliverable / note,FOMO\nFable Moss,Jasper,1,2,,fable_moss\n")
+        .sync(
+            "Name,Group,Low $,High $,Deliverable / note,FOMO\nFable Moss,Jasper,1,2,,fable_moss\n",
+        )
         .await;
     assert_eq!(report.status, "ok", "{:?}", report.error);
     assert_eq!(wallets().await, before);
