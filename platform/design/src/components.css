@@ -31,6 +31,7 @@
   letter-spacing: var(--type-pixel-label-letter-spacing);
   text-transform: uppercase;
   text-align: center;
+  text-decoration: none;
   overflow-wrap: anywhere;
   cursor: pointer;
   box-shadow: var(--shadow-hard);
