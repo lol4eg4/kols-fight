@@ -83,3 +83,20 @@ test.describe("fight", () => {
     await expect(dialog.locator(".ds-round--void .ds-round__status").first()).toContainText("Not counted");
   });
 });
+
+// Regression: ISSUE-002 — fighters picked on the leaderboard left no way back to the picker far below
+// Found by /qa on 2026-10-21
+// Report: .gstack/qa-reports/qa-report-127-0-0-1-2026-10-21.md
+test("fighters picked on the leaderboard get a bar that leads to FIGHT", async ({ page }) => {
+  await page.goto("/");
+  const adds = page.locator("#leaderboard .fight-add button");
+  await adds.nth(0).click();
+  const bar = page.getByRole("region", { name: "Picked fighters" });
+  await expect(bar).toContainText("1 of 4 picked");
+  await adds.nth(1).click();
+  await expect(bar).toContainText("2 of 4 picked");
+
+  await bar.getByRole("button", { name: /Go to fight/ }).click();
+  await expect(page.getByRole("button", { name: /FIGHT!/ })).toBeFocused();
+  await expect(bar).toHaveCount(0);
+});
