@@ -188,8 +188,11 @@ pub trait SnapshotsApi: Send + Sync {
     ) -> Result<(), SnapshotsError>;
 
     /// The snapshot for `date` (open or closed) with members and their rows.
-    async fn snapshot(&self, person: &Person, date: NaiveDate)
-    -> Result<SnapshotView, SnapshotsError>;
+    async fn snapshot(
+        &self,
+        person: &Person,
+        date: NaiveDate,
+    ) -> Result<SnapshotView, SnapshotsError>;
 
     /// Latest closed snapshot date; `None` when there is none.
     async fn latest_date(&self, person: &Person) -> Result<Option<NaiveDate>, SnapshotsError>;

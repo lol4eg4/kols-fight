@@ -162,6 +162,9 @@ pub trait SolanatrackerApi: Send + Sync {
     -> Result<Option<StWallet>, StError>;
 
     /// Whether `address` has trades and when the last one was (one live call).
-    async fn wallet_summary(&self, person: &Person, address: &str)
-    -> Result<WalletSummary, StError>;
+    async fn wallet_summary(
+        &self,
+        person: &Person,
+        address: &str,
+    ) -> Result<WalletSummary, StError>;
 }

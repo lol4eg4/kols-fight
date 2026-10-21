@@ -121,8 +121,11 @@ pub enum RegistryError {
 #[async_trait]
 pub trait RegistryApi: Send + Sync {
     /// Creates or updates a KOL (name, X handle, links). Returns its id.
-    async fn upsert_kol(&self, person: &Person, profile: &KolUpsert)
-    -> Result<KolId, RegistryError>;
+    async fn upsert_kol(
+        &self,
+        person: &Person,
+        profile: &KolUpsert,
+    ) -> Result<KolId, RegistryError>;
 
     /// One KOL's profile; `None` when unknown.
     async fn get_kol(&self, person: &Person, id: &str)
@@ -136,8 +139,11 @@ pub trait RegistryApi: Send + Sync {
     ) -> Result<Vec<KolProfile>, RegistryError>;
 
     /// KOL with X handle `x` (case-insensitive, without `@`).
-    async fn find_by_handle(&self, person: &Person, x: &str)
-    -> Result<Option<KolId>, RegistryError>;
+    async fn find_by_handle(
+        &self,
+        person: &Person,
+        x: &str,
+    ) -> Result<Option<KolId>, RegistryError>;
 
     /// KOL that holds published wallet `address`.
     async fn find_by_wallet(

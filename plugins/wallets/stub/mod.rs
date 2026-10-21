@@ -8,7 +8,13 @@ pub struct Stub;
 
 #[async_trait]
 impl WalletsApi for Stub {
-    async fn propose(&self, _: &Person, _: &str, _: &str, _: &str) -> Result<Candidate, WalletsError> {
+    async fn propose(
+        &self,
+        _: &Person,
+        _: &str,
+        _: &str,
+        _: &str,
+    ) -> Result<Candidate, WalletsError> {
         Err(WalletsError::Off)
     }
 

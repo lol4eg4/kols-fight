@@ -163,8 +163,13 @@ async fn publish_wallets_refuses_a_wallet_of_another_kol() {
         Err(RegistryError::InvalidAddress { .. })
     ));
     assert!(matches!(
-        reg.publish_wallets(&P, "no-such-kol", Some((FRESH_A, WalletSource::Network)), &[])
-            .await,
+        reg.publish_wallets(
+            &P,
+            "no-such-kol",
+            Some((FRESH_A, WalletSource::Network)),
+            &[]
+        )
+        .await,
         Err(RegistryError::UnknownKol { .. })
     ));
     db.close().await;
