@@ -1,10 +1,11 @@
 //! Solana Tracker answers -> snapshot metrics. Pure.
 //!
 //! ```text
-//! summary  ──> unreal, total, avg_pos (average buy), last_min_at_fetch, wr_all, wins, losses
+//! summary  ──> unreal, total, avg_pos (average buy), last_min_at_fetch, traded_24h (last trade
+//!              within 24 hours, as KE), wr_all, wins, losses
 //! history  ──> d7  = Σ daily realized over the last 7 days   (today included)
 //!              d30 = Σ daily realized over the last 30 days
-//!              vol30, days30 (days with a buy or a sell), traded_24h (today's entry)
+//!              vol30, days30 (days with a buy or a sell)
 //! list     ──> pnl_rank (place in the list), in_top_today
 //! ```
 //!
@@ -29,15 +30,18 @@ pub fn build(
         .ok_or_else(|| StFailure::BadResponse {
             message: "wallet answer has no summary".into(),
         })?;
+    let last_min = summary
+        .timing
+        .as_ref()
+        .and_then(|t| t.last_trade)
+        .map(|ms| ((now.timestamp_millis() - ms) / 60_000).max(0));
     let mut m = Metrics {
         unreal: summary.pnl.as_ref().and_then(|p| p.unrealized),
         total: summary.pnl.as_ref().and_then(|p| p.total),
         avg_pos: summary.averages.as_ref().and_then(|a| a.buy),
-        last_min_at_fetch: summary
-            .timing
-            .as_ref()
-            .and_then(|t| t.last_trade)
-            .map(|ms| ((now.timestamp_millis() - ms) / 60_000).max(0)),
+        last_min_at_fetch: last_min,
+        // The history's day buckets hold only the hours of today before the run.
+        traded_24h: last_min.map(|m| m <= 1440),
         pnl_rank,
         in_top_today,
         ..Default::default()
@@ -59,7 +63,6 @@ pub fn build(
     let today = now.date_naive();
     let (mut d7, mut d30, mut vol30) = (0.0, 0.0, 0.0);
     let mut days30 = 0;
-    let mut traded_today = false;
     for day in &history.days {
         let date = NaiveDate::parse_from_str(&day.date, "%Y-%m-%d").map_err(|_| {
             StFailure::BadResponse {
@@ -89,14 +92,10 @@ pub fn build(
         if date > today - Duration::days(7) {
             d7 += realized;
         }
-        if date == today {
-            traded_today = trades > 0.0;
-        }
     }
     m.d7 = Some(d7);
     m.d30 = Some(d30);
     m.vol30 = Some(vol30);
     m.days30 = Some(days30);
-    m.traded_24h = Some(traded_today);
     Ok(m)
 }

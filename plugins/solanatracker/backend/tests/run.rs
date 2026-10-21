@@ -343,11 +343,9 @@ async fn incomplete_history_gives_no_history_numbers() {
     let run = r.svc.run(&ADMIN, day()).await.unwrap();
     assert_eq!(run.status, StRunStatus::Ok);
     let m = r.snapshots.row("decu").unwrap().metrics;
-    assert_eq!(
-        (m.d7, m.d30, m.vol30, m.days30, m.traded_24h),
-        (None, None, None, None, None)
-    );
-    assert_eq!(m.unreal, Some(-284357.74));
+    assert_eq!((m.d7, m.d30, m.vol30, m.days30), (None, None, None, None));
+    // From the summary's last trade, not the history.
+    assert_eq!((m.unreal, m.traded_24h), (Some(-284357.74), Some(true)));
     r.db.close().await;
 }
 
