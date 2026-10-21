@@ -956,6 +956,11 @@ async fn a_main_wallet_that_differs_from_kol_explorers_is_a_conflict() {
         Some(ADDR[0]),
         "KOL Explorer's main stays"
     );
+    // The next pass leaves it a conflict: no confirm and conflict again on every sync.
+    let before = e.actions("nox-fennel").len();
+    e.pass().await;
+    assert_eq!(e.status_of("nox-fennel", ADDR[1]).await, Conflict);
+    assert_eq!(e.actions("nox-fennel").len(), before);
 
     // the same address as KOL Explorer's main: confirmed, nothing to overwrite
     e.add("olive-wren", "olive_wren", &[ADDR[2]]);
@@ -981,7 +986,11 @@ async fn a_revoked_network_wallet_next_to_kol_explorers_main_leaves_the_registry
     e.pass().await;
     let k = e.registry.get("pia-larch");
     assert_eq!(k.main_wallet.unwrap().source, WalletSource::Kolexplorer);
-    let other: Vec<_> = k.other_wallets.iter().map(|w| (w.address.as_str(), w.source)).collect();
+    let other: Vec<_> = k
+        .other_wallets
+        .iter()
+        .map(|w| (w.address.as_str(), w.source))
+        .collect();
     assert_eq!(other, [(ADDR[4], WalletSource::Network)]);
 
     let id = e.cand("pia-larch", ADDR[4]).await.id;

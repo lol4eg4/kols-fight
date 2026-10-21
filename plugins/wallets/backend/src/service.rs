@@ -27,6 +27,8 @@ use std::{collections::BTreeMap, future::Future, sync::Arc};
 const SYSTEM: Person = Person::SYSTEM;
 /// A confirmed main wallet's last trade is looked up again after this long.
 const REFRESH_AFTER: Duration = Duration::hours(12);
+/// Reason of a main wallet that differs from the one KOL Explorer publishes.
+const KE_OTHER_MAIN: &str = "KOL Explorer publishes another main wallet";
 
 pub struct Wallets {
     pub(crate) pool: PgPool,
@@ -522,10 +524,7 @@ impl Wallets {
                     person,
                     &main_row,
                     Conflict,
-                    Some(format!(
-                        "KOL Explorer publishes another main wallet {}",
-                        km.address
-                    )),
+                    Some(format!("{KE_OTHER_MAIN} {}", km.address)),
                     None,
                     "conflict",
                 )
@@ -544,7 +543,11 @@ impl Wallets {
                 .filter(|r| r.address != main)
                 .map(|r| (r.address.clone(), published_source(r.source)))
                 .collect();
-            for a in ke_main.iter().map(|w| &w.address).chain(ke_others.iter().map(|(a, _)| a)) {
+            for a in ke_main
+                .iter()
+                .map(|w| &w.address)
+                .chain(ke_others.iter().map(|(a, _)| a))
+            {
                 if *a != main && !others.iter().any(|(o, _)| o == a) {
                     others.push((a.clone(), WalletSource::Kolexplorer));
                 }
@@ -883,14 +886,36 @@ impl Wallets {
         Ok(())
     }
 
-    /// Conflicting candidates nobody else claims any more are confirmed again.
+    /// Conflicting candidates nobody else claims any more are confirmed again. A main wallet
+    /// that differs from KOL Explorer's stays a conflict while KOL Explorer still publishes
+    /// another one: confirming it would only make it a conflict again at publishing.
     async fn recheck_conflicts(&self, person: &Person, kol: &str) -> Result<(), Error> {
-        for row in self
+        let rows: Vec<Row> = self
             .rows_of(kol)
             .await?
             .into_iter()
             .filter(|r| r.status == Conflict)
-        {
+            .collect();
+        if rows.is_empty() {
+            return Ok(());
+        }
+        let ke_main = self
+            .registry
+            .pick(&SYSTEM)
+            .get_kol(&SYSTEM, kol)
+            .await?
+            .and_then(|k| k.main_wallet)
+            .filter(|w| w.source == WalletSource::Kolexplorer)
+            .map(|w| w.address);
+        for row in rows {
+            let ke_differs = row
+                .reason
+                .as_deref()
+                .is_some_and(|r| r.starts_with(KE_OTHER_MAIN))
+                && ke_main.as_ref().is_some_and(|a| *a != row.address);
+            if ke_differs {
+                continue;
+            }
             if self.claim(kol, &row.address).await?.is_none() {
                 self.move_to(
                     person,

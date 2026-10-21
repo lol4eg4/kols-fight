@@ -729,11 +729,11 @@ fn num_cell(v: Option<f64>) -> String {
     }
 }
 
-/// CSV text cell. A leading `=`, `+`, `-` or `@` would run as a formula in a spreadsheet:
+/// CSV text cell. A leading `=`, `+`, `-`, `@` or tab would run as a formula in a spreadsheet:
 /// it gets a leading apostrophe.
 fn text_cell(s: &str) -> String {
     let mut t = s.replace(['\r', '\n'], " ");
-    if t.starts_with(['=', '+', '-', '@']) {
+    if t.starts_with(['=', '+', '-', '@', '\t']) {
         t.insert(0, '\'');
     }
     if t.contains([',', '"']) {
