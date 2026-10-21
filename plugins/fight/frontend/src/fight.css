@@ -1,0 +1,576 @@
+/* Fight window, picker and add-to-fight button. Colours, type, radii and timings come from the design tokens. */
+
+/* The fight window is wider than a card. */
+.ds-dialog:has(.fight-window) {
+  width: min(calc(100% - 32px), 960px);
+}
+
+.fight-window {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  min-width: 0;
+}
+.fight {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  min-width: 0;
+}
+.fight-muted {
+  color: var(--color-text-muted);
+  font-size: var(--type-small-font-size);
+  line-height: var(--type-small-line-height);
+  margin: 0;
+}
+.fight-mono {
+  font-family: var(--stack-mono);
+  font-feature-settings: var(--type-mono-font-feature-settings);
+}
+.fight-line {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.fight-error {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-md);
+}
+.fight-link {
+  color: var(--color-coin);
+  text-underline-offset: 3px;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch);
+}
+
+/* ---------- picker ---------- */
+.fight-picker {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  min-width: 0;
+}
+.fight-picker__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+.fight-picker__title {
+  margin: 0;
+  font-family: var(--stack-body);
+  font-size: var(--type-title-font-size);
+  font-weight: var(--type-title-font-weight);
+  line-height: var(--type-title-line-height);
+}
+.fight-slots {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));
+  gap: var(--space-sm);
+}
+.fight-slot {
+  min-width: 0;
+}
+.fight-slot .ds-card {
+  height: 100%;
+  padding: var(--space-sm);
+}
+.fight-slot__body {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  min-width: 0;
+}
+.fight-slot__who {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  min-width: 0;
+  flex: 1;
+}
+.fight-slot__name {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.fight-slot__facts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--type-small-font-size);
+}
+.fight-slot__unknown {
+  color: var(--color-minus);
+  font-size: var(--type-small-font-size);
+}
+.fight-slot__empty {
+  appearance: none;
+  width: 100%;
+  height: 100%;
+  min-height: 64px;
+  padding: var(--space-sm);
+  background: transparent;
+  color: var(--color-text-muted);
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  font: inherit;
+  cursor: pointer;
+}
+.fight-slot__empty:hover,
+.fight-slot__empty:focus-visible {
+  border-color: var(--color-pink);
+  color: var(--color-text);
+}
+.fight-x {
+  appearance: none;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: var(--touch);
+  height: var(--touch);
+  background: var(--color-surface-sunken);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.fight-x:hover {
+  border-color: var(--color-pink);
+}
+
+.fight-search {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  max-width: 560px;
+}
+.fight-results {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+.fight-result {
+  appearance: none;
+  width: 100%;
+  min-height: var(--touch);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  padding: var(--space-xs) var(--space-sm);
+  background: var(--color-surface-sunken);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.fight-result:hover,
+.fight-result:focus-visible {
+  border-color: var(--color-pink);
+}
+.fight-result[aria-disabled="true"] {
+  cursor: default;
+  opacity: 0.6;
+}
+.fight-result__name {
+  font-weight: 600;
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.fight-result__facts {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--type-small-font-size);
+}
+.fight-result__off {
+  color: var(--color-text-muted);
+  font-size: var(--type-small-font-size);
+}
+.fight-quick,
+.fight-picker__go,
+.fight-controls,
+.fight-actions,
+.fight-share__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--space-sm);
+}
+
+/* ---------- add to fight ---------- */
+.fight-add {
+  display: inline-flex;
+}
+.fight-add .ds-btn {
+  white-space: nowrap;
+}
+.fight-add--on .ds-btn {
+  border-color: var(--color-pink);
+  color: var(--color-pink);
+}
+
+/* ---------- VS ---------- */
+.fight-vs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+.fight-vs__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: stretch;
+  gap: var(--space-sm);
+}
+.fight-vs__item {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  animation: fight-enter var(--t-bar) var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 120ms);
+}
+.fight-vs__item > :last-child {
+  flex: 1;
+  min-width: 0;
+}
+.fight-vs__mark {
+  flex: none;
+  font-family: var(--stack-pixel);
+  font-size: var(--type-pixel-label-font-size);
+  color: var(--color-pink);
+}
+.fight-vs__item .ds-card {
+  height: 100%;
+}
+.fight-vs__card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  padding: var(--space-sm);
+  min-width: 0;
+}
+.fight-vs__name {
+  margin: 0;
+  font-family: var(--stack-body);
+  font-size: var(--type-title-font-size);
+  font-weight: var(--type-title-font-weight);
+  overflow-wrap: anywhere;
+}
+.fight-vs__facts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs);
+}
+.fight-vs__card .ds-hp,
+.fight-vs__card > :nth-child(4) {
+  width: 100%;
+}
+
+/* ---------- fighter strip ---------- */
+.fight-strip {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-sm);
+}
+.fight-strip__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-xs) var(--space-sm);
+  border: 2px solid var(--color-pink);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  min-width: 0;
+}
+.fight-strip__item--star {
+  border-color: var(--color-coin);
+}
+.fight-strip__avatar {
+  flex: none;
+  display: inline-flex;
+}
+.fight-strip__avatar--hit {
+  animation: fight-hit var(--t-hit) var(--ease-in) 2;
+}
+.fight-strip__who {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+.fight-strip__name {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.fight-strip__star {
+  color: var(--color-coin);
+  display: inline-block;
+  animation: fight-pop var(--t-bar) var(--ease-out) both;
+}
+.fight-strip__pts {
+  flex: none;
+  color: var(--color-coin);
+}
+
+/* ---------- rounds ---------- */
+.fight-stage {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+.fight-stage__count {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--type-small-font-size);
+}
+.fight-round {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  min-width: 0;
+}
+.fight-round--current .ds-round {
+  border: 2px solid var(--color-pink);
+}
+.fight-round--current .ds-round__title {
+  font-size: var(--type-title-font-size);
+}
+.fight-round--new {
+  animation: fight-enter var(--t-ui) var(--ease-out) both;
+}
+.fight-round--new .ds-round__fighter--winner .ds-round__star {
+  animation: fight-pop var(--t-bar) var(--ease-out) var(--t-bar) both;
+}
+.fight-source {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--type-small-font-size);
+  overflow-wrap: anywhere;
+}
+.fight-played,
+.fight-all-rounds {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+/* ---------- K.O. ---------- */
+.fight-ko {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-xs);
+  padding: var(--space-md);
+}
+.fight-ko__stamp {
+  margin: 0;
+  font-family: var(--stack-pixel);
+  font-size: var(--type-display-font-size);
+  line-height: var(--type-display-line-height);
+  color: var(--color-pink);
+  text-shadow: 3px 3px 0 var(--color-shadow);
+  animation: fight-stamp var(--t-bar) var(--ease-out) both;
+}
+.fight-ko__stamp:focus {
+  outline: none;
+}
+.fight-ko__stamp:focus-visible {
+  outline: 2px solid var(--color-coin);
+  outline-offset: 4px;
+}
+.fight-ko__winner {
+  margin: 0;
+  font-size: var(--type-title-font-size);
+  font-weight: var(--type-title-font-weight);
+  color: var(--color-coin);
+}
+.fight-ko__score {
+  margin: 0;
+}
+.fight-ko__summary {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+.fight-before[hidden] {
+  display: none;
+}
+.fight-cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--space-md);
+  width: 100%;
+}
+.fight-details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* Where Score comes from: fighters side by side, stacked on a phone. */
+.fight-where {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+.fight-where__part {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+.fight-where__title {
+  margin: 0;
+  font-size: var(--type-body-font-size);
+  font-weight: 600;
+}
+.fight-where__cells {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(var(--n, 2), minmax(0, 1fr));
+  gap: var(--space-sm);
+}
+.fight-where__cell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  padding: var(--space-sm);
+  background: var(--color-surface-sunken);
+  border-radius: var(--radius-sm);
+  min-width: 0;
+}
+.fight-where__name {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.fight-where__pts {
+  font-size: var(--type-small-font-size);
+}
+
+.fight-share {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-border);
+}
+.fight-share__title {
+  margin: 0;
+  font-size: var(--type-title-font-size);
+  font-weight: var(--type-title-font-weight);
+}
+
+/* ---------- phone ---------- */
+@media (max-width: 759px) {
+  .fight-vs__list {
+    flex-direction: column;
+  }
+  .fight-vs__item {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .fight-vs__mark {
+    align-self: center;
+  }
+  .fight-vs__card {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .fight-strip {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-2xs);
+  }
+  .fight-where__cells {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .fight-ko__stamp {
+    font-size: var(--type-section-title-font-size);
+  }
+  .fight-controls .ds-btn-wrap {
+    flex: 1 1 auto;
+  }
+  .fight-controls .ds-btn {
+    width: 100%;
+  }
+}
+
+@keyframes fight-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes fight-pop {
+  0% {
+    transform: scale(0);
+  }
+  70% {
+    transform: scale(1.4);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes fight-hit {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  33% {
+    transform: translateX(-3px);
+  }
+  66% {
+    transform: translateX(3px);
+  }
+}
+@keyframes fight-stamp {
+  from {
+    opacity: 0;
+    transform: scale(2) rotate(-8deg);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(-4deg);
+  }
+}
