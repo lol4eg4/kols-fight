@@ -1,13 +1,20 @@
 //! Backend of the `kolexplorer` plugin (layer 2).
 //!
-//! Skeleton: registers [`api_kolexplorer::KolexplorerApi`] with «not built» answers and mounts no
-//! routes yet. The plugin's lane builds it.
+//! Reads the public KOL Explorer leaderboard and the profile pages of its top 100, writes
+//! the top 100 into the snapshot and their KE wallets into the registry. Mounts no routes
+//! and has no schedule: the schedule plugin calls [`api_kolexplorer::KolexplorerApi::run`].
 
-use arena_platform::{Api, Ctx, Plugin, PluginEntry, StartError};
+use arena_platform::{Ctx, Plugin, PluginEntry, StartError};
 use sqlx::migrate::Migrator;
 use std::sync::Arc;
 
-mod not_built;
+pub mod http;
+pub mod parse;
+mod service;
+mod store;
+
+pub use http::Options;
+pub use service::Kolexplorer;
 
 /// Plugin name: folder, schema and crate suffix.
 pub const NAME: &str = "kolexplorer";
@@ -21,29 +28,26 @@ pub const ENTRY: PluginEntry = PluginEntry {
     build,
 };
 
-/// APIs this plugin calls (`uses` in plugin.toml), taken from `Ctx` at construction.
-#[allow(dead_code)] // read once the lane builds the plugin
-struct Uses {
-    registry: Api<dyn api_registry::RegistryApi>,
-    snapshots: Api<dyn api_snapshots::SnapshotsApi>,
-}
-
-pub struct KolexplorerPlugin {
-    #[allow(dead_code)] // read once the lane builds the plugin
-    uses: Uses,
-}
+pub struct KolexplorerPlugin;
 
 fn build(ctx: &Ctx) -> Result<Arc<dyn Plugin>, StartError> {
-    let uses = Uses {
-        registry: ctx.apis.require::<dyn api_registry::RegistryApi>(NAME)?,
-        snapshots: ctx.apis.require::<dyn api_snapshots::SnapshotsApi>(NAME)?,
+    let build_err = |message: String| StartError::Build {
+        plugin: NAME.into(),
+        message,
     };
+    let service = Kolexplorer::new(
+        ctx.pool.clone(),
+        ctx.apis.require::<dyn api_registry::RegistryApi>(NAME)?,
+        ctx.apis.require::<dyn api_snapshots::SnapshotsApi>(NAME)?,
+        Options::default(),
+    )
+    .map_err(build_err)?;
     ctx.apis.provide::<dyn api_kolexplorer::KolexplorerApi>(
         NAME,
-        vec![("default", Arc::new(not_built::NotBuilt))],
+        vec![("default", Arc::new(service))],
         Arc::new(api_kolexplorer::stub::Stub),
     )?;
-    Ok(Arc::new(KolexplorerPlugin { uses }))
+    Ok(Arc::new(KolexplorerPlugin))
 }
 
 impl Plugin for KolexplorerPlugin {
