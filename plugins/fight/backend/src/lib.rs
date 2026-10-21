@@ -292,6 +292,14 @@ async fn fight_image(
     let png = match cached {
         Some(png) => png,
         None => {
+            // Renders at once: a burst of new fights waits instead of taking every core.
+            static RENDERS: tokio::sync::Semaphore = tokio::sync::Semaphore::const_new(2);
+            let Ok(_permit) = RENDERS.acquire().await else {
+                return error(
+                    StatusCode::INTERNAL_SERVER_ERROR,
+                    json!({"error": "internal error"}),
+                );
+            };
             let rendered = tokio::task::spawn_blocking(move || image::render(&result)).await;
             match rendered {
                 Ok(Ok(png)) => {
