@@ -269,6 +269,17 @@ pub fn app(state: AppState, plugin_routes: Router) -> Router {
         .route("/", spa.clone())
         .route("/index.html", spa)
         .fallback_service(files)
+        .layer(middleware::from_fn(admin_origin_guard))
+}
+
+/// Every `/api/admin` request passes auth's `Origin` check (CSRF), whatever plugin serves it.
+async fn admin_origin_guard(req: axum::extract::Request, next: Next) -> Response {
+    let path = req.uri().path();
+    if path == "/api/admin" || path.starts_with("/api/admin/") {
+        plugin_auth::origin_guard(req, next).await
+    } else {
+        next.run(req).await
+    }
 }
 
 #[cfg(test)]

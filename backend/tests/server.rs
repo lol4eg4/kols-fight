@@ -329,3 +329,28 @@ async fn spa_fallback_injects_page_meta() {
     std::fs::remove_dir(dir.join("assets")).unwrap();
     remove_dist(&dir);
 }
+
+#[tokio::test]
+async fn admin_writes_need_this_site_origin() {
+    let dir = dist("origin");
+    let (app, _) = demo_app(&TAGS, dir.clone());
+    let post = |origin: Option<&str>| {
+        let mut req = Request::post("/api/admin/anything").header("host", "arena.example");
+        if let Some(o) = origin {
+            req = req.header("origin", o);
+        }
+        req.body(Body::empty()).unwrap()
+    };
+    assert_eq!(call(&app, post(None)).await.0, StatusCode::FORBIDDEN);
+    assert_eq!(
+        call(&app, post(Some("https://evil.example"))).await.0,
+        StatusCode::FORBIDDEN
+    );
+    assert_eq!(
+        call(&app, post(Some("https://arena.example"))).await.0,
+        StatusCode::NOT_FOUND
+    );
+    let (status, _) = call(&app, get_as("/api/admin/anything", None)).await;
+    assert_eq!(status, StatusCode::NOT_FOUND);
+    remove_dist(&dir);
+}
