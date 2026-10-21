@@ -1,0 +1,23 @@
+/* Tournament card: heading, lineup switch, bracket and the result, spaced apart. */
+.tournament {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+.tournament > * {
+  margin: 0;
+}
+.tournament__lineup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+.tournament__result {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm) var(--space-md);
+}
+.tournament__result > p {
+  margin: 0;
+}

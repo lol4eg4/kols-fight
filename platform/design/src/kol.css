@@ -564,7 +564,9 @@
   min-width: 0;
 }
 .ds-bracket__title {
+  margin: 0;
   font-family: var(--stack-pixel);
+  font-weight: 400;
   font-size: var(--type-pixel-label-font-size);
   line-height: var(--type-pixel-label-line-height);
   text-transform: uppercase;

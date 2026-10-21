@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Bracket, Button, Card, EmptyState, ErrorLine, Heading, Skeleton } from "@arena/design";
+import { Bracket, Button, Card, EmptyState, ErrorLine, Heading, Skeleton, buttonClass } from "@arena/design";
 import type { BracketEntry, BracketRound as DsRound } from "@arena/design";
 import { Link, t, useApi } from "@arena/shell";
 import type { SlotProps } from "@arena/shell";
 import { bracketPath, lineupsPath } from "./bracket";
 import type { Choice, Contestant, Lineups, RoundName, TournamentView } from "./bracket";
+import "./tournament.css";
 
 function roundTitle(name: RoundName): string {
   switch (name) {
@@ -39,11 +40,17 @@ function Bracketed({ view }: { view: TournamentView }) {
   return (
     <>
       <Bracket rounds={toRounds(view)} label={t("tournament.bracket")} pendingLabel={t("tournament.pending")} winnerLabel={t("tournament.winner")} />
-      <p>
-        <strong>{t("tournament.champion", { name: view.champion.name })}</strong>
-      </p>
-      {final?.decision === "rank_tiebreak" && <p>{t("tournament.rank_tiebreak")}</p>}
-      {final && <Link to={`/fight?ids=${encodeURIComponent(final.a.kol)},${encodeURIComponent(final.b.kol)}&date=${view.date}`}>{t("tournament.watch_final")}</Link>}
+      <div className="tournament__result">
+        <p>
+          <strong>{t("tournament.champion", { name: view.champion.name })}</strong>
+        </p>
+        {final?.decision === "rank_tiebreak" && <p>{t("tournament.rank_tiebreak")}</p>}
+        {final && (
+          <Link to={`/fight?ids=${encodeURIComponent(final.a.kol)},${encodeURIComponent(final.b.kol)}&date=${view.date}`} className={buttonClass("secondary")}>
+            {t("tournament.watch_final")}
+          </Link>
+        )}
+      </div>
     </>
   );
 }
@@ -85,7 +92,7 @@ export function Tournament({ date }: SlotProps<"board/below_fight">) {
     const ids = choice === "network" && networkReady ? l.network : l.top;
     body = (
       <>
-        <div role="group" aria-label={t("tournament.lineup")}>
+        <div role="group" aria-label={t("tournament.lineup")} className="tournament__lineup">
           <Button variant={ids === l.top ? "primary" : "secondary"} aria-pressed={ids === l.top} onClick={() => setChoice("top")}>
             {t("tournament.top")}
           </Button>
@@ -106,10 +113,12 @@ export function Tournament({ date }: SlotProps<"board/below_fight">) {
 
   return (
     <Card as="section" aria-label={t("tournament.title")}>
-      <Heading level={2} variant="section">
-        {t("tournament.title")}
-      </Heading>
-      {body}
+      <div className="tournament">
+        <Heading level={2} variant="section">
+          {t("tournament.title")}
+        </Heading>
+        {body}
+      </div>
     </Card>
   );
 }
