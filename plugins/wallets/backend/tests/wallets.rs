@@ -976,7 +976,8 @@ async fn a_main_wallet_that_differs_from_kol_explorers_is_a_conflict() {
 async fn an_address_the_kol_sent_is_checked_for_trades_like_a_sheet_address() {
     let e = env().await;
     e.add("pike-ash", "pike_ash", &[]);
-    let api = e.ctx.apis.get::<dyn WalletsApi>().unwrap().pick(&STAFF);
+    // the Wallets screen's «add address from KOL» (POST /api/team/wallets/propose)
+    let api = e.w.clone();
 
     e.st.trades(ADDR[0]);
     let c = api
@@ -1005,19 +1006,19 @@ async fn an_address_the_kol_sent_is_checked_for_trades_like_a_sheet_address() {
 
     assert!(matches!(
         api.propose(&STAFF, "pike-ash", "nonsense", "x").await,
-        Err(WalletsError::InvalidAddress { .. })
+        Err(Error::InvalidAddress(_))
     ));
     assert!(matches!(
         api.propose(&STAFF, "pike-ash", ADDR[2], " ").await,
-        Err(WalletsError::Internal { .. })
+        Err(Error::Refused(_))
     ));
     assert!(matches!(
         api.propose(&STAFF, "nobody-here", ADDR[2], "x").await,
-        Err(WalletsError::NotMember { .. })
+        Err(Error::NotMember(_))
     ));
     assert!(matches!(
         api.propose(&Person::NOBODY, "pike-ash", ADDR[2], "x").await,
-        Err(WalletsError::Internal { .. })
+        Err(Error::Forbidden)
     ));
 
     // staff picks which confirmed wallet is the main one
@@ -1052,6 +1053,100 @@ async fn an_address_the_kol_sent_is_checked_for_trades_like_a_sheet_address() {
         status,
         StatusCode::BAD_REQUEST,
         "only a confirmed wallet can be main"
+    );
+}
+
+/// The FOMO match proposes through the API: a hypothesis with source `fomo`, journaled,
+/// never published; an address the KOL already has stays as it is.
+#[tokio::test]
+async fn a_fomo_match_adds_an_unpublished_hypothesis_through_the_api() {
+    let e = env().await;
+    e.add("tern-holt", "tern_holt", &[ADDR[1]]);
+    e.st.trades(ADDR[1]);
+    e.pass().await;
+    let api = e.ctx.apis.get::<dyn WalletsApi>().unwrap().pick(&STAFF);
+
+    let c = api
+        .propose(&STAFF, "tern-holt", ADDR[0], "FOMO match: 3 positions")
+        .await
+        .unwrap();
+    assert_eq!(
+        (c.status, c.source, c.main),
+        (Hypothesis, CandidateSource::Fomo, false)
+    );
+    assert_eq!(c.evidence.as_deref(), Some("FOMO match: 3 positions"));
+    assert_eq!(c.sent_by.as_deref(), Some("staff:1"));
+    assert!(e.actions("tern-holt").contains(&"fomo".to_string()));
+    // never published: the sheet wallet stays the only published one
+    assert_eq!(e.registry.main_of("tern-holt").as_deref(), Some(ADDR[1]));
+    assert_eq!(e.registry.others_of("tern-holt"), Vec::<String>::new());
+    assert_eq!(
+        e.w.status(&STAFF, "tern-holt")
+            .await
+            .unwrap()
+            .main_address
+            .as_deref(),
+        Some(ADDR[1])
+    );
+
+    // the same match again changes nothing
+    let journal_len = e.actions("tern-holt").len();
+    let again = api
+        .propose(&STAFF, "tern-holt", ADDR[0], "FOMO match: 2 positions")
+        .await
+        .unwrap();
+    assert_eq!((again.id, again.status), (c.id, Hypothesis));
+    assert_eq!(e.actions("tern-holt").len(), journal_len);
+
+    // a confirmed address is not turned back into a hypothesis
+    let known = api
+        .propose(&STAFF, "tern-holt", ADDR[1], "FOMO match: 2 positions")
+        .await
+        .unwrap();
+    assert_eq!(
+        (known.status, known.source),
+        (Confirmed, CandidateSource::Sheet)
+    );
+
+    // the hypothesis follows the usual machine: the KOL confirms it
+    let done =
+        e.w.confirm(&STAFF, c.id, "Telegram, 9 March")
+            .await
+            .unwrap();
+    assert_eq!(done.status, Confirmed);
+
+    assert!(matches!(
+        api.propose(&STAFF, "tern-holt", "nonsense", "x").await,
+        Err(WalletsError::InvalidAddress { .. })
+    ));
+    assert!(matches!(
+        api.propose(&STAFF, "nobody-here", ADDR[2], "x").await,
+        Err(WalletsError::NotMember { .. })
+    ));
+    assert!(matches!(
+        api.propose(&STAFF, "tern-holt", ADDR[2], "  ").await,
+        Err(WalletsError::Internal { .. })
+    ));
+    assert!(matches!(
+        api.propose(&Person::NOBODY, "tern-holt", ADDR[2], "x")
+            .await,
+        Err(WalletsError::Internal { .. })
+    ));
+    // the shared lock is held: busy, nothing written
+    let api2 = api.clone();
+    let busy = run_locked(
+        e.db.pool(),
+        vec![LockSpec::try_once(DATA_LOCK)],
+        async move { api2.propose(&STAFF, "tern-holt", ADDR[2], "x").await },
+    )
+    .await
+    .unwrap();
+    assert!(matches!(busy, Err(WalletsError::Busy)), "{busy:?}");
+    assert!(
+        e.all("tern-holt")
+            .await
+            .iter()
+            .all(|c| c.address != ADDR[2])
     );
 }
 

@@ -1085,6 +1085,52 @@ impl Wallets {
         Ok(self.row(id).await?.candidate())
     }
 
+    /// A FOMO match found exactly one wallet for `kol`: it becomes a hypothesis (source
+    /// `fomo`), never published until the KOL confirms it. An address the KOL already has a
+    /// candidate for stays as it is (the state machine has no way back to a hypothesis); the
+    /// caller reads its status from the answer.
+    pub async fn propose_hypothesis(
+        &self,
+        person: &Person,
+        kol: &str,
+        address: &str,
+        evidence: &str,
+    ) -> Result<Candidate, Error> {
+        Self::staff(person)?;
+        let address = address.trim();
+        if !is_solana_address(address) {
+            return Err(Error::InvalidAddress(address.to_string()));
+        }
+        let evidence = evidence.trim();
+        if evidence.is_empty() {
+            return Err(Error::Refused("say which positions matched".into()));
+        }
+        if !self.roster.pick(person).is_member(person, kol).await? {
+            return Err(Error::NotMember(kol.to_string()));
+        }
+        if let Some(row) = self.row_by_address(kol, address).await? {
+            return Ok(row.candidate());
+        }
+        let found = Found {
+            status: Hypothesis,
+            reason: Some("FOMO match: one wallet holds the positions".into()),
+            last_trade_at: None,
+            checked: false,
+        };
+        let row = self
+            .insert(
+                person,
+                kol,
+                address,
+                CandidateSource::Fomo,
+                Some(evidence.to_string()),
+                found,
+                "fomo",
+            )
+            .await?;
+        Ok(row.candidate())
+    }
+
     /// An address the KOL (or someone for the KOL) sent. A trades check at Solana Tracker
     /// decides: trades found confirms it, none leaves it «not found» with the reason.
     pub async fn propose(
