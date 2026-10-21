@@ -26,6 +26,30 @@
 **Priority:** P3
 **Depends on:** First release; a Telegram bot from the team
 
+### Shorter leaderboard on the home page
+
+**What:** Show the first rows of the leaderboard and a "show more" control instead of all 135.
+
+**Why:** The home page is about 59,000 px tall on a phone; the sections below the board are hard to reach.
+
+**Context:** Found in the design audit 2026-10-21. Needs the CEO's choice of the first page size.
+
+**Effort:** S
+**Priority:** P2
+**Depends on:** CEO decision
+
+### Small design fixes from the design audit
+
+**What:** Collection source line reads run together; fight "Who wins?" buttons touch; "Pick X to win" label uses the KOL id, not the name; KOL names with glyphs the fonts lack show empty boxes.
+
+**Why:** Polish items left after the design audit 2026-10-21.
+
+**Context:** `plugins/schedule/frontend/src/Collection.tsx`, the fight pick buttons in `plugins/fight/frontend/src/`.
+
+**Effort:** S
+**Priority:** P3
+**Depends on:** None
+
 ## Infrastructure
 
 ### Production deploy
