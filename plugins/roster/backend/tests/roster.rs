@@ -353,8 +353,7 @@ fn sheet(rows: &[(&str, &str, &str, &str, &str)]) -> String {
     out
 }
 
-/// The 13 prototype network KOLs that the owner's sheet does list, plus the registry entries
-/// the day-0 seed would have created for those without a FOMO handle.
+/// The 12 prototype network KOLs that the owner's sheet does list, two under another name.
 fn prototype_rows() -> Vec<(
     &'static str,
     &'static str,
@@ -363,8 +362,7 @@ fn prototype_rows() -> Vec<(
     &'static str,
 )> {
     vec![
-        ("Iced", "IcedKnife", "1101", "1202", ""),
-        ("J777Crypto", "J777Crypto", "1103", "1204", ""),
+        ("J7tradingjournal / J7", "J7tradingjournal", "1103", "1204", ""),
         ("Levis", "LevisNFT", "1105", "1206", ""),
         ("Maurits", "mauritsneo", "1107", "1208", ""),
         ("juicy", "Juicycooks", "1109", "1210", ""),
@@ -375,7 +373,7 @@ fn prototype_rows() -> Vec<(
         ("BTCFORLIFE", "BTCFORLIFE", "1119", "1220", ""),
         ("NDF_Sonar_trade", "NDF_Sonar_trade", "1121", "1222", ""),
         ("trancey", "trancey", "1123", "1224", ""),
-        ("pow", "traderpow", "1125", "1226", ""),
+        ("Pow", "Pow", "1125", "1226", ""),
     ]
 }
 
@@ -431,7 +429,7 @@ async fn sync_adds_sheet_rows_as_members_and_links_them_in_the_registry() {
 }
 
 #[tokio::test]
-async fn nine_prototype_kols_stay_when_the_sheet_lacks_them_and_removed_rows_end_membership() {
+async fn ten_prototype_kols_stay_when_the_sheet_lacks_them_and_removed_rows_end_membership() {
     let env = env().await;
     seed_registry(&env);
     let keep: Vec<String> =
@@ -443,6 +441,7 @@ async fn nine_prototype_kols_stay_when_the_sheet_lacks_them_and_removed_rows_end
         keep,
         [
             "babatooonde",
+            "iced",
             "kook",
             "laseasy",
             "mrpunk",
@@ -461,7 +460,7 @@ async fn nine_prototype_kols_stay_when_the_sheet_lacks_them_and_removed_rows_end
     assert_eq!(
         (first.added, first.removed),
         (1, 0),
-        "the 13 prototype rows match existing members"
+        "the 12 prototype rows match existing members"
     );
     assert_eq!(
         env.count("SELECT count(*) FROM roster.member WHERE active")
@@ -523,11 +522,11 @@ async fn nine_prototype_kols_stay_when_the_sheet_lacks_them_and_removed_rows_end
 async fn a_kol_without_a_fomo_handle_in_the_seed_is_found_by_its_x_handle() {
     let env = env().await;
     seed_registry(&env);
-    let report = env.sync(&sheet(&prototype_rows())).await;
-    assert_eq!(
-        report.added, 0,
-        "iced, j7 and pow are matched, not duplicated"
-    );
+    // Iced is not on the owner's sheet; here it joins under its X handle.
+    let mut rows = prototype_rows();
+    rows.push(("Iced", "IcedKnife", "1101", "1202", ""));
+    let report = env.sync(&sheet(&rows)).await;
+    assert_eq!(report.added, 0, "iced is matched, not duplicated");
     let fomo: Option<String> =
         sqlx::query_scalar("SELECT fomo_handle FROM roster.member WHERE kol = 'iced'")
             .fetch_one(env.db.pool())
@@ -829,8 +828,8 @@ async fn no_public_surface_carries_rates_groups_notes_or_sheet_wallets() {
     let members = api.members(&Person::NOBODY).await.unwrap();
     assert_eq!(
         members.len(),
-        15,
-        "9 kept prototype KOLs and the 6 sheet rows"
+        16,
+        "10 kept prototype KOLs and the 6 sheet rows"
     );
     assert_clean("members(nobody)", &serde_json::to_string(&members).unwrap());
     assert!(members.iter().all(|m| m.sheet_wallets.is_empty()));

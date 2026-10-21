@@ -1,9 +1,10 @@
 -- Day-0 network: the 22 prototype network KOLs by registry slug (data/prototype/arena_data_v2.json).
--- keep = true for the 9 that are absent from the owner's sheet: a sheet read never removes them.
+-- keep = true for the 10 that are absent from the owner's sheet: a sheet read never removes them.
+-- j7 is the sheet's J7tradingjournal (same wallet); pow is the sheet's Pow.
 -- The prototype X handle is not verified; staff verifies it on the Network screen.
 INSERT INTO roster.member (kol, name, x_handle, fomo_handle, fomo_key, keep) VALUES
-    ('iced', 'Iced', 'IcedKnife', NULL, NULL, false),
-    ('j7', 'J777Crypto', 'J777Crypto', NULL, NULL, false),
+    ('iced', 'Iced', 'IcedKnife', NULL, NULL, true),
+    ('j7', 'J777Crypto', 'J777Crypto', 'J7tradingjournal', 'j7tradingjournal', false),
     ('levis', 'Levis', 'LevisNFT', 'LevisNFT', 'levisnft', false),
     ('maurits', 'Maurits', 'mauritsneo', 'mauritsneo', 'mauritsneo', false),
     ('juicy', 'juicy', 'Juicycooks', 'Juicycooks', 'juicycooks', false),
@@ -22,7 +23,7 @@ INSERT INTO roster.member (kol, name, x_handle, fomo_handle, fomo_key, keep) VAL
     ('peter', 'Peter', 'Onepeterrr', NULL, NULL, true),
     ('naka', 'Naka', 'Nakazutra', NULL, NULL, true),
     ('babatooonde', 'babatooonde', 'babatooonde', NULL, NULL, true),
-    ('pow', 'pow', 'traderpow', NULL, NULL, false),
+    ('pow', 'pow', 'traderpow', 'Pow', 'pow', false),
     ('shah', 'shah', 'shahh', NULL, NULL, true)
 ON CONFLICT (kol) DO NOTHING;
 
