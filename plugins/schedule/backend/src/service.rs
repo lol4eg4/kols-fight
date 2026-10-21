@@ -391,12 +391,16 @@ impl Schedule {
             }
         }
 
-        // 2. «snapshot opened»: other blocks add their members first
+        // 2. «snapshot opened»: other blocks add their members first; a failure copies the
+        // network members from the previous date
         let t = Utc::now();
-        let outcome = match i.events.emit(&SnapshotOpened { date }).await {
+        let mut outcome = match i.events.emit(&SnapshotOpened { date }).await {
             Ok(()) => Outcome::ok(),
             Err(e) => Outcome::failed(e),
         };
+        if outcome.status == "failed" {
+            outcome.note = Some(self.carry_members(date, MemberReason::Network).await);
+        }
         rec.step("event", t, outcome, false).await;
 
         // 3. KOL Explorer; a failure copies the top-100 members from the previous date
@@ -416,8 +420,9 @@ impl Schedule {
             Err(e) => Outcome::failed(e),
         };
         if outcome.status == "failed" {
-            outcome.note = Some(self.carry_members(date).await);
+            outcome.note = Some(self.carry_members(date, MemberReason::Top100).await);
         }
+        let ke_failed = outcome.status == "failed";
         rec.step("kolexplorer", t, outcome, false).await;
 
         // 4. Solana Tracker
@@ -443,7 +448,12 @@ impl Schedule {
             }
             Err(e) => Outcome::failed(e),
         };
+        let st_failed = outcome.status == "failed";
         rec.step("solanatracker", t, outcome, false).await;
+        // No source gave a number: the day is closed and ranked on carried rows, and the run fails.
+        if ke_failed && st_failed {
+            rec.worst = Overall::Failed;
+        }
 
         // 5. close, with carry-forward
         let t = Utc::now();
@@ -482,7 +492,11 @@ impl Schedule {
 
     /// After a failed KOL Explorer read: copies the top-100 members from the previous date,
     /// but only when the date has none. Returns the note for the step.
-    async fn carry_members(&self, date: NaiveDate) -> String {
+    async fn carry_members(&self, date: NaiveDate, reason: MemberReason) -> String {
+        let label = match reason {
+            MemberReason::Top100 => "top-100",
+            MemberReason::Network => "network",
+        };
         let p = &Person::SYSTEM;
         let snapshots = self.inner.snapshots.pick(p);
         let view = match snapshots.snapshot(p, date).await {
@@ -492,13 +506,13 @@ impl Schedule {
         let have = view
             .members
             .iter()
-            .filter(|m| m.reasons.contains(&MemberReason::Top100))
+            .filter(|m| m.reasons.contains(&reason))
             .count();
         if have > 0 {
-            return format!("kept the {have} top-100 members already on {date}");
+            return format!("kept the {have} {label} members already on {date}");
         }
-        match snapshots.copy_members(p, date, MemberReason::Top100).await {
-            Ok(()) => "top-100 members copied from the previous snapshot".into(),
+        match snapshots.copy_members(p, date, reason).await {
+            Ok(()) => format!("{label} members copied from the previous snapshot"),
             Err(e) => format!("members not copied: {e}"),
         }
     }

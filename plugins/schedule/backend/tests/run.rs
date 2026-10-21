@@ -4,7 +4,7 @@ use api_kolexplorer::KeRunStatus;
 use api_snapshots::{MemberReason, SnapshotStatus};
 use api_solanatracker::{StFailure, StRunStatus};
 use arena_platform::{
-    Person, RunError,
+    BoxError, Person, RunError,
     scheduler::{DATA_LOCK, lock_key, run_job},
     testing::TestDb,
 };
@@ -186,6 +186,54 @@ async fn solanatracker_failure_is_shown_and_the_run_still_closes_and_ranks() {
         Some("plan lacks PnL")
     );
     assert_eq!(run.error.as_deref(), Some("solanatracker: plan lacks PnL"));
+    db.close().await;
+}
+
+#[tokio::test]
+async fn a_failed_open_event_copies_the_network_members() {
+    let (db, fakes, s) = rig().await;
+    let d = today();
+    fakes.snapshots.seed(
+        days_ago(1),
+        SnapshotStatus::Closed,
+        &[
+            ("decu", MemberReason::Top100),
+            ("ours", MemberReason::Network),
+        ],
+    );
+    fakes
+        .events
+        .on::<api_schedule::SnapshotOpened, _, _>("network", |_| async {
+            Err::<(), _>(BoxError::from("sheet down"))
+        });
+
+    run_job(db.pool(), &s.job()).await.unwrap();
+
+    assert_eq!(fakes.snapshots.members_of(d), ["ours"]);
+    let run = latest_run(&s).await;
+    assert_eq!(run.status, "partial");
+    assert_eq!(
+        step(&run, "event").note.as_deref(),
+        Some("network members copied from the previous snapshot")
+    );
+    db.close().await;
+}
+
+#[tokio::test]
+async fn both_sources_failing_fails_the_run_but_still_closes_and_ranks() {
+    let (db, fakes, s) = rig().await;
+    let d = today();
+    *fakes.ke.result.lock().unwrap() = Err("connection refused".into());
+    *fakes.st.result.lock().unwrap() = (StRunStatus::Failed, Some(StFailure::PlanLacksPnl));
+
+    run_job(db.pool(), &s.job()).await.unwrap_err();
+
+    let calls = fakes.calls();
+    assert_eq!(
+        &calls[calls.len() - 2..],
+        [format!("close {d}"), format!("rank {d}")]
+    );
+    assert_eq!(latest_run(&s).await.status, "failed");
     db.close().await;
 }
 
