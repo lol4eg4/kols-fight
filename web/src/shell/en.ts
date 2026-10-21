@@ -43,6 +43,7 @@ export const dict: Record<string, string> = {
   "shell.team.section_pick": "Pick a section",
   "shell.team.signed_in": "Signed in as {login}",
   "shell.team.sign_out": "Sign out",
+  "shell.team.sign_out_failed": "Could not sign out. Try again.",
   "shell.team.nav.wallets": "Wallets",
   "shell.team.nav.network": "Network",
   "shell.team.nav.fomo": "FOMO match",

@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, spyOn, test } from "bun:test";
 import { api, emitPageEvent, onPageEvent, t } from "../src/shell";
 import { addDictionary } from "../src/shell/i18n";
-import { getSessionState, loadSession, resetSession } from "../src/shell/session";
+import { getSessionState, loadSession, resetSession, signOut } from "../src/shell/session";
 
 describe("t()", () => {
   addDictionary("test", { "test.hello": "Hello, {name}!", "test.plain": "Plain", "test.two": "{a} of {b}" });
@@ -186,6 +186,17 @@ describe("session state", () => {
     }) as unknown as typeof fetch;
     await loadSession();
     expect(getSessionState()).toMatchObject({ status: "error", error: { code: "network" } });
+  });
+
+  test("a failed logout keeps the session; a done one ends it", async () => {
+    reply(200, '{"login":"sam","role":"staff"}');
+    await loadSession();
+    reply(500, "oops");
+    expect(await signOut()).not.toBeNull();
+    expect(getSessionState().status).toBe("ready");
+    reply(204, "");
+    expect(await signOut()).toBeNull();
+    expect(getSessionState()).toEqual({ status: "anonymous" });
   });
 
   test("a 401 from any other route ends a ready session", async () => {

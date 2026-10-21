@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
-import { Button, Container, Logo, Select, Ticker } from "@arena/design";
+import { Button, Container, ErrorLine, Logo, Select, Ticker } from "@arena/design";
 import type { TickerItem } from "@arena/design";
 import { t } from "./i18n";
 import { Link, navigate, useLocation } from "./nav";
@@ -178,6 +178,8 @@ export function TeamLayout({ person, children }: { person: Person; children: Rea
   const { pathname } = useLocation();
   const items = useMemo(() => teamNav(person), [person]);
   const current = items.find((i) => i.path === pathname);
+  const [signOutFailed, setSignOutFailed] = useState(false);
+  const leave = async () => setSignOutFailed((await signOut()) !== null);
 
   return (
     <Container>
@@ -201,9 +203,10 @@ export function TeamLayout({ person, children }: { person: Person; children: Rea
           </div>
           <div className="team__who">
             <span className="team__login">{t("shell.team.signed_in", { login: person.login })}</span>
-            <Button variant="secondary" onClick={() => void signOut()}>
+            <Button variant="secondary" onClick={() => void leave()}>
               {t("shell.team.sign_out")}
             </Button>
+            {signOutFailed && <ErrorLine message={t("shell.team.sign_out_failed")} />}
           </div>
         </aside>
         <div id="content" className="team__content">

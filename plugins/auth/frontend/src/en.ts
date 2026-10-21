@@ -12,6 +12,7 @@ export const dict: Record<string, string> = {
   "auth.login.signed_in": "Signed in as {login}.",
   "auth.login.continue": "Continue",
   "auth.login.sign_out": "Sign out",
+  "auth.login.sign_out_failed": "Could not sign out. Try again.",
   "auth.login.error": "Could not check your session.",
   "auth.login.retry": "Try again",
 

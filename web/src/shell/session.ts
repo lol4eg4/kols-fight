@@ -48,10 +48,15 @@ export async function loadSession(): Promise<void> {
   set(person ? { status: "ready", person } : { status: "error", error: { status: 200, code: "bad_response", message: t("shell.error.bad_response") } });
 }
 
-/** Ends the session on the server and forgets it here. The next /team page goes to the login. */
-export async function signOut(): Promise<void> {
-  await api("/api/auth/logout", { method: "POST" });
+/**
+ * Ends the session on the server and forgets it here. The next /team page goes to the login.
+ * A failed logout keeps the session (its cookie still works) and returns the error to show.
+ */
+export async function signOut(): Promise<ApiError | null> {
+  const r = await api("/api/auth/logout", { method: "POST" });
+  if (r.error && r.error.status !== 401) return r.error;
   set({ status: "anonymous" });
+  return null;
 }
 
 // Any 401 from a route outside /api/auth/ means the session ended: the next render sends the visitor to the login.
@@ -65,7 +70,7 @@ function subscribe(fn: () => void) {
 }
 
 /** Session state for /team screens. The first call starts the check. */
-export function useSession(): { state: SessionState; reload: () => void; signOut: () => Promise<void> } {
+export function useSession(): { state: SessionState; reload: () => void; signOut: () => Promise<ApiError | null> } {
   const s = useSyncExternalStore(subscribe, () => state, () => state);
   useEffect(() => {
     if (s.status === "idle") void loadSession();

@@ -53,10 +53,11 @@ export default function Login() {
         <p>{t("auth.login.signed_in", { login: state.person.login })}</p>
         <div className="auth-actions">
           <Link to={next}>{t("auth.login.continue")}</Link>
-          <Button variant="secondary" onClick={() => void signOut()}>
+          <Button variant="secondary" onClick={() => void signOut().then((e) => setProblem(e ? t("auth.login.sign_out_failed") : null))}>
             {t("auth.login.sign_out")}
           </Button>
         </div>
+        {problem && <ErrorLine message={problem} />}
       </div>
     );
   } else {
