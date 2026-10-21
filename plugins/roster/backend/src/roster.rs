@@ -29,16 +29,6 @@ pub trait SheetFetch: Send + Sync {
     async fn fetch(&self, url: &str) -> Result<String, String>;
 }
 
-/// Used until the server gets an HTTP client: every read fails, visibly.
-pub struct NoHttpClient;
-
-#[async_trait]
-impl SheetFetch for NoHttpClient {
-    async fn fetch(&self, _url: &str) -> Result<String, String> {
-        Err("this build has no HTTP client for the sheet".into())
-    }
-}
-
 /// Outcome of one sheet read.
 #[derive(Clone, Debug, Serialize)]
 pub struct SyncReport {

@@ -10,14 +10,15 @@ use arena_platform::{BoxError, Ctx, Job, Plugin, PluginEntry, Route, StartError}
 use sqlx::migrate::Migrator;
 use std::sync::Arc;
 
+mod http;
 mod roster;
 mod routes;
 mod sheet;
 mod store;
 
+pub use http::{HttpSheetFetch, Limits as SheetLimits, USER_AGENT as SHEET_USER_AGENT};
 pub use roster::{
-    InNetworkFiller, MemberPatch, NoHttpClient, OpError, ReachInput, Roster, RosterImpl,
-    SheetFetch, SyncReport,
+    InNetworkFiller, MemberPatch, OpError, ReachInput, Roster, RosterImpl, SheetFetch, SyncReport,
 };
 pub use sheet::{Parsed, SheetError, SheetRow, Skipped, formats_of, parse as parse_sheet};
 
@@ -44,7 +45,11 @@ impl RosterPlugin {
 }
 
 fn build(ctx: &Ctx) -> Result<Arc<dyn Plugin>, StartError> {
-    Ok(build_with(ctx, Arc::new(NoHttpClient))?)
+    let fetcher = HttpSheetFetch::new().map_err(|message| StartError::Build {
+        plugin: NAME.into(),
+        message,
+    })?;
+    Ok(build_with(ctx, Arc::new(fetcher))?)
 }
 
 /// Builds the plugin with the given sheet reader (tests give a fake one).
