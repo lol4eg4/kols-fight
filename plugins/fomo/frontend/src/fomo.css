@@ -1,0 +1,38 @@
+.fomo-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+.fomo-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin: 0;
+  padding: var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  min-width: 0;
+}
+.fomo-row .ds-input {
+  font-family: var(--stack-mono);
+}
+.fomo-outcome {
+  margin: var(--space-sm) 0;
+}
+.fomo-detail {
+  color: var(--color-text-muted);
+  overflow-wrap: anywhere;
+}
+.fomo-candidate,
+.fomo-position {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+  min-width: 0;
+}
+.fomo-addr {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
