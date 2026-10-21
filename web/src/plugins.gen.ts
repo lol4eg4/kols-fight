@@ -167,7 +167,7 @@ export const plugins: RegisteredPlugin[] = [
       layer: 2,
       version: "0.1.0",
       tags: ["public"],
-      uses: ["solanatracker", "snapshots"],
+      uses: ["solanatracker", "snapshots", "registry"],
       emits: [],
       listens: [],
       slots: [],

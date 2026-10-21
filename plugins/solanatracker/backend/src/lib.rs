@@ -1,13 +1,21 @@
 //! Backend of the `solanatracker` plugin (layer 2).
 //!
-//! Skeleton: registers [`api_solanatracker::SolanatrackerApi`] with «not built» answers and mounts no
-//! routes yet. The plugin's lane builds it.
+//! Reads the day's KOL list and PnL of member KOLs from the Solana Tracker Data API with the
+//! company key (`SOLANA_TRACKER_API_KEY`). Mounts no routes and has no schedule: the schedule
+//! plugin calls [`api_solanatracker::SolanatrackerApi::run`].
 
-use arena_platform::{Api, Ctx, Plugin, PluginEntry, StartError};
+use arena_platform::{Ctx, Plugin, PluginEntry, Setting, StartError};
 use sqlx::migrate::Migrator;
 use std::sync::Arc;
 
-mod not_built;
+pub mod client;
+pub mod metrics;
+pub mod models;
+mod service;
+mod store;
+
+pub use client::Options;
+pub use service::Solanatracker;
 
 /// Plugin name: folder, schema and crate suffix.
 pub const NAME: &str = "solanatracker";
@@ -21,29 +29,33 @@ pub const ENTRY: PluginEntry = PluginEntry {
     build,
 };
 
-/// APIs this plugin calls (`uses` in plugin.toml), taken from `Ctx` at construction.
-#[allow(dead_code)] // read once the lane builds the plugin
-struct Uses {
-    registry: Api<dyn api_registry::RegistryApi>,
-    snapshots: Api<dyn api_snapshots::SnapshotsApi>,
-}
-
-pub struct SolanatrackerPlugin {
-    #[allow(dead_code)] // read once the lane builds the plugin
-    uses: Uses,
-}
+pub struct SolanatrackerPlugin;
 
 fn build(ctx: &Ctx) -> Result<Arc<dyn Plugin>, StartError> {
-    let uses = Uses {
-        registry: ctx.apis.require::<dyn api_registry::RegistryApi>(NAME)?,
-        snapshots: ctx.apis.require::<dyn api_snapshots::SnapshotsApi>(NAME)?,
-    };
-    ctx.apis.provide::<dyn api_solanatracker::SolanatrackerApi>(
-        NAME,
-        vec![("default", Arc::new(not_built::NotBuilt))],
-        Arc::new(api_solanatracker::stub::Stub),
-    )?;
-    Ok(Arc::new(SolanatrackerPlugin { uses }))
+    // A missing key is not a start-up error: every call then reports «not configured».
+    let key = ctx
+        .config
+        .get(Setting::SolanaTrackerApiKey)
+        .ok()
+        .map(str::to_string);
+    let service = Solanatracker::new(
+        ctx.pool.clone(),
+        ctx.apis.require::<dyn api_registry::RegistryApi>(NAME)?,
+        ctx.apis.require::<dyn api_snapshots::SnapshotsApi>(NAME)?,
+        key,
+        Options::default(),
+    )
+    .map_err(|message| StartError::Build {
+        plugin: NAME.into(),
+        message,
+    })?;
+    ctx.apis
+        .provide::<dyn api_solanatracker::SolanatrackerApi>(
+            NAME,
+            vec![("default", Arc::new(service))],
+            Arc::new(api_solanatracker::stub::Stub),
+        )?;
+    Ok(Arc::new(SolanatrackerPlugin))
 }
 
 impl Plugin for SolanatrackerPlugin {

@@ -1,10 +1,23 @@
 //! Backend of the `schedule` plugin (layer 2).
 //!
-//! Skeleton: mounts no routes yet. The plugin's lane builds it.
+//! Runs the daily collection at 06:00 UTC: open the snapshot, emit «snapshot opened», read
+//! KOL Explorer, read Solana Tracker, close the snapshot, rank it. Keeps a row per run and
+//! per step, serves the staff history, and lets an admin run it again for any date.
+//! The plugin has no API; other plugins react to its event.
 
-use arena_platform::{Api, Ctx, Plugin, PluginEntry, StartError};
+use arena_platform::{BoxError, Ctx, Job, Plugin, PluginEntry, Route, StartError};
+use async_trait::async_trait;
 use sqlx::migrate::Migrator;
 use std::sync::Arc;
+
+mod routes;
+mod service;
+mod store;
+
+pub use routes::{
+    CollectionView, RunView, SourceRunView, SourceView, StepView, collection, routes,
+};
+pub use service::{JOB, Options, Schedule, StartError as RunStartError, Started};
 
 /// Plugin name: folder, schema and crate suffix.
 pub const NAME: &str = "schedule";
@@ -18,32 +31,27 @@ pub const ENTRY: PluginEntry = PluginEntry {
     build,
 };
 
-/// APIs this plugin calls (`uses` in plugin.toml), taken from `Ctx` at construction.
-#[allow(dead_code)] // read once the lane builds the plugin
-struct Uses {
-    snapshots: Api<dyn api_snapshots::SnapshotsApi>,
-    kolexplorer: Api<dyn api_kolexplorer::KolexplorerApi>,
-    solanatracker: Api<dyn api_solanatracker::SolanatrackerApi>,
-    score: Api<dyn api_score::ScoreApi>,
-    journal: Api<dyn api_journal::JournalApi>,
-}
-
 pub struct SchedulePlugin {
-    #[allow(dead_code)] // read once the lane builds the plugin
-    uses: Uses,
+    schedule: Schedule,
 }
 
 fn build(ctx: &Ctx) -> Result<Arc<dyn Plugin>, StartError> {
-    let uses = Uses {
-        snapshots: ctx.apis.require::<dyn api_snapshots::SnapshotsApi>(NAME)?,
-        kolexplorer: ctx.apis.require::<dyn api_kolexplorer::KolexplorerApi>(NAME)?,
-        solanatracker: ctx.apis.require::<dyn api_solanatracker::SolanatrackerApi>(NAME)?,
-        score: ctx.apis.require::<dyn api_score::ScoreApi>(NAME)?,
-        journal: ctx.apis.require::<dyn api_journal::JournalApi>(NAME)?,
-    };
-    Ok(Arc::new(SchedulePlugin { uses }))
+    let schedule = Schedule::new(
+        ctx.pool.clone(),
+        ctx.events.clone(),
+        ctx.apis.require::<dyn api_snapshots::SnapshotsApi>(NAME)?,
+        ctx.apis
+            .require::<dyn api_kolexplorer::KolexplorerApi>(NAME)?,
+        ctx.apis
+            .require::<dyn api_solanatracker::SolanatrackerApi>(NAME)?,
+        ctx.apis.require::<dyn api_score::ScoreApi>(NAME)?,
+        ctx.apis.require::<dyn api_journal::JournalApi>(NAME)?,
+        Options::default(),
+    );
+    Ok(Arc::new(SchedulePlugin { schedule }))
 }
 
+#[async_trait]
 impl Plugin for SchedulePlugin {
     fn name(&self) -> &'static str {
         NAME
@@ -51,5 +59,19 @@ impl Plugin for SchedulePlugin {
 
     fn migrations(&self) -> &'static Migrator {
         &MIGRATOR
+    }
+
+    fn routes(&self, _ctx: &Ctx) -> Vec<Route> {
+        routes::routes(&self.schedule)
+    }
+
+    /// Closes and ranks an open snapshot older than today that a stopped run left behind.
+    async fn install(&self, _ctx: &Ctx) -> Result<(), BoxError> {
+        self.schedule.recover().await;
+        Ok(())
+    }
+
+    fn jobs(&self, _ctx: &Ctx) -> Vec<Job> {
+        vec![self.schedule.job()]
     }
 }
