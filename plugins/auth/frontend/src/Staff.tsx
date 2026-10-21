@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
-import { Badge, Button, Container, Dialog, EmptyState, ErrorLine, Field, Heading, List, ListItem, Select, SnapshotDate, Skeleton } from "@arena/design";
+import { Badge, Button, Container, Dialog, EmptyState, ErrorLine, Field, List, ListItem, Select, SnapshotDate, Skeleton } from "@arena/design";
 import { api, t, useApi, useSession } from "@arena/shell";
 import "./auth.css";
 
@@ -178,9 +178,7 @@ export default function Staff() {
     <Container>
       <div className="auth-page auth-page--wide">
         <div className="auth-bar">
-          <Heading level={1} variant="section">
-            {t("auth.staff.title")}
-          </Heading>
+          <h1 className="t-section-title">{t("auth.staff.title")}</h1>
           <Button onClick={() => setAdding(true)}>{t("auth.staff.add")}</Button>
         </div>
         {body}

@@ -6,6 +6,7 @@
 }
 .auth-page--wide {
   max-width: none;
+  padding-block: 0;
 }
 .auth-form {
   display: grid;
