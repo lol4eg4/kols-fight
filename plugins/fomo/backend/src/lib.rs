@@ -1,8 +1,18 @@
-//! Backend of the `fomo` plugin (layer 3).
+//! Backend of the `fomo` plugin (layer 3): the FOMO match helper.
 //!
-//! Skeleton: mounts no routes yet. The plugin's lane builds it.
+//! Staff enters 2–3 positions from a KOL's FOMO profile; the public Solana node lists each
+//! token's holders; exactly one wallet holding two positions or more becomes a hypothesis
+//! in Wallets. Every run is journaled. FOMO and the explorers are links only.
 
-use arena_platform::{Api, Ctx, Plugin, PluginEntry, StartError};
+pub mod base58;
+pub mod matching;
+mod routes;
+pub mod rpc;
+pub mod service;
+
+use arena_platform::{Ctx, Plugin, PluginEntry, Route, StartError};
+pub use rpc::Options;
+pub use service::{Fomo, MatchRequest, MatchResult, Outcome};
 use sqlx::migrate::Migrator;
 use std::sync::Arc;
 
@@ -18,24 +28,33 @@ pub const ENTRY: PluginEntry = PluginEntry {
     build,
 };
 
-/// APIs this plugin calls (`uses` in plugin.toml), taken from `Ctx` at construction.
-#[allow(dead_code)] // read once the lane builds the plugin
-struct Uses {
-    wallets: Api<dyn api_wallets::WalletsApi>,
-    journal: Api<dyn api_journal::JournalApi>,
+pub struct FomoPlugin {
+    fomo: Arc<Fomo>,
 }
 
-pub struct FomoPlugin {
-    #[allow(dead_code)] // read once the lane builds the plugin
-    uses: Uses,
+impl FomoPlugin {
+    pub fn fomo(&self) -> Arc<Fomo> {
+        self.fomo.clone()
+    }
 }
 
 fn build(ctx: &Ctx) -> Result<Arc<dyn Plugin>, StartError> {
-    let uses = Uses {
+    Ok(build_plugin(ctx, Options::default())?)
+}
+
+/// The entry's constructor with explicit RPC limits (tests shorten them).
+pub fn build_plugin(ctx: &Ctx, opts: Options) -> Result<Arc<FomoPlugin>, StartError> {
+    let rpc = rpc::Rpc::new(&opts).map_err(|message| StartError::Build {
+        plugin: NAME.into(),
+        message,
+    })?;
+    let fomo = Arc::new(Fomo {
+        rpc,
+        config: ctx.config.clone(),
         wallets: ctx.apis.require::<dyn api_wallets::WalletsApi>(NAME)?,
         journal: ctx.apis.require::<dyn api_journal::JournalApi>(NAME)?,
-    };
-    Ok(Arc::new(FomoPlugin { uses }))
+    });
+    Ok(Arc::new(FomoPlugin { fomo }))
 }
 
 impl Plugin for FomoPlugin {
@@ -45,5 +64,9 @@ impl Plugin for FomoPlugin {
 
     fn migrations(&self) -> &'static Migrator {
         &MIGRATOR
+    }
+
+    fn routes(&self, _ctx: &Ctx) -> Vec<Route> {
+        routes::routes(self.fomo.clone())
     }
 }
