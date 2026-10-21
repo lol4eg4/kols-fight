@@ -187,7 +187,8 @@ function main() {
       unreal: k.unreal,
       total: k.total,
       vol30: k.vol30 ?? null,
-      days30: k.days30 ?? null,
+      // the prototype counts an inclusive 31-day window for 3 KOLs; a 30-day window holds at most 30
+      days30: k.days30 == null ? null : Math.min(k.days30, 30),
       wins: k.w ?? null,
       losses: k.l ?? null,
       pnl_rank: k.pnl_rank,
