@@ -1,0 +1,12 @@
+[package]
+name = "plugin-auth"
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[dependencies]
+api-auth.workspace = true
+api-journal.workspace = true
+arena-platform.workspace = true
+async-trait.workspace = true
+sqlx.workspace = true

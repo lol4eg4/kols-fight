@@ -42,11 +42,25 @@ fi
 
 (cd web && bun install --frozen-lockfile && bun run build)
 if [ "$mode" = staging ]; then
-  (cd backend && cargo build --release --locked)
-  bin=$PWD/backend/target/release/server
+  cargo build --release --locked -p server
+  bin=$PWD/target/release/server
 else
-  (cd backend && cargo build --locked)
-  bin=$PWD/backend/target/debug/server
+  cargo build --locked -p server
+  bin=$PWD/target/debug/server
+fi
+
+# Plugin settings (API keys, sheet URL, first admin). Optional: missing settings show as
+# "not configured" in the blocks that need them.
+if [ "$mode" = staging ]; then
+  site_env=$HOME/.config/kol-fight/staging.env
+else
+  site_env=$PWD/tmp/site.env
+fi
+if [ -f "$site_env" ]; then
+  set -a
+  # shellcheck disable=SC1090
+  . "$site_env"
+  set +a
 fi
 
 COMMIT=$(git rev-parse HEAD)

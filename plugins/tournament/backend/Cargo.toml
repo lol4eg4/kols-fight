@@ -1,0 +1,12 @@
+[package]
+name = "plugin-tournament"
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[dependencies]
+api-fight.workspace = true
+api-roster.workspace = true
+api-score.workspace = true
+arena-platform.workspace = true
+sqlx.workspace = true

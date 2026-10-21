@@ -1,0 +1,13 @@
+[package]
+name = "plugin-board"
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[dependencies]
+api-board.workspace = true
+api-registry.workspace = true
+api-score.workspace = true
+api-snapshots.workspace = true
+arena-platform.workspace = true
+sqlx.workspace = true
