@@ -76,7 +76,12 @@ function TeamGate({ screen, params }: { screen: ScreenEntry | null; params: Para
     case "error":
       return <ErrorLine message={state.error.message} onRetry={reload} retryLabel={t("shell.retry")} />;
     case "ready": {
-      if (screen && !tagAllows(screen.tag, state.person.role)) return <EmptyState message={t("shell.forbidden")} />;
+      if (screen && !tagAllows(screen.tag, state.person.role))
+        return (
+          <TeamLayout person={state.person}>
+            <EmptyState message={t("shell.forbidden")} />
+          </TeamLayout>
+        );
       return <TeamLayout person={state.person}>{screen ? <ScreenHost screen={screen} params={params} /> : <NotFound />}</TeamLayout>;
     }
   }

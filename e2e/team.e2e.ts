@@ -82,6 +82,7 @@ test.describe("team sign-in", () => {
     await page.goto("/team/staff");
     await expect(page.getByText("Your role cannot open this page.")).toBeVisible();
     await expect(page.getByRole("heading", { name: "Staff", exact: true })).toHaveCount(0);
+    await expect(page.getByRole("navigation", { name: "Team sections" })).toBeVisible();
     await page.goto("/team/wallets");
     const menu = page.getByRole("navigation", { name: "Team sections" });
     await expect(menu.getByRole("link", { name: "Wallets" })).toBeVisible();
