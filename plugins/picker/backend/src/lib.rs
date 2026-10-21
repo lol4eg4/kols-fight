@@ -1,8 +1,13 @@
-//! Backend of the `picker` plugin (layer 3).
-//!
-//! Skeleton: mounts no routes yet. The plugin's lane builds it.
+//! Backend of the `picker` plugin (layer 3): staff filters the network by Score, tier,
+//! rate and format, checks KOLs and exports them for a client (public fields only) or
+//! with rates (staff). Rates come only through the roster API.
 
-use arena_platform::{Api, Ctx, Plugin, PluginEntry, StartError};
+pub mod csv;
+mod routes;
+pub mod service;
+
+use arena_platform::{Ctx, Plugin, PluginEntry, Route, StartError};
+pub use service::{Export, Filters, PickList, Picker, PublicRow, Row};
 use sqlx::migrate::Migrator;
 use std::sync::Arc;
 
@@ -18,26 +23,28 @@ pub const ENTRY: PluginEntry = PluginEntry {
     build,
 };
 
-/// APIs this plugin calls (`uses` in plugin.toml), taken from `Ctx` at construction.
-#[allow(dead_code)] // read once the lane builds the plugin
-struct Uses {
-    roster: Api<dyn api_roster::RosterApi>,
-    score: Api<dyn api_score::ScoreApi>,
-    registry: Api<dyn api_registry::RegistryApi>,
+pub struct PickerPlugin {
+    picker: Arc<Picker>,
 }
 
-pub struct PickerPlugin {
-    #[allow(dead_code)] // read once the lane builds the plugin
-    uses: Uses,
+impl PickerPlugin {
+    pub fn picker(&self) -> Arc<Picker> {
+        self.picker.clone()
+    }
 }
 
 fn build(ctx: &Ctx) -> Result<Arc<dyn Plugin>, StartError> {
-    let uses = Uses {
+    Ok(build_plugin(ctx)?)
+}
+
+/// Same as the entry's constructor, but hands back the concrete plugin (tests use it).
+pub fn build_plugin(ctx: &Ctx) -> Result<Arc<PickerPlugin>, StartError> {
+    let picker = Arc::new(Picker {
         roster: ctx.apis.require::<dyn api_roster::RosterApi>(NAME)?,
         score: ctx.apis.require::<dyn api_score::ScoreApi>(NAME)?,
         registry: ctx.apis.require::<dyn api_registry::RegistryApi>(NAME)?,
-    };
-    Ok(Arc::new(PickerPlugin { uses }))
+    });
+    Ok(Arc::new(PickerPlugin { picker }))
 }
 
 impl Plugin for PickerPlugin {
@@ -47,5 +54,9 @@ impl Plugin for PickerPlugin {
 
     fn migrations(&self) -> &'static Migrator {
         &MIGRATOR
+    }
+
+    fn routes(&self, _ctx: &Ctx) -> Vec<Route> {
+        routes::routes(self.picker.clone())
     }
 }
