@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@arena/design";
 import { t, useSearchParams } from "@arena/shell";
 import type { WidgetProps } from "@arena/shell";
@@ -39,9 +40,36 @@ export function AddToFight({ kol }: WidgetProps<"fight/add_to_fight">) {
 
 /** The compact picker on the home page. FIGHT opens the fight window. */
 export function FighterPicker(_: WidgetProps<"fight/fighter_picker">) {
+  const { pending } = useFightStore();
+  const ref = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(true);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setInView(!!e?.isIntersecting));
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  // Fighters picked on the board, far from the picker: a bar at the bottom leads back to it.
+  const toPicker = () => {
+    const el = ref.current;
+    el?.scrollIntoView({ block: "start" });
+    // Two or more picked: focus FIGHT. Otherwise the search, to pick the next one.
+    (el?.querySelector<HTMLElement>(".fight-picker__go .ds-btn--fight:not(:disabled):not([aria-disabled='true'])") ?? el?.querySelector<HTMLElement>("input"))?.focus();
+  };
   return (
-    <div className="fight-home">
-      <Picker headingLevel={3} />
-    </div>
+    <>
+      <div className="fight-home" ref={ref}>
+        <Picker headingLevel={3} />
+      </div>
+      {pending.length > 0 && !inView && (
+        <div className="fight-dock" role="region" aria-label={t("fight.dock.label")}>
+          <span className="fight-dock__count">{t("fight.picker.count", { n: pending.length })}</span>
+          <Button variant="secondary" onClick={toPicker}>
+            {t("fight.dock.go")}
+          </Button>
+        </div>
+      )}
+    </>
   );
 }

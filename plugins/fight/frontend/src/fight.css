@@ -226,6 +226,30 @@
   color: var(--color-pink);
 }
 
+/* ---------- dock: picked fighters, picker off screen ---------- */
+.fight-dock {
+  position: fixed;
+  left: 50%;
+  bottom: var(--space-md);
+  transform: translateX(-50%);
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  max-width: calc(100vw - 2 * var(--space-md));
+  padding: var(--space-sm) var(--space-sm) var(--space-sm) var(--space-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-pink);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-hard);
+}
+.fight-dock__count {
+  white-space: nowrap;
+}
+.fight-dock .ds-btn {
+  white-space: nowrap;
+}
+
 /* ---------- VS ---------- */
 .fight-vs {
   display: flex;

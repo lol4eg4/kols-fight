@@ -52,6 +52,8 @@ export const dict: Record<string, string> = {
   "fight.add.button": "Fight",
   "fight.add.who": "— {name}",
   "fight.add.full": "Fight is full: 4 of 4",
+  "fight.dock.label": "Picked fighters",
+  "fight.dock.go": "⚔️ Go to fight",
 
   // VS
   "fight.vs": "VS",
