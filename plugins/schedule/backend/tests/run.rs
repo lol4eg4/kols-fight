@@ -395,11 +395,7 @@ async fn manual_rerun_of_an_earlier_date_only_closes_ranks_and_journals() {
     // The sources give today's numbers only: they never write into an earlier date.
     assert_eq!(
         fakes.calls(),
-        [
-            "journal".into(),
-            format!("close {d}"),
-            format!("rank {d}"),
-        ]
+        ["journal".into(), format!("close {d}"), format!("rank {d}"),]
     );
     let entries = fakes.journal.entries.lock().unwrap().clone();
     assert_eq!(entries.len(), 1);

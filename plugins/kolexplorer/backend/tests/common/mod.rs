@@ -136,7 +136,10 @@ impl RegistryApi for FakeRegistry {
         others: &[(String, WalletSource)],
     ) -> Result<(), RegistryError> {
         let mut kols = self.kols.lock().unwrap();
-        for (a, _) in main.into_iter().chain(others.iter().map(|(a, s)| (a.as_str(), *s))) {
+        for (a, _) in main
+            .into_iter()
+            .chain(others.iter().map(|(a, s)| (a.as_str(), *s)))
+        {
             if let Some(owner) = kols.values().find(|k| {
                 k.id != kol
                     && k.main_wallet
