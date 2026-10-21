@@ -3,3 +3,4 @@ backend/target/
 web/node_modules/
 web/dist/
 tmp/
+node_modules/

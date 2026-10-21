@@ -1,0 +1,52 @@
+// Shell strings (English), keys "shell.*": frame, routing, errors. The design gallery has its own gallery/en.ts,
+// loaded with the gallery chunk. A plugin's own strings are in plugins/<name>/frontend/src/en.ts, keys "<name>.*".
+
+export const dict: Record<string, string> = {
+  "shell.logo": "KOL Arena",
+  "shell.loading": "Loading",
+  "shell.retry": "Try again",
+  "shell.close": "Close",
+  "shell.not_built": "This part is not built yet.",
+  "shell.not_found": "This page does not exist.",
+  "shell.go_home": "Go to the home page",
+  "shell.forbidden": "Your role cannot open this page.",
+
+  "shell.error.network": "No connection to the server. Check the network and try again.",
+  "shell.error.aborted": "The request was cancelled.",
+  "shell.error.server": "The server failed ({status}). Try again in a minute.",
+  "shell.error.request": "The request was refused ({status}).",
+  "shell.error.bad_response": "The server sent an answer the page cannot read.",
+  "shell.error.render": "This part of the page failed to show.",
+  "shell.error.screen": "This page failed to load.",
+
+  "shell.skip.leaderboard": "Skip to leaderboard",
+  "shell.skip.content": "Skip to content",
+
+  "shell.ticker.label": "Arena news",
+  "shell.ticker.pause": "Pause the news strip",
+  "shell.ticker.resume": "Resume the news strip",
+
+  "shell.nav.label": "Sections",
+  "shell.nav.leaderboard": "Leaderboard",
+  "shell.nav.leaderboard_short": "Board",
+  "shell.nav.network": "Our network",
+  "shell.nav.network_short": "Network",
+  "shell.nav.fight": "KOL Fight",
+  "shell.nav.fight_short": "Fight",
+  "shell.nav.score": "How it works",
+  "shell.nav.score_short": "Score",
+
+  "shell.team.title": "Team",
+  "shell.team.client_page": "Client page",
+  "shell.team.menu": "Team sections",
+  "shell.team.section": "Section",
+  "shell.team.section_pick": "Pick a section",
+  "shell.team.signed_in": "Signed in as {login}",
+  "shell.team.sign_out": "Sign out",
+  "shell.team.nav.wallets": "Wallets",
+  "shell.team.nav.network": "Network",
+  "shell.team.nav.fomo": "FOMO match",
+  "shell.team.nav.picker": "Picker",
+  "shell.team.nav.collection": "Collection",
+  "shell.team.nav.staff": "Staff",
+};

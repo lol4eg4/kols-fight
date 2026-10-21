@@ -40,7 +40,8 @@ if [ -z "$(psql -d postgres -Atc "select 1 from pg_database where datname='$db'"
   createdb "$db"
 fi
 
-(cd web && bun install --frozen-lockfile && bun run build)
+bun install --frozen-lockfile
+(cd web && bun run build)
 if [ "$mode" = staging ]; then
   cargo build --release --locked -p server
   bin=$PWD/target/release/server
