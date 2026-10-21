@@ -1234,7 +1234,15 @@ dependencies = [
  "api-fight",
  "api-score",
  "arena-platform",
+ "async-trait",
+ "axum",
+ "chrono",
+ "serde",
+ "serde_json",
  "sqlx",
+ "tokio",
+ "tower",
+ "tracing",
 ]
 
 [[package]]
@@ -1299,10 +1307,19 @@ dependencies = [
 name = "plugin-moves"
 version = "0.1.0"
 dependencies = [
+ "api-registry",
  "api-score",
  "api-snapshots",
  "arena-platform",
+ "async-trait",
+ "axum",
+ "chrono",
+ "serde",
+ "serde_json",
  "sqlx",
+ "tokio",
+ "tower",
+ "tracing",
 ]
 
 [[package]]
@@ -1420,7 +1437,15 @@ version = "0.1.0"
 dependencies = [
  "api-snapshots",
  "arena-platform",
+ "async-trait",
+ "axum",
+ "chrono",
+ "serde",
+ "serde_json",
  "sqlx",
+ "tokio",
+ "tower",
+ "tracing",
 ]
 
 [[package]]
