@@ -284,7 +284,10 @@ async fn spa_fallback_injects_page_meta() {
 
     let (status, body) = call(&app, get_as("/demo?x=%3Cb%3E", None)).await;
     assert_eq!(status, StatusCode::OK);
-    assert!(body.contains("<title>Demo &lt;x=%3Cb%3E&gt;</title>"), "{body}");
+    assert!(
+        body.contains("<title>Demo &lt;x=%3Cb%3E&gt;</title>"),
+        "{body}"
+    );
     assert!(
         body.contains("<meta property=\"og:title\" content=\"Demo &amp; co\">"),
         "{body}"

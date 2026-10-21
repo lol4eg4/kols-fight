@@ -100,16 +100,25 @@ mod tests {
         let meta = PageMeta {
             title: Some("Decu vs \"Tekkerrss\"".into()),
             tags: vec![
-                MetaTag::property("og:image", "https://x/api/fight/image?ids=a,b&date=2026-10-18"),
+                MetaTag::property(
+                    "og:image",
+                    "https://x/api/fight/image?ids=a,b&date=2026-10-18",
+                ),
                 MetaTag::name("twitter:card", "summary_large_image"),
             ],
         };
         let out = inject(html, &meta);
-        assert!(out.contains("<title>Decu vs &quot;Tekkerrss&quot;</title>"), "{out}");
+        assert!(
+            out.contains("<title>Decu vs &quot;Tekkerrss&quot;</title>"),
+            "{out}"
+        );
         assert!(out.contains(
             "<meta property=\"og:image\" content=\"https://x/api/fight/image?ids=a,b&amp;date=2026-10-18\">\n<meta name"
         ), "{out}");
-        assert!(out.contains("<meta name=\"twitter:card\" content=\"summary_large_image\">\n</head>"), "{out}");
+        assert!(
+            out.contains("<meta name=\"twitter:card\" content=\"summary_large_image\">\n</head>"),
+            "{out}"
+        );
     }
 
     #[test]

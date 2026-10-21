@@ -89,7 +89,10 @@ fn busy_text(lock: &str) -> String {
     if lock == DATA_LOCK {
         "collection running, try again later".to_string()
     } else {
-        format!("{} already running", lock.strip_prefix("job:").unwrap_or(lock))
+        format!(
+            "{} already running",
+            lock.strip_prefix("job:").unwrap_or(lock)
+        )
     }
 }
 
@@ -189,9 +192,11 @@ impl Job {
 /// One run of `job` under its locks. Also used by «Run now».
 pub async fn run_job(pool: &PgPool, job: &Job) -> Result<(), RunError> {
     let run = (job.run)();
-    run_locked(pool, job.locks(), async move { run.await.map_err(|e| e.to_string()) })
-        .await?
-        .map_err(RunError::Failed)
+    run_locked(pool, job.locks(), async move {
+        run.await.map_err(|e| e.to_string())
+    })
+    .await?
+    .map_err(RunError::Failed)
 }
 
 /// First time strictly after `now` at `at` UTC.
@@ -240,27 +245,40 @@ mod tests {
     fn next_run_is_today_or_tomorrow() {
         let at = NaiveTime::from_hms_opt(6, 0, 0).unwrap();
         let before = Utc.with_ymd_and_hms(2026, 10, 19, 5, 59, 0).unwrap();
-        assert_eq!(next_run(before, at), Utc.with_ymd_and_hms(2026, 10, 19, 6, 0, 0).unwrap());
+        assert_eq!(
+            next_run(before, at),
+            Utc.with_ymd_and_hms(2026, 10, 19, 6, 0, 0).unwrap()
+        );
         let exact = Utc.with_ymd_and_hms(2026, 10, 19, 6, 0, 0).unwrap();
-        assert_eq!(next_run(exact, at), Utc.with_ymd_and_hms(2026, 10, 20, 6, 0, 0).unwrap());
+        assert_eq!(
+            next_run(exact, at),
+            Utc.with_ymd_and_hms(2026, 10, 20, 6, 0, 0).unwrap()
+        );
     }
 
     #[test]
     fn keys_differ_and_busy_texts() {
         assert_ne!(lock_key("job:collect"), lock_key(DATA_LOCK));
         assert_eq!(lock_key("x"), lock_key("x"));
-        let busy = RunError::Busy { lock: DATA_LOCK.into() };
+        let busy = RunError::Busy {
+            lock: DATA_LOCK.into(),
+        };
         assert_eq!(busy.to_string(), "collection running, try again later");
-        let busy = RunError::Busy { lock: "job:collect".into() };
+        let busy = RunError::Busy {
+            lock: "job:collect".into(),
+        };
         assert_eq!(busy.to_string(), "collect already running");
     }
 
     #[test]
     fn job_locks() {
         let at = NaiveTime::from_hms_opt(6, 0, 0).unwrap();
-        let job = Job::daily("collect", at, DataLock::Wait(Duration::from_secs(1800)), || async {
-            Ok(())
-        });
+        let job = Job::daily(
+            "collect",
+            at,
+            DataLock::Wait(Duration::from_secs(1800)),
+            || async { Ok(()) },
+        );
         assert_eq!(
             job.locks(),
             vec![

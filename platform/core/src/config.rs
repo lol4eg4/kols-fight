@@ -143,8 +143,14 @@ mod tests {
         assert!(!cfg.is_configured(Setting::NetworkSheetCsvUrl));
         let debug = format!("{cfg:?}");
         assert!(!debug.contains("st-secret-123"), "{debug}");
-        assert!(debug.contains("SOLANA_TRACKER_API_KEY: \"<set>\""), "{debug}");
-        assert!(debug.contains("FIRST_ADMIN_PASSWORD: \"<not configured>\""), "{debug}");
+        assert!(
+            debug.contains("SOLANA_TRACKER_API_KEY: \"<set>\""),
+            "{debug}"
+        );
+        assert!(
+            debug.contains("FIRST_ADMIN_PASSWORD: \"<not configured>\""),
+            "{debug}"
+        );
     }
 
     #[test]

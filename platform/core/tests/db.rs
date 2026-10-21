@@ -89,11 +89,20 @@ async fn table_schemas(pool: &PgPool, table: &str) -> Vec<String> {
 #[tokio::test(flavor = "multi_thread")]
 async fn plugin_migrations_run_in_own_schema() {
     let alpha_files = [
-        ("0001_schema.sql", "CREATE TABLE items (id BIGINT PRIMARY KEY);"),
-        ("0002_more.sql", "CREATE TABLE notes (id BIGINT PRIMARY KEY);"),
+        (
+            "0001_schema.sql",
+            "CREATE TABLE items (id BIGINT PRIMARY KEY);",
+        ),
+        (
+            "0002_more.sql",
+            "CREATE TABLE notes (id BIGINT PRIMARY KEY);",
+        ),
     ];
     // Same unqualified table name in another plugin: no clash, each in its schema.
-    let beta_files = [("0001_schema.sql", "CREATE TABLE items (id TEXT PRIMARY KEY);")];
+    let beta_files = [(
+        "0001_schema.sql",
+        "CREATE TABLE items (id TEXT PRIMARY KEY);",
+    )];
     let alpha_dir = migrations_dir("alpha", &alpha_files);
     let beta_dir = migrations_dir("beta", &beta_files);
     let alpha = Migrator::new(alpha_dir.as_path()).await.unwrap();
@@ -229,7 +238,11 @@ async fn data_lock_is_shared_and_waits() {
         async move { run_job(&pool, &job).await }
     });
     tokio::time::sleep(Duration::from_millis(300)).await;
-    assert_eq!(ran.load(Ordering::SeqCst), 0, "ran while the data lock was held");
+    assert_eq!(
+        ran.load(Ordering::SeqCst),
+        0,
+        "ran while the data lock was held"
+    );
     release_tx.send(()).unwrap();
     holder.await.unwrap().unwrap();
     waiter.await.unwrap().unwrap();
@@ -283,15 +296,17 @@ async fn lock_is_released_after_failing_or_panicking_run() {
     ));
 
     // Both the job lock and the data lock are free again.
-    let ok = Job::daily("collect", NaiveTime::MIN, DataLock::Try, || async { Ok(()) });
+    let ok = Job::daily("collect", NaiveTime::MIN, DataLock::Try, || async {
+        Ok(())
+    });
     run_job(&pool, &ok).await.unwrap();
     let held: i64 = sqlx::query_scalar(
         "SELECT count(*) FROM pg_locks WHERE locktype = 'advisory' \
          AND database = (SELECT oid FROM pg_database WHERE datname = current_database())",
     )
-        .fetch_one(&pool)
-        .await
-        .unwrap();
+    .fetch_one(&pool)
+    .await
+    .unwrap();
     assert_eq!(held, 0);
     db.close().await;
 }

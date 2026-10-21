@@ -30,7 +30,11 @@ impl<T: ?Sized> Slot<T> {
 
     /// Plugin that filled the slot.
     pub fn filler(&self) -> Option<&'static str> {
-        self.filler.read().expect("slot lock").as_ref().map(|(p, _)| *p)
+        self.filler
+            .read()
+            .expect("slot lock")
+            .as_ref()
+            .map(|(p, _)| *p)
     }
 
     /// `<owner>/<name>`, as in `plugin.toml` `fills`.
@@ -142,23 +146,36 @@ mod tests {
     #[test]
     fn default_until_filled() {
         let slots = Slots::default();
-        let slot = slots.declare::<dyn Member>("board", "in_network", Arc::new(No)).unwrap();
+        let slot = slots
+            .declare::<dyn Member>("board", "in_network", Arc::new(No))
+            .unwrap();
         assert_eq!(slot.id(), "board/in_network");
         assert!(!slot.get().is_member("decu"));
         assert_eq!(slot.filler(), None);
         slots.fill::<dyn Member>("roster", Arc::new(Yes)).unwrap();
         assert!(slot.get().is_member("decu"));
         assert_eq!(slot.filler(), Some("roster"));
-        let err = slots.fill::<dyn Member>("other", Arc::new(Yes)).unwrap_err();
-        assert!(err.to_string().contains("already filled by roster"), "{err}");
+        let err = slots
+            .fill::<dyn Member>("other", Arc::new(Yes))
+            .unwrap_err();
+        assert!(
+            err.to_string().contains("already filled by roster"),
+            "{err}"
+        );
     }
 
     #[test]
     fn undeclared_and_double_declare_fail() {
         let slots = Slots::default();
         assert!(slots.fill::<dyn Member>("roster", Arc::new(Yes)).is_err());
-        slots.declare::<dyn Member>("board", "in_network", Arc::new(No)).unwrap();
-        assert!(slots.declare::<dyn Member>("board", "in_network", Arc::new(No)).is_err());
+        slots
+            .declare::<dyn Member>("board", "in_network", Arc::new(No))
+            .unwrap();
+        assert!(
+            slots
+                .declare::<dyn Member>("board", "in_network", Arc::new(No))
+                .is_err()
+        );
     }
 
     #[tokio::test]

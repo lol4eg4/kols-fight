@@ -31,7 +31,13 @@ fn disk_manifests() -> Vec<Manifest> {
         if path.is_file() {
             let text = std::fs::read_to_string(&path).unwrap();
             let m = Manifest::parse(&text).unwrap_or_else(|e| panic!("{}: {e}", path.display()));
-            let dir = path.parent().unwrap().file_name().unwrap().to_str().unwrap();
+            let dir = path
+                .parent()
+                .unwrap()
+                .file_name()
+                .unwrap()
+                .to_str()
+                .unwrap();
             assert_eq!(m.name, dir, "{}: name differs from folder", path.display());
             out.push(m);
         }
@@ -48,7 +54,11 @@ fn plugin_list_equals_manifests() {
         .map(|e| Manifest::parse(e.manifest).unwrap().name)
         .collect();
     let listed_set: BTreeSet<String> = listed.iter().cloned().collect();
-    assert_eq!(listed.len(), listed_set.len(), "plugin listed twice: {listed:?}");
+    assert_eq!(
+        listed.len(),
+        listed_set.len(),
+        "plugin listed twice: {listed:?}"
+    );
     assert_eq!(listed_set, on_disk);
 }
 
@@ -78,7 +88,13 @@ fn allowed_backend_apis(m: &Manifest, all: &[Manifest]) -> BTreeSet<String> {
 fn workspace_crates() -> BTreeMap<String, Vec<String>> {
     let cargo = std::env::var("CARGO").unwrap_or_else(|_| "cargo".to_string());
     let out = Command::new(cargo)
-        .args(["metadata", "--format-version", "1", "--no-deps", "--offline"])
+        .args([
+            "metadata",
+            "--format-version",
+            "1",
+            "--no-deps",
+            "--offline",
+        ])
         .current_dir(root())
         .output()
         .unwrap();
@@ -122,7 +138,9 @@ fn plugin_dependencies_follow_uses_and_layers() {
                     continue;
                 }
                 if !allowed.contains(other) {
-                    errors.push(format!("{backend} depends on {dep}, but does not use {other}"));
+                    errors.push(format!(
+                        "{backend} depends on {dep}, but does not use {other}"
+                    ));
                 } else if by_name.get(other).is_some_and(|o| o.layer > m.layer) {
                     errors.push(format!("{backend} depends on {dep} from a higher layer"));
                 }
@@ -164,7 +182,10 @@ async fn every_route_has_a_tag_from_its_manifest() {
     let plugins = server::build_plugins(&ctx, &PLUGINS).unwrap();
     let (_, mounted) = server::plugin_routes(&ctx, &plugins, &TAGS).unwrap();
     for r in &mounted {
-        let b = plugins.iter().find(|b| b.manifest.name == r.plugin).unwrap();
+        let b = plugins
+            .iter()
+            .find(|b| b.manifest.name == r.plugin)
+            .unwrap();
         assert!(b.manifest.tags.contains(&r.tag), "{r:?}");
     }
 }
@@ -187,7 +208,10 @@ fn backend_sources() -> Vec<(String, PathBuf, String)> {
     let mut out = Vec::new();
     for m in disk_manifests() {
         let mut files = Vec::new();
-        rust_files(&root().join("plugins").join(&m.name).join("backend"), &mut files);
+        rust_files(
+            &root().join("plugins").join(&m.name).join("backend"),
+            &mut files,
+        );
         files.sort();
         for f in files {
             let text = std::fs::read_to_string(&f).unwrap();
@@ -202,9 +226,18 @@ fn routes_only_through_route() {
     let mut errors = Vec::new();
     for (_, path, text) in backend_sources() {
         let code = strip_comments_and_strings(&text);
-        for bad in ["Router::new", "Router::<", ".nest(", ".nest_service(", "axum::serve"] {
+        for bad in [
+            "Router::new",
+            "Router::<",
+            ".nest(",
+            ".nest_service(",
+            "axum::serve",
+        ] {
             if code.contains(bad) {
-                errors.push(format!("{}: {bad} (use arena_platform::Route)", path.display()));
+                errors.push(format!(
+                    "{}: {bad} (use arena_platform::Route)",
+                    path.display()
+                ));
             }
         }
     }
@@ -244,13 +277,21 @@ fn sql_checker_catches_bad_sql() {
     assert!(bad("SELECT * FROM members"));
     assert!(bad("INSERT INTO public.x (a) VALUES (1)"));
     assert!(bad("UPDATE wallets.candidates SET a = 1"));
-    assert!(bad("SELECT m.id FROM roster.members m JOIN wallets.candidates c ON c.kol = m.kol"));
+    assert!(bad(
+        "SELECT m.id FROM roster.members m JOIN wallets.candidates c ON c.kol = m.kol"
+    ));
     assert!(bad("DELETE FROM pg_catalog.pg_class"));
     assert!(bad("SELECT 1 WHERE EXISTS (SELECT 1 FROM board.x)"));
     assert!(bad("CREATE TABLE things (id int)"));
-    assert!(!bad("SELECT m.id, m.kol FROM roster.members m JOIN roster.rates r ON r.kol = m.kol"));
-    assert!(!bad("INSERT INTO roster.members (kol) VALUES ($1) ON CONFLICT (kol) DO UPDATE SET kol = EXCLUDED.kol"));
-    assert!(!bad("SELECT extract(epoch FROM now()), x FROM roster.t, unnest($1::bigint[]) u"));
+    assert!(!bad(
+        "SELECT m.id, m.kol FROM roster.members m JOIN roster.rates r ON r.kol = m.kol"
+    ));
+    assert!(!bad(
+        "INSERT INTO roster.members (kol) VALUES ($1) ON CONFLICT (kol) DO UPDATE SET kol = EXCLUDED.kol"
+    ));
+    assert!(!bad(
+        "SELECT extract(epoch FROM now()), x FROM roster.t, unnest($1::bigint[]) u"
+    ));
     assert!(!bad("SELECT k FROM roster.t WHERE k = ANY($1)"));
     assert!(!bad("member not found in the table"));
     assert!(!bad("SELECT 1"));
@@ -260,7 +301,11 @@ fn sql_checker_catches_bad_sql() {
         "let a = \"x\\\"y\"; // \"no\"\n let b = r#\"SELECT \"q\" FROM t\"#; let c = 'z'; fn f<'a>() {}",
     );
     assert_eq!(lits, ["x\\\"y", "SELECT \"q\" FROM t"]);
-    assert!(!foreign_prefixes("CREATE TABLE members (id int)", "roster", &plugins).iter().any(|_| true));
+    assert!(
+        !foreign_prefixes("CREATE TABLE members (id int)", "roster", &plugins)
+            .iter()
+            .any(|_| true)
+    );
     assert!(!foreign_prefixes("SELECT * FROM board.x", "roster", &plugins).is_empty());
 }
 
@@ -387,7 +432,9 @@ fn tokens(sql: &str) -> Vec<Tok> {
             while i < c.len() && (c[i].is_alphanumeric() || c[i] == '_' || c[i] == '$') {
                 i += 1;
             }
-            out.push(Tok::Word(c[start..i].iter().collect::<String>().to_lowercase()));
+            out.push(Tok::Word(
+                c[start..i].iter().collect::<String>().to_lowercase(),
+            ));
             continue;
         }
         if ch == '\'' {
@@ -418,8 +465,18 @@ fn looks_like_sql(t: &[Tok]) -> bool {
     matches!(
         first,
         Some(
-            "select" | "insert" | "update" | "delete" | "with" | "create" | "alter" | "drop"
-                | "truncate" | "copy" | "lock" | "merge"
+            "select"
+                | "insert"
+                | "update"
+                | "delete"
+                | "with"
+                | "create"
+                | "alter"
+                | "drop"
+                | "truncate"
+                | "copy"
+                | "lock"
+                | "merge"
         )
     )
 }
@@ -448,8 +505,19 @@ fn sql_violations(sql: &str, own: &str, plugins: &[String]) -> Vec<String> {
     let mut out = foreign_prefixes(sql, own, plugins);
     // Words that may follow a table keyword without being a table.
     const SKIP: &[&str] = &[
-        "set", "select", "lateral", "only", "if", "not", "exists", "nothing", "temp",
-        "temporary", "unique", "index", "of",
+        "set",
+        "select",
+        "lateral",
+        "only",
+        "if",
+        "not",
+        "exists",
+        "nothing",
+        "temp",
+        "temporary",
+        "unique",
+        "index",
+        "of",
     ];
     // `FROM` inside these functions is not a table position.
     const FROM_FUNCS: &[&str] = &["extract", "substring", "trim", "overlay", "position"];
