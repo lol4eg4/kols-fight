@@ -1483,6 +1483,7 @@ dependencies = [
  "async-trait",
  "axum",
  "chrono",
+ "reqwest",
  "serde",
  "serde_json",
  "sqlx",
