@@ -92,7 +92,7 @@ async fn sync(State(r): Shared, person: Person) -> Response {
 }
 
 async fn export(State(r): Shared, person: Person) -> Response {
-    if let Some(e) = denied(Tag::Admin, &person) {
+    if let Some(e) = denied(Tag::Staff, &person) {
         return e;
     }
     match r.export_csv().await {
@@ -132,8 +132,8 @@ pub(crate) fn routes(roster: Arc<Roster>) -> Vec<Route> {
             post(sync).get(last_run).with_state(roster.clone()),
         ),
         Route::new(
-            Tag::Admin,
-            "/api/admin/network/export",
+            Tag::Staff,
+            "/api/team/network/export",
             get(export).with_state(roster),
         ),
     ]

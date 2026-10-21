@@ -25,7 +25,7 @@ export const dict: Record<string, string> = {
   "roster.sync.skipped_line": "Line {line}: {reason}",
   "roster.sync.button": "Read the sheet now",
   "roster.sync.busy": "Reading the sheet…",
-  "roster.sync.admin_only": "The sheet is read every day. Only an admin can read it now or download the export.",
+  "roster.sync.admin_only": "The sheet is read every day. Only an admin can read it now.",
   "roster.sync.not_run": "The sheet was not read: {message}",
   "roster.sync.run_failed": "The sheet read failed; nothing changed. {message}",
   "roster.sync.run_ok": "Sheet read: {rows} rows, {added} added, {updated} updated, {removed} left.",

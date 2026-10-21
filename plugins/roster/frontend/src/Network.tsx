@@ -11,7 +11,7 @@ import "./roster.css";
 type Load = { status: "loading" } | { status: "ready"; data: TeamNetwork } | { status: "error"; error: ApiError };
 type Notice = { ok: boolean; text: string } | null;
 
-const EXPORT_PATH = "/api/admin/network/export";
+const EXPORT_PATH = "/api/team/network/export";
 
 function formatText(f: string): string {
   switch (f) {
@@ -238,7 +238,7 @@ function EditDialog({ m, onClose, onSaved }: { m: AdminMember; onClose: () => vo
   );
 }
 
-/** Admin: read the sheet now, download the export. */
+/** Admin: read the sheet now. */
 function AdminTools({ onRead }: { onRead: (n: Notice) => void }) {
   const [busy, setBusy] = useState(false);
   const read = async () => {
@@ -258,9 +258,6 @@ function AdminTools({ onRead }: { onRead: (n: Notice) => void }) {
       ) : (
         <Button onClick={() => void read()}>{t("roster.sync.button")}</Button>
       )}
-      <a className={buttonClass("secondary")} href={EXPORT_PATH} download>
-        {t("roster.export")}
-      </a>
     </div>
   );
 }
@@ -314,6 +311,11 @@ export default function Network() {
             </Heading>
             <SyncSummary run={data.last_sync} details />
             {isAdmin ? <AdminTools onRead={after} /> : <p className="ros-muted">{t("roster.sync.admin_only")}</p>}
+            <div className="ros-actions">
+              <a className={buttonClass("secondary")} href={EXPORT_PATH} download>
+                {t("roster.export")}
+              </a>
+            </div>
           </Card>
           {notice && (notice.ok ? <p role="status">{notice.text}</p> : <ErrorLine message={notice.text} />)}
           <Card tone="sunken">

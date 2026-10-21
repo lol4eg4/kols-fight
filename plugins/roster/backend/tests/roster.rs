@@ -808,7 +808,7 @@ async fn no_public_surface_carries_rates_groups_notes_or_sheet_wallets() {
         ("PATCH", "/api/team/network/alder-vane"),
         ("GET", "/api/admin/network/sync"),
         ("POST", "/api/admin/network/sync"),
-        ("GET", "/api/admin/network/export"),
+        ("GET", "/api/team/network/export"),
     ] {
         let (status, text) = env.call(Person::NOBODY, method, uri, Some(json!({}))).await;
         assert_eq!(status, StatusCode::FORBIDDEN, "{uri}");
@@ -817,7 +817,6 @@ async fn no_public_surface_carries_rates_groups_notes_or_sheet_wallets() {
     for (method, uri) in [
         ("GET", "/api/admin/network/sync"),
         ("POST", "/api/admin/network/sync"),
-        ("GET", "/api/admin/network/export"),
     ] {
         let (status, _) = env.call(STAFF, method, uri, None).await;
         assert_eq!(status, StatusCode::FORBIDDEN, "staff is not admin: {uri}");
@@ -908,12 +907,12 @@ async fn a_changed_rate_is_journaled_by_field_name_only() {
 }
 
 #[tokio::test]
-async fn the_admin_export_is_a_csv_with_the_sheet_columns() {
+async fn the_staff_export_is_a_csv_with_the_sheet_columns() {
     let env = env().await;
     let evil = format!("{SHEET}=SUM(1+1),Quartz,1,2,\"a,b\",evil_row,\n");
     env.sync(&evil).await;
     let (status, text) = env
-        .call(ADMIN, "GET", "/api/admin/network/export", None)
+        .call(STAFF, "GET", "/api/team/network/export", None)
         .await;
     assert_eq!(status, StatusCode::OK);
     let mut lines = text.lines();

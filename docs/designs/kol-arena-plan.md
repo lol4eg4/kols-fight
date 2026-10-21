@@ -80,7 +80,7 @@ Layer 2
 
 Layer 3
 
-- roster: CSV read at 05:45 and on admin button; header check; rows keyed by FOMO handle; removed rows end membership (history kept); the 9 prototype KOLs absent from the sheet stay members (seed flag `keep`). Rates, group, note stored in roster tables only; public API never returns them; export `/api/admin/network/export` CSV.
+- roster: CSV read at 05:45 and on admin button; header check; rows keyed by FOMO handle; removed rows end membership (history kept); the 10 prototype KOLs absent from the sheet stay members (seed flag `keep`). Rates, group, note stored in roster tables only; public API never returns them; staff export `/api/team/network/export` CSV.
 - wallets: state machine from `kol-arena-scope-review.md`, plus: auto-confirm when the verified X handle equals the wallet label; FOMO-handle match from Solana Tracker identity counts as a label match on the FOMO handle (hypothesis until the X handle is verified). Manual confirm of a hypothesis requires «where and when KOL confirmed». Address from KOL is confirmed after a trades check through Solana Tracker. Every change journaled. Publishes confirmed main and other wallets to registry.
 - fomo: holders by `getProgramAccounts` with `memcmp` on mint at offset 0 and `dataSlice` owner + amount, Token (with `dataSize 165`) and Token-2022; decimals from `getTokenSupply`; amount match within 0.5% of the amount the staff member typed (FOMO rounds). Intersect owners across positions. One RPC call per position per program, 60 s timeout, response over 64 MB or RPC error -> the error line, no hypothesis. Manual tool only: a few calls per KOL, inside public RPC limits.
 - network: `/api/network` with members on board and waiting list with safe reasons only.
