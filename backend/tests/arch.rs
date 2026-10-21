@@ -500,7 +500,8 @@ fn sql_violations(sql: &str, own: &str, plugins: &[String]) -> Vec<String> {
                             out.push(format!("{kw} {schema}.…: {sql}"));
                         }
                     }
-                    (Some(Tok::Word(_)), Some(Tok::Open), _) => {} // function call
+                    // Function call; after INTO, UPDATE or TABLE the parenthesis is a column list.
+                    (Some(Tok::Word(_)), Some(Tok::Open), _) if kw == "from" || kw == "join" => {}
                     (Some(Tok::Word(name)), _, _) => {
                         out.push(format!("{kw} {name} without schema {own}: {sql}"))
                     }

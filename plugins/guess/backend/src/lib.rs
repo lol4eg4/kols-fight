@@ -20,7 +20,7 @@ pub const ENTRY: PluginEntry = PluginEntry {
 
 pub struct GuessPlugin;
 
-fn build(ctx: &Ctx) -> Result<Arc<dyn Plugin>, StartError> {
+fn build(_ctx: &Ctx) -> Result<Arc<dyn Plugin>, StartError> {
     Ok(Arc::new(GuessPlugin))
 }
 

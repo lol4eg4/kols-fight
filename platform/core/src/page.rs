@@ -107,9 +107,9 @@ mod tests {
         let out = inject(html, &meta);
         assert!(out.contains("<title>Decu vs &quot;Tekkerrss&quot;</title>"), "{out}");
         assert!(out.contains(
-            "<meta property=\"og:image\" content=\"https://x/api/fight/image?ids=a,b&amp;date=2026-10-18\">\n</head>"
+            "<meta property=\"og:image\" content=\"https://x/api/fight/image?ids=a,b&amp;date=2026-10-18\">\n<meta name"
         ), "{out}");
-        assert!(out.contains("<meta name=\"twitter:card\" content=\"summary_large_image\">"));
+        assert!(out.contains("<meta name=\"twitter:card\" content=\"summary_large_image\">\n</head>"), "{out}");
     }
 
     #[test]
