@@ -4,8 +4,8 @@ use crate::parse::BoardRow;
 use chrono::{DateTime, Duration, Utc};
 use sqlx::PgPool;
 
-/// How long a profile read is reused.
-pub const PROFILE_TTL_HOURS: i64 = 24;
+/// How long a profile read is reused: reruns on the same day, never the next daily run.
+pub const PROFILE_TTL_HOURS: i64 = 20;
 
 /// A cached profile read.
 #[derive(Clone, Copy, Debug, PartialEq)]

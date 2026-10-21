@@ -128,3 +128,17 @@ fn rename_in_row(html: &str, n: usize, name: &str) -> String {
     let tag = tag.replacen(&needle, "\n    x-renamed=", 1);
     format!("{}{}{}", &html[..at], tag, &html[end..])
 }
+
+#[test]
+fn a_row_tag_that_does_not_end_fails_instead_of_cutting_the_board() {
+    // Cut the page inside the 120th row tag's attributes, after an opening quote.
+    let mut at = 0;
+    for _ in 0..120 {
+        at += BOARD_HTML[at..].find("<tr").unwrap() + 3;
+    }
+    let cut = format!("{}<tr class=\"board-row", &BOARD_HTML[..at - 3]);
+    assert!(matches!(
+        parse_leaderboard(&cut),
+        Err(ParseError::UnclosedTag { .. })
+    ));
+}

@@ -151,8 +151,8 @@ async fn profiles_are_cached_for_24_hours() {
         Some(342.0)
     );
 
-    // Older than 24 hours: read again.
-    sqlx::query("UPDATE kolexplorer.profile_cache SET fetched_at = now() - interval '25 hours' WHERE slug = 'decu'")
+    // A day old, as at the next daily run: read again.
+    sqlx::query("UPDATE kolexplorer.profile_cache SET fetched_at = now() - interval '23 hours 50 minutes' WHERE slug = 'decu'")
         .execute(r.db.pool())
         .await
         .unwrap();

@@ -136,7 +136,13 @@ async fn close_carries_forward_the_latest_row() {
             let old = old.row.as_ref().unwrap();
             assert_eq!(row.source, old.source);
             assert_eq!(row.fetched_at, old.fetched_at);
-            assert_eq!(row.metrics, old.metrics);
+            // What held only at that fetch is not carried.
+            let mut want = old.metrics.clone();
+            want.last_min_at_fetch = None;
+            want.traded_24h = None;
+            want.pnl_rank = None;
+            want.in_top_today = false;
+            assert_eq!(row.metrics, want);
         }
     }
     assert_eq!(s.latest_date(&P).await.unwrap(), Some(day(19)));

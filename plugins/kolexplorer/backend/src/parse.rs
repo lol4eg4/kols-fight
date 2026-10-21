@@ -39,6 +39,8 @@ pub struct BoardRow {
 pub enum ParseError {
     #[error("leaderboard has {found} rows, expected at least {MIN_ROWS}")]
     TooFewRows { found: usize },
+    #[error("a <tr> tag after row {after} does not end")]
+    UnclosedTag { after: usize },
     #[error("row {row}: attribute {name} is missing")]
     MissingAttribute { row: usize, name: &'static str },
     #[error("row {row}: attribute {name} has bad value {value:?}")]
@@ -55,8 +57,9 @@ pub fn parse_leaderboard(html: &str) -> Result<Vec<BoardRow>, ParseError> {
     let mut from = 0;
     while let Some(at) = html[from..].find("<tr") {
         let start = from + at;
+        // A tag that does not end would cut the board short: fail instead.
         let Some((attrs, end)) = tag_attrs(&html[start + 3..]) else {
-            break;
+            return Err(ParseError::UnclosedTag { after: rows.len() });
         };
         from = start + 3 + end;
         if !attrs

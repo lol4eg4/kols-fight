@@ -132,6 +132,20 @@ fn metric_columns(prefix: &str) -> String {
         .join(", ")
 }
 
+/// [`metric_columns`] for a carried-forward row: what was true only at the fetch (last
+/// trade, traded in 24 h, top of the day, PnL rank) is unknown on a later date.
+fn carried_columns(prefix: &str) -> String {
+    METRIC_COLUMNS
+        .split(", ")
+        .map(|c| match c.trim() {
+            "last_min_at_fetch" | "traded_24h" | "pnl_rank" => "NULL".to_string(),
+            "in_top_today" => "false".to_string(),
+            c => format!("{prefix}{c}"),
+        })
+        .collect::<Vec<_>>()
+        .join(", ")
+}
+
 #[derive(sqlx::FromRow)]
 struct MetricRecord {
     date: NaiveDate,
@@ -241,7 +255,8 @@ impl SnapshotsApi for Snapshots {
     async fn close(&self, _: &Person, date: NaiveDate) -> Result<Snapshot, SnapshotsError> {
         let mut tx = self.pool.begin().await.map_err(internal)?;
         lock(&mut tx, date).await?;
-        // Members without a row get their latest earlier row, source and fetched_at kept.
+        // Members without a row get their latest earlier row, source and fetched_at kept,
+        // without the values that held only at that fetch.
         sqlx::query(&format!(
             "INSERT INTO snapshots.metric (date, kol, {METRIC_COLUMNS}) \
              SELECT DISTINCT ON (m.kol) $1, m.kol, {cols} \
@@ -250,7 +265,7 @@ impl SnapshotsApi for Snapshots {
                AND m.kol IN (SELECT kol FROM snapshots.member WHERE date = $1) \
                AND NOT EXISTS (SELECT 1 FROM snapshots.metric x WHERE x.date = $1 AND x.kol = m.kol) \
              ORDER BY m.kol, m.date DESC",
-            cols = metric_columns("m.")
+            cols = carried_columns("m.")
         ))
         .bind(date)
         .execute(&mut *tx)
