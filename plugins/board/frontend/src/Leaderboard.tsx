@@ -8,6 +8,8 @@ import type { Filters, SortId, TabId } from "./logic";
 import type { Board, BoardRow } from "./types";
 
 const PHONE = "(max-width: 759px)";
+/** Rows shown at first and added by each "Show more"; filters and search still cover every row. */
+const PAGE = 20;
 
 /** Opens the card when a click lands on the row outside its own links and buttons. */
 function rowClick(e: MouseEvent<HTMLElement>, href: string) {
@@ -148,8 +150,12 @@ export interface LeaderboardProps {
 export function Leaderboard({ board, urlDate }: LeaderboardProps) {
   const [f, setF] = useState<Filters>(NO_FILTERS);
   const [networkIds, setNetworkIds] = useState<Set<string> | null>(null);
+  const [shown, setShown] = useState(PAGE);
   const phone = useMedia(PHONE);
-  const set = (patch: Partial<Filters>) => setF((prev) => ({ ...prev, ...patch }));
+  const set = (patch: Partial<Filters>) => {
+    setF((prev) => ({ ...prev, ...patch }));
+    setShown(PAGE);
+  };
 
   const networkTab = hasFill("board/network_filter");
   const rows = useMemo(() => applyFilters(board.rows, f, networkIds), [board.rows, f, networkIds]);
@@ -168,6 +174,8 @@ export function Leaderboard({ board, urlDate }: LeaderboardProps) {
     ...(networkTab ? [{ id: "network", label: t("board.tab.network"), count: counts.network }] : []),
   ];
   const caption = t("board.lb.caption", { count: rows.length, sort: SORT_NAME[f.sort]() });
+  const visible = rows.slice(0, shown);
+  const waiting = f.tab === "network" && networkIds === null;
 
   let empty: string | null = null;
   if (rows.length === 0) {
@@ -236,7 +244,7 @@ export function Leaderboard({ board, urlDate }: LeaderboardProps) {
       </div>
 
       <div className="board-tabpanel" role="tabpanel" id={`board-lb-panel-${f.tab}`} aria-labelledby={`board-lb-tab-${f.tab}`}>
-        {f.tab === "network" && networkIds === null ? null : empty ? (
+        {waiting ? null : empty ? (
           <EmptyState
             message={empty}
             action={
@@ -249,7 +257,7 @@ export function Leaderboard({ board, urlDate }: LeaderboardProps) {
           />
         ) : phone ? (
           <ol className="board-list" aria-label={caption}>
-            {rows.map((r) => (
+            {visible.map((r) => (
               <CardRow key={r.kol} row={r} date={board.date} href={cardPath(r.kol, urlDate)} />
             ))}
           </ol>
@@ -290,11 +298,18 @@ export function Leaderboard({ board, urlDate }: LeaderboardProps) {
                 </tr>
               </thead>
               <tbody>
-                {rows.map((r) => (
+                {visible.map((r) => (
                   <TableRow key={r.kol} row={r} date={board.date} href={cardPath(r.kol, urlDate)} />
                 ))}
               </tbody>
             </table>
+          </div>
+        )}
+        {!waiting && !empty && visible.length < rows.length && (
+          <div className="board-more">
+            <Button variant="secondary" onClick={() => setShown((n) => n + PAGE)}>
+              {t("board.lb.more", { shown: visible.length, count: rows.length })}
+            </Button>
           </div>
         )}
       </div>

@@ -29,6 +29,7 @@ export const dict: Record<string, string> = {
   "board.lb.empty": "No KOL matches these filters.",
   "board.lb.empty_network": "No KOL of our network is on this board.",
   "board.lb.clear": "Clear filters",
+  "board.lb.more": "Show more · {shown} of {count}",
   "board.tab.all": "All",
   "board.tab.top100": "Top-100",
   "board.tab.network": "🤝 Our network",

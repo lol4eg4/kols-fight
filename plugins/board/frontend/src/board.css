@@ -406,6 +406,12 @@
   gap: var(--space-sm);
 }
 
+.board-more {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-md);
+}
+
 .board-sources {
   margin: 0;
   color: var(--color-text-muted);
