@@ -1,5 +1,6 @@
-import { Card, EmptyState, ErrorLine, Heading, List, ListItem, PixelAvatar, Skeleton } from "@arena/design";
+import { Card, EmptyState, ErrorLine, List, ListItem, PixelAvatar, Skeleton } from "@arena/design";
 import { t, useApi } from "@arena/shell";
+import "./radar.css";
 
 interface RadarKol {
   id: string;
@@ -35,7 +36,7 @@ export default function Radar({ date }: { date: string }) {
         {state.data.kols.map((k) => (
           <ListItem key={k.id}>
             <PixelAvatar id={k.id} size={32} />
-            <span>{k.name}</span>{" "}
+            <span className="radar__name">{k.name}</span>{" "}
             <a href={`https://solscan.io/account/${k.wallet}`} target="_blank" rel="noopener noreferrer" aria-label={t("radar.solscan_for", { name: k.name })}>
               {t("radar.solscan")}
             </a>
@@ -47,10 +48,7 @@ export default function Radar({ date }: { date: string }) {
 
   return (
     <Card as="section" aria-label={t("radar.title")}>
-      <Heading level={2} variant="title">
-        {t("radar.title")}
-      </Heading>
-      {body}
+      <div className="radar">{body}</div>
     </Card>
   );
 }

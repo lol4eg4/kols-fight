@@ -1,0 +1,18 @@
+/* Radar: a grid of one-line KOL tiles instead of one tall column. */
+.radar .ds-list--cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  gap: var(--space-sm);
+}
+.radar .ds-list__body {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+.radar__name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
