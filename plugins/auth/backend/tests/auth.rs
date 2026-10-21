@@ -157,7 +157,7 @@ impl Env {
 
     /// The routes behind a guard that works like the server's tag guard.
     fn router(&self) -> Router {
-        let mut router = Router::new();
+        let mut router = Router::default();
         for route in http::routes(self.auth.clone()) {
             let guard = middleware::from_fn_with_state((self.auth.clone(), route.tag), tag_guard);
             router = router.route(&route.path, route.handler.layer(guard));
@@ -912,7 +912,7 @@ async fn role_per_tag() {
     // The handlers refuse on their own when mounted without the guard.
     let bare = http::routes(env.auth.clone())
         .into_iter()
-        .fold(Router::new(), |r, route| {
+        .fold(Router::default(), |r, route| {
             r.route(&route.path, route.handler)
         });
     assert_eq!(
