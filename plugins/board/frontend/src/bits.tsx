@@ -111,8 +111,27 @@ export function useMedia(query: string): boolean {
   );
 }
 
-export function KolBadges({ badges }: { badges: BadgeKind[] }) {
+export function KolBadges({ badges, grouped }: { badges: BadgeKind[]; grouped?: boolean }) {
   if (badges.length === 0) return null;
+  // on phone cards one tip holds all badges: one touch target instead of one per icon
+  if (grouped)
+    return (
+      <Tooltip
+        content={badges.map((b) => (
+          <span key={b} className="board-tip-line">
+            {BADGE_ICON[b]} {BADGE_NAME[b]()}: {BADGE_HINT[b]()}
+          </span>
+        ))}
+      >
+        <span className="board-badges" role="img" aria-label={badges.map((b) => BADGE_NAME[b]()).join(", ")}>
+          {badges.map((b) => (
+            <span key={b} className="board-badge-icon" aria-hidden="true">
+              {BADGE_ICON[b]}
+            </span>
+          ))}
+        </span>
+      </Tooltip>
+    );
   return (
     <span className="board-badges">
       {badges.map((b) => (
@@ -134,7 +153,15 @@ export function NetworkChip() {
   );
 }
 
-export function StaleMark({ at }: { at: string | null }) {
+export function StaleMark({ at, compact }: { at: string | null; compact?: boolean }) {
+  if (compact)
+    return (
+      <Tooltip content={t("board.stale_hint", { date: dateText(at) })}>
+        <span className="board-badge-icon" role="img" aria-label={t("board.stale")}>
+          ⏳
+        </span>
+      </Tooltip>
+    );
   return (
     <Badge tone="muted" icon="⏳" hint={t("board.stale_hint", { date: dateText(at) })}>
       {t("board.stale")}

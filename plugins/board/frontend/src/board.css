@@ -74,7 +74,7 @@
   min-width: 220px;
 }
 @media (min-width: 1100px) {
-  .board-hero {
+  .board-hero:has(.board-hero__duel) {
     grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
   }
   .board-hero__main {
@@ -344,6 +344,9 @@
   gap: var(--space-sm);
   min-width: 0;
 }
+.board-item .board-who {
+  align-items: flex-start;
+}
 .board-item__rank {
   display: flex;
   flex-direction: column;
@@ -572,4 +575,10 @@
 .board-podium__name:focus-visible {
   outline: 2px solid var(--color-coin);
   outline-offset: 2px;
+}
+.board-tip-line {
+  display: block;
+}
+.board-td--kol {
+  min-width: 12rem;
 }

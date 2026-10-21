@@ -141,6 +141,7 @@ export const dict: Record<string, string> = {
   "board.card.handle": "@{handle}",
   "board.card.metrics": "Metrics",
   "board.card.source": "Source: {source}, fetched {date}",
+  "board.card.snapshot": "snapshot",
   "board.card.breakdown": "Why this Score",
   "board.card.needs_profit": "Accuracy counts only when PnL over 30 days is above zero.",
   "board.card.badges": "Badges",

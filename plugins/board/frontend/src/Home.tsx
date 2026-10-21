@@ -70,9 +70,11 @@ function Hero({ board }: { board: Board }) {
           )}
         </div>
       </div>
-      <div className="board-hero__duel">
-        <Slot name="board/duel_of_day" props={{ date: board.date }} loading={null} />
-      </div>
+      {hasFill("board/duel_of_day") && (
+        <div className="board-hero__duel">
+          <Slot name="board/duel_of_day" props={{ date: board.date }} loading={null} />
+        </div>
+      )}
       <div className="board-hero__stats" role="group" aria-label={t("board.stats.label")}>
         <StatTile value={board.stats.tracked} label={t("board.stats.tracked")} accent />
         <StatTile value={board.stats.up_30d} label={t("board.stats.up_30d")} />

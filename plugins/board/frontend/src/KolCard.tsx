@@ -214,7 +214,7 @@ function CardBody({ card }: { card: KolCard }) {
             ? t("board.card.source", { source: SOURCE_NAME[card.source](), date: dateText(card.fetched_at) })
             : t("board.source.none")}
           {" · "}
-          <SnapshotDate at={card.date} />
+          {t("board.card.snapshot")} <SnapshotDate at={card.date} />
         </p>
       </section>
 

@@ -40,9 +40,9 @@ function NameCell({ row, href, date, heading }: RowProps & { heading?: boolean }
         </div>
         <div className="board-who__line board-who__meta">
           {row.x_handle && <span className="board-handle">{t("board.card.handle", { handle: row.x_handle })}</span>}
-          <KolBadges badges={row.badges} />
+          <KolBadges badges={row.badges} grouped={heading} />
           <Slot name="board/extra_badges" props={{ date, kol: row.kol }} loading={null} />
-          {row.stale && <StaleMark at={row.fetched_at} />}
+          {row.stale && <StaleMark at={row.fetched_at} compact />}
         </div>
       </div>
     </div>
