@@ -13,6 +13,7 @@
   },
   "include": [
     "scripts",
+    "e2e",
     "web/src",
     "web/tests",
     "platform/design/src",
