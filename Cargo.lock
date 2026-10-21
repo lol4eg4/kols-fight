@@ -180,7 +180,7 @@ checksum = "3c3610892ee6e0cbce8ae2700349fcf8f98adb0dbfbee85aec3c9179d29cc072"
 dependencies = [
  "base64ct",
  "blake2",
- "cpufeatures",
+ "cpufeatures 0.2.17",
  "password-hash",
 ]
 
@@ -1223,7 +1223,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "346f04948ba92c43e8469c1ee6736c7563d71012b17d40745260fe106aac2166"
 dependencies = [
  "base64ct",
- "rand_core",
+ "rand_core 0.6.4",
  "subtle",
 ]
 
@@ -1473,13 +1473,23 @@ dependencies = [
 name = "plugin-roster"
 version = "0.1.0"
 dependencies = [
+ "api-board",
  "api-journal",
  "api-registry",
  "api-roster",
+ "api-schedule",
  "api-snapshots",
  "arena-platform",
  "async-trait",
+ "axum",
+ "chrono",
+ "serde",
+ "serde_json",
  "sqlx",
+ "thiserror",
+ "tokio",
+ "tower",
+ "tracing",
 ]
 
 [[package]]
@@ -1596,7 +1606,15 @@ dependencies = [
  "api-wallets",
  "arena-platform",
  "async-trait",
+ "axum",
+ "chrono",
+ "serde",
+ "serde_json",
  "sqlx",
+ "thiserror",
+ "tokio",
+ "tower",
+ "tracing",
 ]
 
 [[package]]

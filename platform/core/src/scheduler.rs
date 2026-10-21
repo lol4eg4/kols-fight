@@ -115,6 +115,15 @@ async fn take(conn: &mut PgConnection, lock: &LockSpec) -> Result<bool, sqlx::Er
     }
 }
 
+/// Unlocks before closing: the server ends a closed session a moment later, and a lock held
+/// until then answers «busy» to the next caller.
+async fn release(mut conn: PgConnection) {
+    let _ = sqlx::query("SELECT pg_advisory_unlock_all()")
+        .execute(&mut conn)
+        .await;
+    let _ = conn.close().await;
+}
+
 /// Runs `fut` while holding every lock in `locks` (taken in order) on one detached
 /// connection, then closes it. The run lives in its own task: dropping the caller does not
 /// release the locks before the run ends.
@@ -130,19 +139,19 @@ where
             match take(&mut conn, lock).await {
                 Ok(true) => {}
                 Ok(false) => {
-                    let _ = conn.close().await;
+                    release(conn).await;
                     return Err(RunError::Busy {
                         lock: lock.name.clone(),
                     });
                 }
                 Err(e) => {
-                    let _ = conn.close().await;
+                    release(conn).await;
                     return Err(e.into());
                 }
             }
         }
         let joined = tokio::spawn(fut).await;
-        let _ = conn.close().await;
+        release(conn).await;
         joined.map_err(|_| RunError::Panicked)
     })
     .await
