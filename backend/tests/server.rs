@@ -167,7 +167,10 @@ impl Plugin for Demo {
     async fn page_meta(&self, path: &str, query: Option<&str>) -> Option<PageMeta> {
         (path == "/demo").then(|| PageMeta {
             title: Some(format!("Demo <{}>", query.unwrap_or(""))),
-            tags: vec![MetaTag::property("og:title", "Demo & co")],
+            tags: vec![
+                MetaTag::property("og:title", "Demo & co"),
+                MetaTag::property("og:image", "/api/demo/img?a=1"),
+            ],
         })
     }
 }
@@ -292,6 +295,24 @@ async fn spa_fallback_injects_page_meta() {
         body.contains("<meta property=\"og:title\" content=\"Demo &amp; co\">"),
         "{body}"
     );
+
+    let req = Request::get("/demo")
+        .header("host", "inner:8080")
+        .header("x-forwarded-host", "arena.example")
+        .header("x-forwarded-proto", "https")
+        .body(Body::empty())
+        .unwrap();
+    let (_, body) = call(&app, req).await;
+    assert!(
+        body.contains("content=\"https://arena.example/api/demo/img?a=1\""),
+        "{body}"
+    );
+    let req = Request::get("/demo")
+        .header("host", "evil\"><x")
+        .body(Body::empty())
+        .unwrap();
+    let (_, body) = call(&app, req).await;
+    assert!(body.contains("content=\"/api/demo/img?a=1\""), "{body}");
 
     let (status, body) = call(&app, get_as("/other/path", None)).await;
     assert_eq!(status, StatusCode::OK);

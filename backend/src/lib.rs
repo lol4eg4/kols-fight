@@ -9,7 +9,7 @@ use arena_platform::{
 use axum::{
     Json, Router,
     extract::{Request, State},
-    http::{StatusCode, Uri},
+    http::{HeaderMap, StatusCode, Uri},
     middleware::{self, Next},
     response::{Html, IntoResponse, Response},
     routing::{any, get},
@@ -207,14 +207,46 @@ async fn api_not_found() -> (StatusCode, Json<Value>) {
     (StatusCode::NOT_FOUND, Json(json!({"error": "not found"})))
 }
 
-/// SPA fallback: `index.html` with the first plugin page meta for this path.
-async fn spa_index(State(state): State<AppState>, uri: Uri) -> Response {
+/// `https://host` the visitor used: `X-Forwarded-Proto`/`X-Forwarded-Host` from the proxy,
+/// else `Host`. None when the host has characters a host name cannot have.
+fn request_origin(headers: &HeaderMap) -> Option<String> {
+    let first = |name: &str| {
+        headers
+            .get(name)
+            .and_then(|v| v.to_str().ok())
+            .map(|v| v.split(',').next().unwrap_or("").trim().to_string())
+            .filter(|v| !v.is_empty())
+    };
+    let host = first("x-forwarded-host").or_else(|| first("host"))?;
+    if !host
+        .chars()
+        .all(|c| c.is_ascii_alphanumeric() || matches!(c, '.' | '-' | ':' | '[' | ']'))
+    {
+        return None;
+    }
+    let proto = match first("x-forwarded-proto").as_deref() {
+        Some("https") => "https",
+        _ => "http",
+    };
+    Some(format!("{proto}://{host}"))
+}
+
+/// SPA fallback: `index.html` with the first plugin page meta for this path. Meta values
+/// that are site paths (`/api/fight/image?...`) become absolute URLs: X needs them so.
+async fn spa_index(State(state): State<AppState>, uri: Uri, headers: HeaderMap) -> Response {
     let html = match tokio::fs::read_to_string(state.dist.join("index.html")).await {
         Ok(html) => html,
         Err(_) => return (StatusCode::NOT_FOUND, "index.html not found").into_response(),
     };
     for b in state.plugins.iter() {
-        if let Some(meta) = b.plugin.page_meta(uri.path(), uri.query()).await {
+        if let Some(mut meta) = b.plugin.page_meta(uri.path(), uri.query()).await {
+            if let Some(origin) = request_origin(&headers) {
+                for t in &mut meta.tags {
+                    if t.content.starts_with('/') && !t.content.starts_with("//") {
+                        t.content = format!("{origin}{}", t.content);
+                    }
+                }
+            }
             return Html(page::inject(&html, &meta)).into_response();
         }
     }
