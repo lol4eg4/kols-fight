@@ -137,7 +137,7 @@ async fn success_writes_top_100() {
 }
 
 #[tokio::test]
-async fn profiles_are_cached_for_24_hours() {
+async fn profiles_are_cached_within_the_day() {
     let r = rig(BOARD_HTML).await;
     r.ke.run(&ADMIN, day()).await.unwrap();
     assert_eq!(r.site.profile_hits(), 100);
@@ -282,7 +282,7 @@ async fn closed_snapshot_is_refused_before_anything_happens() {
 #[tokio::test]
 async fn wallets_in_the_registry() {
     let r = rig(&board_with_rows(60)).await;
-    // Prototype wallet differs from KE: KE replaces it. Network wallet differs: left alone.
+    // Prototype wallet differs from KE: KE replaces it. Network wallet differs: left alone, no KE numbers.
     r.registry.add(
         "decu",
         "Decu",
@@ -327,7 +327,9 @@ async fn wallets_in_the_registry() {
     );
     // The KOL of row 3 is the squatter (found by wallet): its wallet is already right.
     assert!(r.snapshots.row("squatter").is_some());
-    // Every written KOL has one KE row.
+    // Every top-100 KOL is a member; KE's numbers are written only where its wallet is the main one.
     assert_eq!(r.snapshots.members_with(MemberReason::Top100).len(), 60);
+    assert!(r.snapshots.row("decu").is_some());
+    assert!(r.snapshots.row("cented").is_none());
     r.db.close().await;
 }

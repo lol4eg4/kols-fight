@@ -93,11 +93,13 @@ impl Kolexplorer {
     }
 
     /// Links the KOL to its KE profile and publishes the KE wallet as its main wallet.
+    /// Returns the KOLs whose main wallet stays another one: KE's numbers are not theirs.
     async fn sync_registry(
         registry: &dyn RegistryApi,
         p: &Person,
         kols: &[(KolId, &BoardRow)],
-    ) -> Result<(), KeError> {
+    ) -> Result<HashSet<KolId>, KeError> {
+        let mut other_main = HashSet::new();
         let ids: Vec<KolId> = kols.iter().map(|(id, _)| id.clone()).collect();
         let profiles = registry.list_kols(p, &ids).await.map_err(internal)?;
         for (id, row) in kols {
@@ -125,6 +127,7 @@ impl Kolexplorer {
                 // A network wallet that differs is the wallets plugin's conflict to resolve.
                 Some(w) if w.source == WalletSource::Network => {
                     tracing::warn!(kol = %id, "KE wallet differs from the network wallet; left to wallets");
+                    other_main.insert(id.clone());
                     continue;
                 }
                 _ => {}
@@ -148,11 +151,12 @@ impl Kolexplorer {
                 Ok(()) => {}
                 Err(api_registry::RegistryError::WalletTaken { address, owner }) => {
                     tracing::warn!(kol = %id, %owner, %address, "KE wallet belongs to another KOL; not published");
+                    other_main.insert(id.clone());
                 }
                 Err(e) => return Err(internal(e)),
             }
         }
-        Ok(())
+        Ok(other_main)
     }
 
     fn metrics(row: &BoardRow, fetched_at: DateTime<Utc>, prof: Option<CachedProfile>) -> Metrics {
@@ -211,7 +215,7 @@ impl KolexplorerApi for Kolexplorer {
                 top.push((id, row));
             }
         }
-        Self::sync_registry(&*registry, person, &top).await?;
+        let other_main = Self::sync_registry(&*registry, person, &top).await?;
         let ids: Vec<KolId> = top.iter().map(|(id, _)| id.clone()).collect();
         snapshots
             .set_members(person, date, MemberReason::Top100, &ids)
@@ -222,6 +226,10 @@ impl KolexplorerApi for Kolexplorer {
         let mut profiles_failed = 0u32;
         let mut written = 0u32;
         for (id, row) in &top {
+            // KE's numbers are of its wallet; the main wallet's come from Solana Tracker.
+            if other_main.contains(id) {
+                continue;
+            }
             let now = Utc::now();
             let prof = match store::cached_profile(&self.pool, &row.slug, now)
                 .await
