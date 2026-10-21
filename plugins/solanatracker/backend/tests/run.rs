@@ -3,7 +3,7 @@ use api_registry::WalletSource;
 use api_snapshots::{MemberReason, MetricSource, Metrics};
 use api_solanatracker::{KolRunStatus, SolanatrackerApi, StError, StFailure, StRunStatus};
 use arena_platform::{Person, testing::TestDb};
-use chrono::{Duration as Dur, Utc};
+use chrono::{Duration as Dur, NaiveDate};
 use common::*;
 use plugin_solanatracker::{MIGRATOR, Options, Solanatracker};
 use std::{sync::Arc, time::Duration};
@@ -372,8 +372,9 @@ async fn few_trades_and_empty_history() {
 #[tokio::test]
 async fn kolexplorer_rows_win_and_get_the_top_today_mark() {
     let r = rig().await;
-    let now = Utc::now();
-    // Cented: KE wrote it today and it is in the list -> kept, marked.
+    let at = |d: NaiveDate| d.and_hms_opt(6, 0, 0).unwrap().and_utc();
+    // Cented: KE wrote it on the day, in an earlier run (before the snapshot was last opened),
+    // and it is in the list -> kept, marked.
     r.registry.add(
         "cented",
         "cented",
@@ -383,7 +384,7 @@ async fn kolexplorer_rows_win_and_get_the_top_today_mark() {
     r.snapshots.seed(
         "cented",
         MemberReason::Top100,
-        Some((MetricSource::Kolexplorer, now)),
+        Some((MetricSource::Kolexplorer, at(day()))),
     );
     r.snapshots
         .state
@@ -397,7 +398,7 @@ async fn kolexplorer_rows_win_and_get_the_top_today_mark() {
         d30: Some(99.0),
         ..Metrics::default()
     };
-    // Decu: a KE row from before the day was opened -> not today's, ST reads it.
+    // Decu: a KE row carried from the day before -> not this day's, ST reads it.
     r.registry.add(
         "decu",
         "decu",
@@ -407,7 +408,7 @@ async fn kolexplorer_rows_win_and_get_the_top_today_mark() {
     r.snapshots.seed(
         "decu",
         MemberReason::Top100,
-        Some((MetricSource::Kolexplorer, now - Dur::days(2))),
+        Some((MetricSource::Kolexplorer, at(day() - Dur::days(1)))),
     );
     // Zero: nothing written yet.
     r.member("zero", ZERO);

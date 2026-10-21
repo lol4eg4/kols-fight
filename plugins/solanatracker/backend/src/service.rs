@@ -212,10 +212,11 @@ impl SolanatrackerApi for Solanatracker {
             let in_top = place.is_some();
             let pnl_rank = place.map(|i| i as i32 + 1);
 
-            // Metric precedence: KE wrote this KOL for this date (since the snapshot was
-            // last opened): keep its row, only set the «in top today» mark.
+            // Metric precedence: KE wrote this KOL on this date (also in an earlier run of the
+            // day whose KE step now failed; a row carried from an earlier day does not count):
+            // keep its row, only set the «in top today» mark.
             let ke_wrote = member.row.as_ref().filter(|r| {
-                r.source == MetricSource::Kolexplorer && r.fetched_at >= view.snapshot.opened_at
+                r.source == MetricSource::Kolexplorer && r.fetched_at.date_naive() >= date
             });
             if let Some(row) = ke_wrote {
                 if in_top && !row.metrics.in_top_today {
