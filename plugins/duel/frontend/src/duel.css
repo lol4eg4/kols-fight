@@ -1,0 +1,50 @@
+/* Duel of the day: two fighter rows, a VS line and the way into the fight. */
+.duel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+.duel__title {
+  margin: 0;
+}
+.duel__side {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: var(--space-md);
+  row-gap: var(--space-xs);
+  align-items: center;
+  min-height: var(--touch);
+  padding: var(--space-sm);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  text-decoration: none;
+}
+.duel__side:hover {
+  background: var(--color-surface-sunken);
+}
+.duel__side > .ds-avatar {
+  grid-row: span 2;
+}
+.duel__who {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+  min-width: 0;
+}
+.duel__stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs) var(--space-md);
+  color: var(--color-text-muted);
+}
+.duel__winner {
+  color: var(--color-coin);
+}
+.duel__vs {
+  align-self: center;
+  color: var(--color-pink);
+}
+.duel__watch {
+  align-self: flex-start;
+}
