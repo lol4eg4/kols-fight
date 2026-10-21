@@ -43,7 +43,7 @@ export function DuelOfDay({ date }: SlotProps<"board/duel_of_day">) {
         <h3 className="duel__title t-pixel-label">{t("duel.title")}</h3>
         <Side f={a} won={d.winner === a.kol} />
         <span className="duel__vs t-pixel-label" aria-hidden="true">
-          VS
+          {t("duel.vs")}
         </span>
         <Side f={b} won={d.winner === b.kol} />
         <Link to={`/fight?ids=${encodeURIComponent(a.kol)},${encodeURIComponent(b.kol)}&date=${encodeURIComponent(d.date)}`} className={buttonClass("primary", "duel__watch")}>

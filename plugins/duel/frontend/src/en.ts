@@ -9,6 +9,7 @@ export const dict: Record<string, string> = {
   "duel.score": "Score {n}",
   "duel.points": "{n} pts",
   "duel.winner": "Winner",
+  "duel.vs": "VS",
   "duel.watch": "Watch the fight",
   "duel.fighter": "{name}, rank {rank}, score {score}",
   "duel.fighter_unranked": "{name}, score {score}",
