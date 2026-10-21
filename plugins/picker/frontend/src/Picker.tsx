@@ -73,9 +73,18 @@ function formatText(format: string): string {
   }
 }
 
+const NUMBERS: (keyof Filters)[] = ["score_min", "score_max", "rate_min", "rate_max"];
+
+/** A number filter the server would refuse: not blank and not a plain non-negative number ("1,500" and "$300" pass). */
+function badNumber(v: string): boolean {
+  const s = v.replace(/[,$\s]/g, "");
+  return s !== "" && !/^(\d+\.?\d*|\.\d+)$/.test(s);
+}
+
+// A bad number stays out of the query: its field shows the error, the list keeps the other filters.
 function queryOf(f: Filters): string {
   const q = new URLSearchParams();
-  for (const [k, v] of Object.entries(f)) if (v.trim()) q.set(k, v.trim());
+  for (const [k, v] of Object.entries(f)) if (v.trim() && !(NUMBERS.includes(k as keyof Filters) && badNumber(v))) q.set(k, v.trim());
   return q.toString();
 }
 
@@ -153,6 +162,7 @@ export default function Picker() {
 
   const list = useApi<PickList>(query ? `/api/team/picker?${query}` : "/api/team/picker");
   const set = (key: keyof Filters) => (e: { target: { value: string } }) => setFilters((f) => ({ ...f, [key]: e.target.value }));
+  const numberError = (key: keyof Filters) => (badNumber(filters[key]) ? t("picker.filter.not_number") : undefined);
 
   const rows = list.status === "ready" ? list.data.rows : [];
   // Every checked KOL, also those the current filter hides.
@@ -173,16 +183,16 @@ export default function Picker() {
       <h1 className="t-section-title">{t("picker.title")}</h1>
       <Card>
         <div className="picker-filters">
-          <Field label={t("picker.filter.score_min")} inputMode="numeric" value={filters.score_min} onChange={set("score_min")} />
-          <Field label={t("picker.filter.score_max")} inputMode="numeric" value={filters.score_max} onChange={set("score_max")} />
+          <Field label={t("picker.filter.score_min")} inputMode="numeric" value={filters.score_min} error={numberError("score_min")} onChange={set("score_min")} />
+          <Field label={t("picker.filter.score_max")} inputMode="numeric" value={filters.score_max} error={numberError("score_max")} onChange={set("score_max")} />
           <Select
             label={t("picker.filter.tier")}
             options={[{ value: "", label: t("picker.filter.any") }, ...TIERS.map((x) => ({ value: x, label: tierText(x) }))]}
             value={filters.tier}
             onChange={set("tier")}
           />
-          <Field label={t("picker.filter.rate_min")} inputMode="decimal" value={filters.rate_min} onChange={set("rate_min")} />
-          <Field label={t("picker.filter.rate_max")} inputMode="decimal" value={filters.rate_max} onChange={set("rate_max")} />
+          <Field label={t("picker.filter.rate_min")} inputMode="decimal" value={filters.rate_min} error={numberError("rate_min")} onChange={set("rate_min")} />
+          <Field label={t("picker.filter.rate_max")} inputMode="decimal" value={filters.rate_max} error={numberError("rate_max")} onChange={set("rate_max")} />
           <Select
             label={t("picker.filter.format")}
             options={[{ value: "", label: t("picker.filter.any") }, ...formats.map((x) => ({ value: x, label: formatText(x) }))]}

@@ -12,6 +12,7 @@ export const dict: Record<string, string> = {
   "picker.filter.format": "Format",
   "picker.filter.any": "Any",
   "picker.filter.clear": "Clear filters",
+  "picker.filter.not_number": "Enter a number, like 50.",
   "picker.tier.goat": "GOAT",
   "picker.tier.diamond": "Diamond",
   "picker.tier.sendoor": "Sendoor",
