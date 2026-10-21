@@ -11,5 +11,15 @@ api-score.workspace = true
 api-snapshots.workspace = true
 arena-platform.workspace = true
 async-trait.workspace = true
+axum.workspace = true
 chrono.workspace = true
+# Fight image: SVG to PNG with the committed fonts only (no system fonts).
+resvg = { version = "0.45", default-features = false, features = ["text"] }
+serde.workspace = true
+serde_json.workspace = true
+serde_urlencoded = "0.7"
 sqlx.workspace = true
+tokio.workspace = true
+
+[dev-dependencies]
+tower.workspace = true
