@@ -50,6 +50,18 @@
 **Priority:** P3
 **Depends on:** None
 
+### Small fixes from QA
+
+**What:** Low items from QA 2026-10-21. Team picker: "Score from" above "Score to" shows "0 of 70" with no hint. Phone leaderboard card: the @handle sits on its own indented line. Changing the snapshot date clears the search.
+
+**Why:** Low severity; nothing breaks.
+
+**Context:** `plugins/picker/frontend/src/Picker.tsx`, `plugins/board/frontend/src/Leaderboard.tsx`, `plugins/board/frontend/src/Home.tsx`.
+
+**Effort:** S
+**Priority:** P3
+**Depends on:** None
+
 ## Infrastructure
 
 ### Production deploy
