@@ -140,9 +140,8 @@ async fn publish_wallets_refuses_a_wallet_of_another_kol() {
         .publish_wallets(
             &P,
             "peter",
-            Some(FRESH_A),
-            &[TEKKERRSS_WALLET.to_string()],
-            WalletSource::Network,
+            Some((FRESH_A, WalletSource::Network)),
+            &[(TEKKERRSS_WALLET.to_string(), WalletSource::Network)],
         )
         .await
         .unwrap_err();
@@ -159,12 +158,12 @@ async fn publish_wallets_refuses_a_wallet_of_another_kol() {
 
     // Bad address and unknown KOL.
     assert!(matches!(
-        reg.publish_wallets(&P, "peter", Some("0xdead"), &[], WalletSource::Network)
+        reg.publish_wallets(&P, "peter", Some(("0xdead", WalletSource::Network)), &[])
             .await,
         Err(RegistryError::InvalidAddress { .. })
     ));
     assert!(matches!(
-        reg.publish_wallets(&P, "no-such-kol", Some(FRESH_A), &[], WalletSource::Network)
+        reg.publish_wallets(&P, "no-such-kol", Some((FRESH_A, WalletSource::Network)), &[])
             .await,
         Err(RegistryError::UnknownKol { .. })
     ));
@@ -185,9 +184,11 @@ async fn publish_wallets_replaces_the_kols_wallets() {
     reg.publish_wallets(
         &P,
         "tekkerrss",
-        Some(FRESH_A),
-        &[TEKKERRSS_WALLET.to_string(), FRESH_B.to_string()],
-        WalletSource::Network,
+        Some((FRESH_A, WalletSource::Network)),
+        &[
+            (TEKKERRSS_WALLET.to_string(), WalletSource::Kolexplorer),
+            (FRESH_B.to_string(), WalletSource::Network),
+        ],
     )
     .await
     .unwrap();
@@ -200,13 +201,16 @@ async fn publish_wallets_replaces_the_kols_wallets() {
     let others: Vec<&str> = t.other_wallets.iter().map(|w| w.address.as_str()).collect();
     assert_eq!(others, [TEKKERRSS_WALLET, FRESH_B]);
     assert_eq!(t.other_wallets[0].published_at, old.published_at);
+    // Each wallet carries its own source.
+    assert_eq!(t.other_wallets[0].source, WalletSource::Kolexplorer);
+    assert_eq!(t.other_wallets[1].source, WalletSource::Network);
 
     // Now another KOL cannot take any of them; dropped ones are free again.
-    reg.publish_wallets(&P, "tekkerrss", Some(FRESH_A), &[], WalletSource::Network)
+    reg.publish_wallets(&P, "tekkerrss", Some((FRESH_A, WalletSource::Network)), &[])
         .await
         .unwrap();
     assert!(matches!(
-        reg.publish_wallets(&P, "peter", Some(FRESH_A), &[], WalletSource::Network)
+        reg.publish_wallets(&P, "peter", Some((FRESH_A, WalletSource::Network)), &[])
             .await,
         Err(RegistryError::WalletTaken { .. })
     ));
@@ -214,8 +218,7 @@ async fn publish_wallets_replaces_the_kols_wallets() {
         &P,
         "peter",
         None,
-        &[FRESH_B.to_string()],
-        WalletSource::Network,
+        &[(FRESH_B.to_string(), WalletSource::Network)],
     )
     .await
     .unwrap();
@@ -225,7 +228,7 @@ async fn publish_wallets_replaces_the_kols_wallets() {
     );
 
     // None and no others unpublishes.
-    reg.publish_wallets(&P, "tekkerrss", None, &[], WalletSource::Network)
+    reg.publish_wallets(&P, "tekkerrss", None, &[])
         .await
         .unwrap();
     let t = reg.get_kol(&P, "tekkerrss").await.unwrap().unwrap();

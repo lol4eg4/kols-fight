@@ -299,24 +299,23 @@ impl RegistryApi for Registry {
         &self,
         _: &Person,
         kol: &str,
-        main: Option<&str>,
-        others: &[String],
-        source: WalletSource,
+        main: Option<(&str, WalletSource)>,
+        others: &[(String, WalletSource)],
     ) -> Result<(), RegistryError> {
-        // (address, main), main first, each address once.
-        let mut wanted: Vec<(&str, bool)> = Vec::new();
-        for (address, is_main) in main
-            .map(|m| (m, true))
+        // (address, main, source), main first, each address once.
+        let mut wanted: Vec<(&str, bool, WalletSource)> = Vec::new();
+        for (address, is_main, source) in main
+            .map(|(m, s)| (m, true, s))
             .into_iter()
-            .chain(others.iter().map(|o| (o.as_str(), false)))
+            .chain(others.iter().map(|(o, s)| (o.as_str(), false, *s)))
         {
             if !base58::is_solana_address(address) {
                 return Err(RegistryError::InvalidAddress {
                     address: address.into(),
                 });
             }
-            if !wanted.iter().any(|(a, _)| *a == address) {
-                wanted.push((address, is_main));
+            if !wanted.iter().any(|(a, _, _)| *a == address) {
+                wanted.push((address, is_main, source));
             }
         }
         let mut tx = self.pool.begin().await.map_err(internal)?;
@@ -329,7 +328,7 @@ impl RegistryApi for Registry {
         if found.is_none() {
             return Err(RegistryError::UnknownKol { kol: kol.into() });
         }
-        let addresses: Vec<&str> = wanted.iter().map(|(a, _)| *a).collect();
+        let addresses: Vec<&str> = wanted.iter().map(|(a, _, _)| *a).collect();
         let taken: Option<(String, String)> = sqlx::query_as(
             "SELECT address, kol FROM registry.wallet WHERE address = ANY($1) AND kol <> $2 \
              ORDER BY address LIMIT 1",
@@ -354,7 +353,7 @@ impl RegistryApi for Registry {
             .execute(&mut *tx)
             .await
             .map_err(internal)?;
-        for (pos, (address, is_main)) in wanted.iter().enumerate() {
+        for (pos, (address, is_main, source)) in wanted.iter().enumerate() {
             // A wallet this KOL already had keeps its publish time.
             let written = sqlx::query(
                 "INSERT INTO registry.wallet (address, kol, main, pos, source, published_at) \
@@ -366,7 +365,7 @@ impl RegistryApi for Registry {
             .bind(kol)
             .bind(is_main)
             .bind(pos as i32)
-            .bind(source_str(source))
+            .bind(source_str(*source))
             .execute(&mut *tx)
             .await
             .map_err(internal)?;

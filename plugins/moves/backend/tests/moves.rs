@@ -220,9 +220,8 @@ impl RegistryApi for Names {
         &self,
         _: &Person,
         _: &str,
-        _: Option<&str>,
-        _: &[String],
-        _: WalletSource,
+        _: Option<(&str, WalletSource)>,
+        _: &[(String, WalletSource)],
     ) -> Result<(), RegistryError> {
         Err(RegistryError::Internal {
             message: "not used".into(),

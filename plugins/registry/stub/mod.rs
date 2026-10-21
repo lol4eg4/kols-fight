@@ -33,9 +33,8 @@ impl RegistryApi for Stub {
         &self,
         _: &Person,
         _: &str,
-        _: Option<&str>,
-        _: &[String],
-        _: WalletSource,
+        _: Option<(&str, WalletSource)>,
+        _: &[(String, WalletSource)],
     ) -> Result<(), RegistryError> {
         Err(RegistryError::Off)
     }

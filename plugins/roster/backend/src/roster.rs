@@ -213,6 +213,12 @@ impl Roster {
             })?;
         let parsed = sheet::parse(&text).map_err(|e| e.to_string())?;
         report.rows = parsed.rows.len() as u32;
+        // A row skipped for a blank cell is still there: its member does not leave.
+        let kept: Vec<String> = parsed
+            .skipped
+            .iter()
+            .filter_map(|s| s.fomo_key.clone())
+            .collect();
         report.skipped = parsed.skipped;
         if parsed.rows.is_empty() {
             return Err("sheet has no usable rows; roster unchanged".into());
@@ -222,7 +228,7 @@ impl Roster {
             .await
             .map_err(|e| e.to_string())?;
         let mut planned: Vec<Planned> = Vec::new();
-        for row in parsed.rows {
+        for mut row in parsed.rows {
             let mut before = members
                 .iter()
                 .find(|m| m.fomo_key.as_deref() == Some(row.fomo_key.as_str()))
@@ -248,8 +254,16 @@ impl Roster {
                 report.skipped.push(Skipped {
                     line: row.line,
                     reason: "same KOL as an earlier row".into(),
+                    fomo_key: None,
                 });
                 continue;
+            }
+            if !parsed.has_wallets
+                && let Some(b) = &before
+            {
+                // No Wallet column: confirmed sheet wallets must not be retired.
+                row.wallets = b.sheet_wallets.clone();
+                row.wallet_note = b.wallet_note.clone();
             }
             let kol = self.registry_kol(person, &row, known_kol).await?;
             let formats = if row.formats.is_empty() {
@@ -281,7 +295,7 @@ impl Roster {
                     .map_err(|e| e.to_string())?;
             }
         }
-        self.apply(person, planned, report).await
+        self.apply(person, planned, &kept, report).await
     }
 
     /// The registry KOL for a sheet row: creates it, or updates its FOMO and pump.fun links.
@@ -345,6 +359,7 @@ impl Roster {
         &self,
         person: &Person,
         planned: Vec<Planned>,
+        kept: &[String],
         report: &mut SyncReport,
     ) -> Result<(), String> {
         let now = Utc::now();
@@ -442,10 +457,12 @@ impl Roster {
         let matched: Vec<String> = planned.iter().map(|p| p.kol.clone()).collect();
         let left: Vec<String> = sqlx::query_scalar(
             "UPDATE roster.member SET active = false, left_at = $2 \
-             WHERE active AND NOT keep AND kol <> ALL($1) RETURNING kol",
+             WHERE active AND NOT keep AND kol <> ALL($1) \
+               AND (fomo_key IS NULL OR fomo_key <> ALL($3)) RETURNING kol",
         )
         .bind(&matched)
         .bind(now)
+        .bind(kept)
         .fetch_all(&mut *tx)
         .await
         .map_err(|e| e.to_string())?;

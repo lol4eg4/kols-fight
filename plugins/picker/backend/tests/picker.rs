@@ -226,9 +226,8 @@ impl RegistryApi for FakeRegistry {
         &self,
         _p: &Person,
         _kol: &str,
-        _main: Option<&str>,
-        _others: &[String],
-        _source: WalletSource,
+        _main: Option<(&str, WalletSource)>,
+        _others: &[(String, WalletSource)],
     ) -> Result<(), RegistryError> {
         unimplemented!()
     }

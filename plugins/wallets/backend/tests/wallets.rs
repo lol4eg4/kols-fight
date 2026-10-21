@@ -970,6 +970,27 @@ async fn a_main_wallet_that_differs_from_kol_explorers_is_a_conflict() {
     );
 }
 
+#[tokio::test]
+async fn a_revoked_network_wallet_next_to_kol_explorers_main_leaves_the_registry() {
+    let e = env().await;
+    e.add("pia-larch", "pia_larch", &[ADDR[3], ADDR[4]]);
+    e.registry
+        .set_main("pia-larch", ADDR[3], WalletSource::Kolexplorer);
+    e.st.trades(ADDR[3]);
+    e.st.trades(ADDR[4]);
+    e.pass().await;
+    let k = e.registry.get("pia-larch");
+    assert_eq!(k.main_wallet.unwrap().source, WalletSource::Kolexplorer);
+    let other: Vec<_> = k.other_wallets.iter().map(|w| (w.address.as_str(), w.source)).collect();
+    assert_eq!(other, [(ADDR[4], WalletSource::Network)]);
+
+    let id = e.cand("pia-larch", ADDR[4]).await.id;
+    e.w.revoke(&STAFF, id, "not his wallet").await.unwrap();
+    let k = e.registry.get("pia-larch");
+    assert_eq!(k.main_wallet.unwrap().address, ADDR[3]);
+    assert!(k.other_wallets.is_empty(), "{:?}", k.other_wallets);
+}
+
 // ----- staff proposals and the main wallet -----------------------------------------------
 
 #[tokio::test]

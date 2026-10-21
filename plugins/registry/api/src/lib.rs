@@ -146,16 +146,15 @@ pub trait RegistryApi: Send + Sync {
         address: &str,
     ) -> Result<Option<KolId>, RegistryError>;
 
-    /// Replaces the KOL's published wallets with `main` and `others` from `source`.
+    /// Replaces the KOL's published wallets with `main` and `others`, each with its source.
     /// `None` and no others unpublishes them. Refuses with [`RegistryError::WalletTaken`]
     /// when any address is published for another KOL; then nothing changes.
     async fn publish_wallets(
         &self,
         person: &Person,
         kol: &str,
-        main: Option<&str>,
-        others: &[String],
-        source: WalletSource,
+        main: Option<(&str, WalletSource)>,
+        others: &[(String, WalletSource)],
     ) -> Result<(), RegistryError>;
 
     /// Sets the KOL's reach, read from `source` on `date`.

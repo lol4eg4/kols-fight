@@ -23,13 +23,17 @@ pub fn handle_key(s: &str) -> String {
     s.trim().trim_start_matches('@').to_lowercase()
 }
 
-/// One `publish_wallets` call: kol, main, others, source.
-pub type Publish = (String, Option<String>, Vec<String>, WalletSource);
+/// One `publish_wallets` call: kol, main, others, each address with its source.
+pub type Publish = (
+    String,
+    Option<(String, WalletSource)>,
+    Vec<(String, WalletSource)>,
+);
 
 #[derive(Default)]
 pub struct FakeRegistry {
     pub kols: Mutex<BTreeMap<String, KolProfile>>,
-    /// (kol, main, others, source) of every accepted `publish_wallets`.
+    /// (kol, main, others) of every accepted `publish_wallets`.
     pub publishes: Mutex<Vec<Publish>>,
 }
 
@@ -175,9 +179,8 @@ impl RegistryApi for FakeRegistry {
         &self,
         _: &Person,
         kol: &str,
-        main: Option<&str>,
-        others: &[String],
-        source: WalletSource,
+        main: Option<(&str, WalletSource)>,
+        others: &[(String, WalletSource)],
     ) -> Result<(), RegistryError> {
         let mut kols = self.kols.lock().unwrap();
         if !kols.contains_key(kol) {
@@ -185,7 +188,10 @@ impl RegistryApi for FakeRegistry {
                 kol: kol.to_string(),
             });
         }
-        for a in main.into_iter().chain(others.iter().map(String::as_str)) {
+        for (a, _) in main
+            .into_iter()
+            .chain(others.iter().map(|(a, s)| (a.as_str(), *s)))
+        {
             if !is_solana_address(a) {
                 return Err(RegistryError::InvalidAddress {
                     address: a.to_string(),
@@ -205,19 +211,18 @@ impl RegistryApi for FakeRegistry {
             }
         }
         let now = Utc::now();
-        let wallet = |a: &str| PublishedWallet {
+        let wallet = |a: &str, source| PublishedWallet {
             address: a.to_string(),
             source,
             published_at: now,
         };
         let k = kols.get_mut(kol).unwrap();
-        k.main_wallet = main.map(wallet);
-        k.other_wallets = others.iter().map(|a| wallet(a)).collect();
+        k.main_wallet = main.map(|(a, s)| wallet(a, s));
+        k.other_wallets = others.iter().map(|(a, s)| wallet(a, *s)).collect();
         self.publishes.lock().unwrap().push((
             kol.to_string(),
-            main.map(str::to_string),
+            main.map(|(a, s)| (a.to_string(), s)),
             others.to_vec(),
-            source,
         ));
         Ok(())
     }

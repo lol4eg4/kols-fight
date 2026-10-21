@@ -3,7 +3,8 @@
 //! Columns are found by header name, not by position. Required: `Name`, `FOMO`. Optional:
 //! `Group`, `Low $`, `High $`, `Deliverable / note`, `Wallet`, `Pump.fun`. Unknown columns are
 //! ignored. Unnamed columns after `Wallet` are read as extra wallets (base58 addresses only).
-//! A missing required header fails the whole read: the roster stays as it was.
+//! A missing required header fails the whole read: the roster stays as it was. Without a
+//! `Wallet` column the members keep the sheet wallets read before.
 //!
 //! Rows are keyed by the lowercase FOMO handle. A blank row is skipped silently; a row without a
 //! FOMO handle or a name, or a second row with a FOMO handle already seen, is skipped and
@@ -41,12 +42,17 @@ pub struct SheetRow {
 pub struct Skipped {
     pub line: usize,
     pub reason: String,
+    /// The row's FOMO handle key, when it had one: that member stays in the network.
+    #[serde(skip)]
+    pub fomo_key: Option<String>,
 }
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct Parsed {
     pub rows: Vec<SheetRow>,
     pub skipped: Vec<Skipped>,
+    /// The sheet has a `Wallet` column.
+    pub has_wallets: bool,
 }
 
 /// The sheet could not be read as a whole.
@@ -163,6 +169,7 @@ pub fn parse(text: &str) -> Result<Parsed, SheetError> {
             skipped.push(Skipped {
                 line,
                 reason: "no FOMO handle".into(),
+                fomo_key: None,
             });
             continue;
         };
@@ -170,6 +177,7 @@ pub fn parse(text: &str) -> Result<Parsed, SheetError> {
             skipped.push(Skipped {
                 line,
                 reason: "no name".into(),
+                fomo_key: Some(fomo.to_lowercase()),
             });
             continue;
         };
@@ -178,6 +186,7 @@ pub fn parse(text: &str) -> Result<Parsed, SheetError> {
             skipped.push(Skipped {
                 line,
                 reason: "FOMO handle already used by an earlier row".into(),
+                fomo_key: None,
             });
             continue;
         }
@@ -216,7 +225,11 @@ pub fn parse(text: &str) -> Result<Parsed, SheetError> {
             wallet_note,
         });
     }
-    Ok(Parsed { rows, skipped })
+    Ok(Parsed {
+        rows,
+        skipped,
+        has_wallets: wallet_col.is_some(),
+    })
 }
 
 /// `@name`, `https://host/path/name?x` -> `name`.

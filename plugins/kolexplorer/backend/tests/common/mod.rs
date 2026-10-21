@@ -132,12 +132,11 @@ impl RegistryApi for FakeRegistry {
         &self,
         _: &Person,
         kol: &str,
-        main: Option<&str>,
-        others: &[String],
-        source: WalletSource,
+        main: Option<(&str, WalletSource)>,
+        others: &[(String, WalletSource)],
     ) -> Result<(), RegistryError> {
         let mut kols = self.kols.lock().unwrap();
-        for a in main.into_iter().chain(others.iter().map(String::as_str)) {
+        for (a, _) in main.into_iter().chain(others.iter().map(|(a, s)| (a.as_str(), *s))) {
             if let Some(owner) = kols.values().find(|k| {
                 k.id != kol
                     && k.main_wallet
@@ -154,13 +153,13 @@ impl RegistryApi for FakeRegistry {
         let k = kols.get_mut(kol).ok_or(RegistryError::UnknownKol {
             kol: kol.to_string(),
         })?;
-        let w = |a: &str| PublishedWallet {
+        let w = |a: &str, source| PublishedWallet {
             address: a.to_string(),
             source,
             published_at: Utc::now(),
         };
-        k.main_wallet = main.map(w);
-        k.other_wallets = others.iter().map(|a| w(a)).collect();
+        k.main_wallet = main.map(|(a, s)| w(a, s));
+        k.other_wallets = others.iter().map(|(a, s)| w(a, *s)).collect();
         Ok(())
     }
 

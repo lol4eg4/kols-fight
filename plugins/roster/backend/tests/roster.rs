@@ -612,6 +612,40 @@ async fn skipped_rows_are_reported() {
 }
 
 #[tokio::test]
+async fn a_row_with_a_blank_name_keeps_its_member() {
+    let env = env().await;
+    assert_eq!(env.sync(SHEET).await.status, "ok");
+    let before = env.active_kols().await;
+    let csv = SHEET.replace("\nFable Moss,", "\n,");
+    let report = env.sync(&csv).await;
+    assert_eq!((report.status, report.removed), ("ok", 0));
+    assert_eq!(report.skipped.len(), 1);
+    assert_eq!(env.active_kols().await, before);
+}
+
+#[tokio::test]
+async fn a_sheet_without_the_wallet_column_keeps_the_sheet_wallets() {
+    let env = env().await;
+    assert_eq!(env.sync(SHEET).await.status, "ok");
+    let wallets = || async {
+        sqlx::query_scalar::<_, Vec<String>>(
+            "SELECT sheet_wallets FROM roster.terms t JOIN roster.member m USING (kol) \
+             WHERE m.fomo_key = 'fable_moss'",
+        )
+        .fetch_one(env.db.pool())
+        .await
+        .unwrap()
+    };
+    let before = wallets().await;
+    assert_eq!(before.len(), 1);
+    let report = env
+        .sync("Name,Group,Low $,High $,Deliverable / note,FOMO\nFable Moss,Jasper,1,2,,fable_moss\n")
+        .await;
+    assert_eq!(report.status, "ok", "{:?}", report.error);
+    assert_eq!(wallets().await, before);
+}
+
+#[tokio::test]
 async fn the_daily_job_runs_at_0545_with_the_data_lock() {
     let env = env().await;
     let jobs = arena_platform::Plugin::jobs(env.plugin.as_ref(), &env.ctx);

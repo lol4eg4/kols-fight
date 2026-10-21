@@ -474,11 +474,11 @@ impl Wallets {
                 .ok_or_else(|| Error::Internal(format!("registry does not know {kol}")))?;
             let ke = |w: &api_registry::PublishedWallet| w.source == WalletSource::Kolexplorer;
             let ke_main = profile.main_wallet.clone().filter(ke);
-            let ke_others: Vec<String> = profile
+            let ke_others: Vec<(String, WalletSource)> = profile
                 .other_wallets
                 .iter()
                 .filter(|w| ke(w))
-                .map(|w| w.address.clone())
+                .map(|w| (w.address.clone(), w.source))
                 .collect();
 
             if confirmed.is_empty() {
@@ -492,7 +492,12 @@ impl Wallets {
                 }
                 let main = ke_main.as_ref().map(|w| w.address.as_str());
                 registry
-                    .publish_wallets(&SYSTEM, kol, main, &ke_others, WalletSource::Kolexplorer)
+                    .publish_wallets(
+                        &SYSTEM,
+                        kol,
+                        main.map(|a| (a, WalletSource::Kolexplorer)),
+                        &ke_others,
+                    )
                     .await?;
                 self.record(
                     person,
@@ -528,36 +533,40 @@ impl Wallets {
                 continue;
             }
             let main = main_row.address.clone();
-            let mut others: Vec<String> = confirmed
+            // Each wallet keeps its own source, so a revoked network wallet is never KOL Explorer's.
+            let main_source = if ke_main.as_ref().is_some_and(|w| w.address == main) {
+                WalletSource::Kolexplorer
+            } else {
+                published_source(main_row.source)
+            };
+            let mut others: Vec<(String, WalletSource)> = confirmed
                 .iter()
                 .filter(|r| r.address != main)
-                .map(|r| r.address.clone())
+                .map(|r| (r.address.clone(), published_source(r.source)))
                 .collect();
-            for a in ke_main.iter().map(|w| &w.address).chain(&ke_others) {
-                if *a != main && !others.contains(a) {
-                    others.push(a.clone());
+            for a in ke_main.iter().map(|w| &w.address).chain(ke_others.iter().map(|(a, _)| a)) {
+                if *a != main && !others.iter().any(|(o, _)| o == a) {
+                    others.push((a.clone(), WalletSource::Kolexplorer));
                 }
             }
-            let mut published: Vec<&String> =
-                profile.other_wallets.iter().map(|w| &w.address).collect();
-            published.sort();
-            let mut wanted: Vec<&String> = others.iter().collect();
-            wanted.sort();
-            let in_sync = profile.main_wallet.as_ref().map(|w| w.address.as_str())
-                == Some(main.as_str())
+            let mut published: Vec<(&String, WalletSource)> = profile
+                .other_wallets
+                .iter()
+                .map(|w| (&w.address, w.source))
+                .collect();
+            published.sort_by(|a, b| a.0.cmp(b.0));
+            let mut wanted: Vec<(&String, WalletSource)> =
+                others.iter().map(|(a, s)| (a, *s)).collect();
+            wanted.sort_by(|a, b| a.0.cmp(b.0));
+            let in_sync = profile
+                .main_wallet
+                .as_ref()
+                .map(|w| (w.address.as_str(), w.source))
+                == Some((main.as_str(), main_source))
                 && published == wanted;
             if !in_sync {
-                let source = if ke_main.as_ref().is_some_and(|w| w.address == main) {
-                    WalletSource::Kolexplorer
-                } else {
-                    match main_row.source {
-                        CandidateSource::Prototype => WalletSource::Prototype,
-                        CandidateSource::Kolexplorer => WalletSource::Kolexplorer,
-                        _ => WalletSource::Network,
-                    }
-                };
                 match registry
-                    .publish_wallets(&SYSTEM, kol, Some(&main), &others, source)
+                    .publish_wallets(&SYSTEM, kol, Some((&main, main_source)), &others)
                     .await
                 {
                     Ok(()) => {
@@ -615,7 +624,7 @@ impl Wallets {
         }
     }
 
-    fn found(t: &Trades, notes: &mut Vec<String>, address: &str) -> Found {
+    fn found(t: &Trades, notes: &mut Vec<String>) -> Found {
         match t {
             Trades::Yes(last) => Found {
                 status: Confirmed,
@@ -630,7 +639,8 @@ impl Wallets {
                 checked: true,
             },
             Trades::Failed(e) => {
-                notes.push(format!("trades check of {address}: {e}"));
+                // Notes reach the server log: never the address of an unconfirmed wallet.
+                notes.push(format!("trades check: {e}"));
                 Found {
                     status: NotFound,
                     reason: Some(format!("trades check failed: {e}")),
@@ -690,7 +700,7 @@ impl Wallets {
             match self.row_by_address(&m.kol, addr).await? {
                 None => {
                     let t = self.trades(addr).await;
-                    let found = Self::found(&t, notes, addr);
+                    let found = Self::found(&t, notes);
                     self.insert(
                         person,
                         &m.kol,
@@ -731,7 +741,7 @@ impl Wallets {
                                 self.touch(&row, None, Some(reason)).await?;
                             }
                         }
-                        Trades::Failed(e) => notes.push(format!("trades check of {addr}: {e}")),
+                        Trades::Failed(e) => notes.push(format!("trades check: {e}")),
                     }
                 }
                 Some(_) => {}
@@ -1156,7 +1166,7 @@ impl Wallets {
         let t = self.trades(address).await;
         let id = match self.row_by_address(kol, address).await? {
             None => {
-                let found = Self::found(&t, &mut notes, address);
+                let found = Self::found(&t, &mut notes);
                 self.insert(
                     person,
                     kol,
@@ -1221,3 +1231,12 @@ impl Wallets {
 
 /// Convenience for handlers: the service behind an `Arc`.
 pub type Shared = Arc<Wallets>;
+
+/// The registry source of a confirmed candidate's wallet.
+fn published_source(source: CandidateSource) -> WalletSource {
+    match source {
+        CandidateSource::Prototype => WalletSource::Prototype,
+        CandidateSource::Kolexplorer => WalletSource::Kolexplorer,
+        _ => WalletSource::Network,
+    }
+}

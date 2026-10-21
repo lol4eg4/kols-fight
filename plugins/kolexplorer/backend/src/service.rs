@@ -129,19 +129,19 @@ impl Kolexplorer {
                 }
                 _ => {}
             }
-            let others: Vec<String> = prof
+            // Other wallets keep their own source: a network wallet stays the network's.
+            let others: Vec<(String, WalletSource)> = prof
                 .other_wallets
                 .iter()
-                .map(|w| w.address.clone())
-                .filter(|a| a != &row.address)
+                .filter(|w| w.address != row.address)
+                .map(|w| (w.address.clone(), w.source))
                 .collect();
             match registry
                 .publish_wallets(
                     p,
                     id,
-                    Some(&row.address),
+                    Some((&row.address, WalletSource::Kolexplorer)),
                     &others,
-                    WalletSource::Kolexplorer,
                 )
                 .await
             {
