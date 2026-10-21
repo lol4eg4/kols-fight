@@ -3,7 +3,10 @@ import { dict } from "./en";
 
 export const plugin = definePlugin({
   name: "auth",
-  screens: {},
+  screens: {
+    login: () => import("./Login"),
+    staff: () => import("./Staff"),
+  },
   fills: {},
   widgets: {},
   dict,

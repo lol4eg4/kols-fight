@@ -8,4 +8,14 @@ publish.workspace = true
 api-fight.workspace = true
 api-score.workspace = true
 arena-platform.workspace = true
+axum.workspace = true
+chrono.workspace = true
+serde.workspace = true
+serde_json.workspace = true
 sqlx.workspace = true
+tracing.workspace = true
+
+[dev-dependencies]
+async-trait.workspace = true
+tokio.workspace = true
+tower.workspace = true

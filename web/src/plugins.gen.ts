@@ -337,7 +337,7 @@ export const plugins: RegisteredPlugin[] = [
       layer: 4,
       version: "0.1.0",
       tags: ["public"],
-      uses: ["score", "snapshots"],
+      uses: ["registry", "score", "snapshots"],
       emits: [],
       listens: [],
       slots: [],
