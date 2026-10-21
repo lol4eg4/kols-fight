@@ -17,6 +17,7 @@ use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
 use sqlx::{PgPool, Row};
 use std::sync::Arc;
+use tokio::sync::Semaphore;
 
 /// Block name in the journal.
 const BLOCK: &str = "auth";
@@ -97,6 +98,8 @@ pub struct AuthService {
     params: Params,
     /// Verified when the login is unknown, so both paths cost the same.
     dummy_hash: String,
+    /// Password hashes running at once: a burst of logins waits instead of taking every core.
+    hashing: Semaphore,
 }
 
 /// Login: 3 to 64 characters of a-z, 0-9 and `. _ - @`, after trim and lower-casing.
@@ -179,6 +182,9 @@ impl AuthService {
             clock,
             params,
             dummy_hash,
+            hashing: Semaphore::new(
+                std::thread::available_parallelism().map_or(1, |n| n.get().div_ceil(2)),
+            ),
         }
     }
 
@@ -187,6 +193,7 @@ impl AuthService {
     }
 
     async fn hash(&self, password: &str) -> Result<String, String> {
+        let _permit = self.hashing.acquire().await.map_err(|e| e.to_string())?;
         let (params, password) = (self.params.clone(), password.to_owned());
         tokio::task::spawn_blocking(move || hash_password(&params, &password))
             .await
@@ -194,6 +201,9 @@ impl AuthService {
     }
 
     async fn verify(&self, stored: String, password: &str) -> bool {
+        let Ok(_permit) = self.hashing.acquire().await else {
+            return false;
+        };
         let password = password.to_owned();
         tokio::task::spawn_blocking(move || verify_password(&stored, &password))
             .await
@@ -223,48 +233,51 @@ impl AuthService {
     }
 
     /// Minutes left on a lock for `ip`, if it is locked now.
-    async fn locked_minutes(
+    /// Counts the attempt as a failure before the password is checked, so parallel
+    /// attempts all count. Returns the minutes left when the address is locked; an attempt
+    /// past [`MAX_FAILURES`] locks it. Otherwise returns the failures counted so far.
+    async fn begin_attempt(
         &self,
         ip: &str,
         now: DateTime<Utc>,
-    ) -> Result<Option<i64>, sqlx::Error> {
-        let until: Option<Option<DateTime<Utc>>> =
-            sqlx::query_scalar("SELECT locked_until FROM auth.login_limit WHERE ip = $1")
-                .bind(ip)
-                .fetch_optional(&self.pool)
-                .await?;
-        Ok(until.flatten().filter(|u| *u > now).map(|u| {
-            let secs = (u - now).num_seconds();
-            ((secs + 59) / 60).max(1)
-        }))
-    }
-
-    /// Counts a failed login; the fifth inside the window locks the address.
-    async fn record_failure(&self, ip: &str, now: DateTime<Utc>) -> Result<(), sqlx::Error> {
+    ) -> Result<Result<i32, i64>, sqlx::Error> {
         let window_start = now - Duration::minutes(WINDOW_MINUTES);
-        let failures: i32 = sqlx::query_scalar(
+        let (failures, until): (i32, Option<DateTime<Utc>>) = sqlx::query_as(
             "INSERT INTO auth.login_limit AS l (ip, failures, window_start) VALUES ($1, 1, $2) \
              ON CONFLICT (ip) DO UPDATE SET \
-               failures = CASE WHEN l.window_start <= $3 THEN 1 ELSE l.failures + 1 END, \
-               window_start = CASE WHEN l.window_start <= $3 THEN $2 ELSE l.window_start END \
-             RETURNING failures",
+               failures = CASE WHEN l.locked_until > $2 THEN l.failures \
+                 WHEN l.window_start <= $3 THEN 1 ELSE l.failures + 1 END, \
+               window_start = CASE WHEN l.locked_until > $2 THEN l.window_start \
+                 WHEN l.window_start <= $3 THEN $2 ELSE l.window_start END \
+             RETURNING failures, locked_until",
         )
         .bind(ip)
         .bind(now)
         .bind(window_start)
         .fetch_one(&self.pool)
         .await?;
-        if failures >= MAX_FAILURES {
-            sqlx::query(
-                "UPDATE auth.login_limit SET locked_until = $2, failures = 0, window_start = $3 \
-                 WHERE ip = $1",
-            )
-            .bind(ip)
-            .bind(now + Duration::minutes(LOCK_MINUTES))
-            .bind(now)
-            .execute(&self.pool)
-            .await?;
+        if let Some(u) = until.filter(|u| *u > now) {
+            let secs = (u - now).num_seconds();
+            return Ok(Err(((secs + 59) / 60).max(1)));
         }
+        if failures > MAX_FAILURES {
+            self.lock(ip, now).await?;
+            return Ok(Err(LOCK_MINUTES));
+        }
+        Ok(Ok(failures))
+    }
+
+    /// Locks the address for [`LOCK_MINUTES`].
+    async fn lock(&self, ip: &str, now: DateTime<Utc>) -> Result<(), sqlx::Error> {
+        sqlx::query(
+            "UPDATE auth.login_limit SET locked_until = $2, failures = 0, window_start = $3 \
+             WHERE ip = $1",
+        )
+        .bind(ip)
+        .bind(now + Duration::minutes(LOCK_MINUTES))
+        .bind(now)
+        .execute(&self.pool)
+        .await?;
         Ok(())
     }
 
@@ -277,9 +290,10 @@ impl AuthService {
         password: &str,
     ) -> Result<(Staff, String), LoginError> {
         let now = self.now();
-        if let Some(minutes) = self.locked_minutes(ip, now).await? {
-            return Err(LoginError::Locked { minutes });
-        }
+        let failures = match self.begin_attempt(ip, now).await? {
+            Ok(n) => n,
+            Err(minutes) => return Err(LoginError::Locked { minutes }),
+        };
         let login = login.trim().to_lowercase();
         // An absurd password is a failure without any hashing work.
         let row = if password.len() > MAX_PASSWORD * 4 {
@@ -303,7 +317,10 @@ impl AuthService {
             self.verify(stored, password).await
         };
         let Some(row) = row.filter(|_| good) else {
-            self.record_failure(ip, now).await?;
+            // The fifth failure inside the window locks the address.
+            if failures >= MAX_FAILURES {
+                self.lock(ip, now).await?;
+            }
             // Old rows of idle addresses.
             sqlx::query(
                 "DELETE FROM auth.login_limit WHERE window_start < $1 \
@@ -314,6 +331,13 @@ impl AuthService {
             .await?;
             return Err(LoginError::BadCredentials);
         };
+        // This attempt was counted as a failure up front: it was not one.
+        sqlx::query(
+            "UPDATE auth.login_limit SET failures = GREATEST(failures - 1, 0) WHERE ip = $1",
+        )
+        .bind(ip)
+        .execute(&self.pool)
+        .await?;
         let staff = Staff {
             id: row.try_get("id")?,
             login,

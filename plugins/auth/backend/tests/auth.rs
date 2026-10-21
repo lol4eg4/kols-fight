@@ -423,6 +423,37 @@ async fn five_failures_lock_the_address_for_fifteen_minutes() {
     env.db.close().await;
 }
 
+#[tokio::test(flavor = "multi_thread", worker_threads = 4)]
+async fn parallel_tries_count_before_the_password_is_checked() {
+    let env = Env::new().await;
+    env.people().await;
+    let router = env.router();
+    let tries: Vec<_> = (0..12)
+        .map(|_| {
+            let router = router.clone();
+            tokio::spawn(async move {
+                login(&router, "10.0.0.6", "anna", "wrong-wrong-wrong")
+                    .await
+                    .status
+            })
+        })
+        .collect();
+    let mut checked = 0;
+    for t in tries {
+        if t.await.unwrap() == StatusCode::UNAUTHORIZED {
+            checked += 1;
+        }
+    }
+    assert!(checked <= 5, "{checked} passwords checked");
+    assert_eq!(
+        login(&router, "10.0.0.6", "anna", "anna-password-1")
+            .await
+            .status,
+        StatusCode::TOO_MANY_REQUESTS
+    );
+    env.db.close().await;
+}
+
 #[tokio::test]
 async fn failures_older_than_fifteen_minutes_do_not_count() {
     let env = Env::new().await;
