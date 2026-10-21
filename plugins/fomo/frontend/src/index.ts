@@ -3,7 +3,7 @@ import { dict } from "./en";
 
 export const plugin = definePlugin({
   name: "fomo",
-  screens: {},
+  screens: { fomo: () => import("./Fomo") },
   fills: {},
   widgets: {},
   dict,

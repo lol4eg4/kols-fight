@@ -117,9 +117,13 @@ impl WalletsApi for WalletsImpl {
         let (me, person) = (self.0.clone(), *person);
         let (kol, address, evidence) = (kol.to_string(), address.to_string(), evidence.to_string());
         let inner = me.clone();
-        me.locked(async move { inner.propose(&person, &kol, &address, &evidence).await })
-            .await
-            .map_err(WalletsError::from)
+        me.locked(async move {
+            inner
+                .propose_hypothesis(&person, &kol, &address, &evidence)
+                .await
+        })
+        .await
+        .map_err(WalletsError::from)
     }
 
     async fn status(&self, person: &Person, kol: &str) -> Result<WalletStatus, WalletsError> {

@@ -8,4 +8,16 @@ publish.workspace = true
 api-journal.workspace = true
 api-wallets.workspace = true
 arena-platform.workspace = true
+async-trait.workspace = true
+axum.workspace = true
+base64 = "0.22"
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls"] }
+serde.workspace = true
+serde_json.workspace = true
 sqlx.workspace = true
+thiserror.workspace = true
+tokio.workspace = true
+
+[dev-dependencies]
+chrono.workspace = true
+tower.workspace = true

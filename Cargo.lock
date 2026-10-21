@@ -1510,7 +1510,17 @@ dependencies = [
  "api-journal",
  "api-wallets",
  "arena-platform",
+ "async-trait",
+ "axum",
+ "base64 0.22.1",
+ "chrono",
+ "reqwest",
+ "serde",
+ "serde_json",
  "sqlx",
+ "thiserror",
+ "tokio",
+ "tower",
 ]
 
 [[package]]
@@ -1602,7 +1612,15 @@ dependencies = [
  "api-roster",
  "api-score",
  "arena-platform",
+ "async-trait",
+ "axum",
+ "chrono",
+ "serde",
+ "serde_json",
  "sqlx",
+ "thiserror",
+ "tokio",
+ "tower",
 ]
 
 [[package]]
