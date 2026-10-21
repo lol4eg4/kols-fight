@@ -157,7 +157,7 @@ impl From<ScoreError> for BoardError {
     fn from(e: ScoreError) -> Self {
         match e {
             ScoreError::Off | ScoreError::NotBuilt => unavailable(),
-            ScoreError::NoSnapshot { .. } => no_snapshot(),
+            ScoreError::NoSnapshot { .. } | ScoreError::NotRanked { .. } => no_snapshot(),
             _ => internal(),
         }
     }
@@ -180,13 +180,16 @@ pub struct DateQuery {
 }
 
 impl Board {
-    /// The closed snapshot date for `raw` (latest when absent), and every closed date.
+    /// The closed and ranked snapshot date for `raw` (latest when absent), and every such date.
     async fn date(
         &self,
         person: &Person,
         raw: Option<&str>,
     ) -> Result<(NaiveDate, Vec<NaiveDate>), BoardError> {
-        let dates = self.uses.snapshots.pick(person).dates(person).await?;
+        // Close and rank are two steps of the daily run: a closed date shows once it is ranked.
+        let ranked = self.uses.score.pick(person).ranked_dates(person).await?;
+        let mut dates = self.uses.snapshots.pick(person).dates(person).await?;
+        dates.retain(|d| ranked.contains(d));
         let date = match raw {
             None | Some("") => *dates.last().ok_or_else(no_snapshot)?,
             Some(s) => {

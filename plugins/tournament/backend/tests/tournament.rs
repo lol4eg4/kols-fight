@@ -122,6 +122,8 @@ impl FightApi for FakeFight {
             decision,
             counted_rounds: 8,
             missing: vec![],
+            counted_line: String::new(),
+            summary: vec![],
         })
     }
 }
@@ -152,6 +154,9 @@ impl ScoreApi for FakeScore {
                 })
                 .collect(),
         })
+    }
+    async fn ranked_dates(&self, _: &Person) -> Result<Vec<NaiveDate>, ScoreError> {
+        Err(ScoreError::NotBuilt)
     }
 }
 

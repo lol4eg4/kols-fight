@@ -132,6 +132,11 @@ impl ScoreApi for FakeScore {
             .cloned()
             .ok_or(ScoreError::NotRanked { date })
     }
+    async fn ranked_dates(&self, _: &Person) -> Result<Vec<NaiveDate>, ScoreError> {
+        let mut dates: Vec<NaiveDate> = self.0.lock().unwrap().rankings.keys().copied().collect();
+        dates.sort();
+        Ok(dates)
+    }
 }
 
 struct FakeRegistry(HashMap<String, KolProfile>);

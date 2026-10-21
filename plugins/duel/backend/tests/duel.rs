@@ -79,6 +79,9 @@ impl ScoreApi for FakeScore {
             rows,
         })
     }
+    async fn ranked_dates(&self, _: &Person) -> Result<Vec<NaiveDate>, ScoreError> {
+        Err(ScoreError::NotBuilt)
+    }
 }
 
 /// Fights nobody; remembers who it was asked about. The first listed wins.
@@ -118,6 +121,8 @@ impl FightApi for FakeFight {
             decision: Decision::Rounds,
             counted_rounds: 8,
             missing: vec![],
+            counted_line: String::new(),
+            summary: vec![],
         })
     }
 }

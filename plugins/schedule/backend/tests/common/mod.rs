@@ -304,6 +304,9 @@ impl ScoreApi for FakeScore {
     async fn ranking(&self, _: &Person, _: NaiveDate) -> Result<Ranking, ScoreError> {
         Err(ScoreError::NotBuilt)
     }
+    async fn ranked_dates(&self, _: &Person) -> Result<Vec<NaiveDate>, ScoreError> {
+        Err(ScoreError::NotBuilt)
+    }
 }
 
 pub struct FakeJournal {

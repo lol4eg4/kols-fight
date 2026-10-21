@@ -130,7 +130,15 @@ impl FightApi for Fight {
             }
         }
         let snapshots = self.snapshots.pick(person);
-        let dates = snapshots.dates(person).await.map_err(from_snapshots)?;
+        // A closed date can fight once the daily run has ranked it.
+        let ranked = self
+            .score
+            .pick(person)
+            .ranked_dates(person)
+            .await
+            .map_err(from_score)?;
+        let mut dates = snapshots.dates(person).await.map_err(from_snapshots)?;
+        dates.retain(|d| ranked.contains(d));
         let date = match date {
             None => *dates.last().ok_or(FightError::NoSnapshot { date: None })?,
             Some(d) if dates.contains(&d) => d,

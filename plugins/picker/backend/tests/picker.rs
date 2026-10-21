@@ -160,6 +160,9 @@ impl ScoreApi for FakeScore {
             .cloned()
             .ok_or(ScoreError::NotRanked { date })
     }
+    async fn ranked_dates(&self, _: &Person) -> Result<Vec<NaiveDate>, ScoreError> {
+        Err(ScoreError::NotBuilt)
+    }
 }
 
 #[derive(Default)]

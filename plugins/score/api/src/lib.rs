@@ -168,4 +168,7 @@ pub trait ScoreApi: Send + Sync {
 
     /// Stored ranking for `date`: KOLs with Score, tier, badges and rank.
     async fn ranking(&self, person: &Person, date: NaiveDate) -> Result<Ranking, ScoreError>;
+
+    /// Dates with a stored ranking, oldest first.
+    async fn ranked_dates(&self, person: &Person) -> Result<Vec<NaiveDate>, ScoreError>;
 }

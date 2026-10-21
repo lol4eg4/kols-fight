@@ -146,6 +146,9 @@ impl ScoreApi for FakeScore {
             Err(e) => Err(e.clone()),
         }
     }
+    async fn ranked_dates(&self, _: &Person) -> Result<Vec<NaiveDate>, ScoreError> {
+        Err(ScoreError::NotBuilt)
+    }
 }
 
 struct FakeSnapshots {

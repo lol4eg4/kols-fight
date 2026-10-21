@@ -120,6 +120,11 @@ impl ScoreApi for FakeScore {
             .cloned()
             .ok_or(ScoreError::NotRanked { date })
     }
+    async fn ranked_dates(&self, _: &Person) -> Result<Vec<NaiveDate>, ScoreError> {
+        let mut dates: Vec<NaiveDate> = self.0.keys().copied().collect();
+        dates.sort();
+        Ok(dates)
+    }
 }
 
 struct FakeRegistry(HashMap<String, KolProfile>);
@@ -289,6 +294,11 @@ struct Setup {
 /// Day 0 and day 1. Fetch times are relative to now: Decu 49h ago (stale), Cooker 47h ago,
 /// everyone else an hour ago. On day 1 Tekkerrss has left the board.
 fn setup(fill_slot: bool) -> Setup {
+    build(fill_slot, true)
+}
+
+/// `setup`, with day 1 closed but not ranked yet when `rank_day1` is false.
+fn build(fill_slot: bool, rank_day1: bool) -> Setup {
     let now = Utc::now();
     let mut view0: SnapshotView = serde_json::from_str(DAY0_VIEW).unwrap();
     for m in &mut view0.members {
@@ -330,7 +340,11 @@ fn setup(fill_slot: bool) -> Setup {
             "score",
             vec![(
                 "default",
-                Arc::new(FakeScore(HashMap::from([(day0(), r0), (day1(), r1)]))),
+                Arc::new(FakeScore(HashMap::from_iter(
+                    [(day0(), r0), (day1(), r1)]
+                        .into_iter()
+                        .filter(|(d, _)| rank_day1 || *d != day1()),
+                ))),
             )],
             Arc::new(api_score::stub::Stub),
         )
@@ -505,6 +519,16 @@ async fn board_defaults_to_latest_and_checks_dates() {
             assert!(body["error"].is_string());
         }
     }
+}
+
+#[tokio::test]
+async fn closed_but_unranked_day_is_not_shown() {
+    let s = build(false, false);
+    let (status, b) = get(&s, "/api/board").await;
+    assert_eq!(status, 200, "{b}");
+    assert_eq!(b["date"], "2026-10-18");
+    let (status, b) = get(&s, "/api/board?date=2026-10-19").await;
+    assert_eq!(status, 404, "{b}");
 }
 
 #[tokio::test]

@@ -252,4 +252,11 @@ impl ScoreApi for Score {
             rows,
         })
     }
+
+    async fn ranked_dates(&self, _: &Person) -> Result<Vec<NaiveDate>, ScoreError> {
+        sqlx::query_scalar("SELECT date FROM score.ranking ORDER BY date")
+            .fetch_all(&self.pool)
+            .await
+            .map_err(internal)
+    }
 }

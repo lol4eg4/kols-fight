@@ -76,6 +76,9 @@ impl ScoreApi for World {
             rows,
         })
     }
+    async fn ranked_dates(&self, _: &Person) -> Result<Vec<NaiveDate>, ScoreError> {
+        Err(ScoreError::NotBuilt)
+    }
 }
 
 #[async_trait]

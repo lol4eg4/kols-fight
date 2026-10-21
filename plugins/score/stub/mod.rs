@@ -20,4 +20,8 @@ impl ScoreApi for Stub {
     async fn ranking(&self, _: &Person, _: NaiveDate) -> Result<Ranking, ScoreError> {
         Err(ScoreError::Off)
     }
+
+    async fn ranked_dates(&self, _: &Person) -> Result<Vec<NaiveDate>, ScoreError> {
+        Err(ScoreError::Off)
+    }
 }
