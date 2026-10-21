@@ -13,4 +13,14 @@ api-solanatracker.workspace = true
 api-wallets.workspace = true
 arena-platform.workspace = true
 async-trait.workspace = true
+axum.workspace = true
+chrono.workspace = true
+serde.workspace = true
+serde_json.workspace = true
 sqlx.workspace = true
+thiserror.workspace = true
+tokio.workspace = true
+tracing.workspace = true
+
+[dev-dependencies]
+tower.workspace = true

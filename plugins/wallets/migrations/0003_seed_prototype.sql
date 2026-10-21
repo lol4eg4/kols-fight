@@ -1,0 +1,25 @@
+-- Day-0 wallets of the 22 prototype network KOLs (public prototype data): confirmed, main.
+INSERT INTO wallets.candidate (kol, address, status, source, evidence, main) VALUES
+    ('iced', 'DrJ6SnDXkEsPeGdmSs93v5rwWumv5QMvAGSZjAyWSd5o', 'confirmed', 'prototype', 'prototype data 2026-10-18', true),
+    ('j7', '4UrFSCrGxgoCtCUBAEZq7ZmPK3Pczkxx7PwYnkBMi1KR', 'confirmed', 'prototype', 'prototype data 2026-10-18', true),
+    ('levis', '25e2rBhTaV6N9zMtzD6bKD7bqNpnk7cYAdBjWVufAQ7Q', 'confirmed', 'prototype', 'prototype data 2026-10-18', true),
+    ('maurits', 'E2rvuQva2WMjqTs84spK1GRUTCAxB1anBt4seUK2rxh9', 'confirmed', 'prototype', 'prototype data 2026-10-18', true),
+    ('juicy', '3MaAteeSjeovHX1HA3d54UZh2GAJAo5jH7BCSuaz9LSd', 'confirmed', 'prototype', 'prototype data 2026-10-18', true),
+    ('solstice', '4ugDhHJ8XDXAeABmrNmGffFaLbJb9BkPyiFGVSV9ocwo', 'confirmed', 'prototype', 'prototype data 2026-10-18', true),
+    ('smokey', '6My97BBVoJz3j7mQWFVz5pykFxMsCs44gjhaqmczcAND', 'confirmed', 'prototype', 'prototype data 2026-10-18', true),
+    ('brazilzz', 'HTYho9ioTJcS4Dymi57HB65RBFu549gjyQ7kncfkknti', 'confirmed', 'prototype', 'prototype data 2026-10-18', true),
+    ('zagy', 'DkQ5KL12z8j4PzonCu5cFk4YLQZrfM9jCVZC2scBDKVG', 'confirmed', 'prototype', 'prototype data 2026-10-18', true),
+    ('btcforlife', 'BDw7NYTZPnp7p3rfEpSpttLbtcSwb73hbN5a24NBWT86', 'confirmed', 'prototype', 'prototype data 2026-10-18', true),
+    ('ndf', '2GHFFN5dNa7fApfqxNW5MFq4diC4DZHHgkdwP46LfmDg', 'confirmed', 'prototype', 'prototype data 2026-10-18', true),
+    ('trancey', '6WNtB96YFBjBaDYtUH1Xs2fiUwH7kXmUfAXFBwaTuxp3', 'confirmed', 'prototype', 'prototype data 2026-10-18', true),
+    ('kook', 'G9xcqiXaeiR9vdWGNbF7xrDkTE7vtyVk5WDxUcLtHFA9', 'confirmed', 'prototype', 'prototype data 2026-10-18', true),
+    ('mrpunk', 'CQhf9UaiyQpCzYW4GE9eeziUUQT954zBtGGDLKfRS4QE', 'confirmed', 'prototype', 'prototype data 2026-10-18', true),
+    ('ocr', '6SHqkzJfZYiNqmz4xDiwndEAqbubuAVt44LwJ9GF3obS', 'confirmed', 'prototype', 'prototype data 2026-10-18', true),
+    ('laseasy', 'GPMahrXtx5zqtMNXsyg4qbjS5ab4JEpzqC9HXnwVHxmS', 'confirmed', 'prototype', 'prototype data 2026-10-18', true),
+    ('tekkerrss', '7UBjMaYsE3tKcanfgGrtso6aHAMhVNSVHkkX5j3t7f5y', 'confirmed', 'prototype', 'prototype data 2026-10-18', true),
+    ('peter', '4PWaksfn9uM2c5oHQQ16odCazKp3KkLMD4Bhtmg5qCVg', 'confirmed', 'prototype', 'prototype data 2026-10-18', true),
+    ('naka', '29Sr7KmKRwuwFFrFDRfxTeLC2KYVT6qKSVkx5mqiTjp3', 'confirmed', 'prototype', 'prototype data 2026-10-18', true),
+    ('babatooonde', '3QXGszKsHsPcAToqPKcoyKng4Fknn2f8PRkHA689pBkb', 'confirmed', 'prototype', 'prototype data 2026-10-18', true),
+    ('pow', '7eNRALuXYUJkUWTvRj5tcB7tcT43kmT5SNdkfy9fKTto', 'confirmed', 'prototype', 'prototype data 2026-10-18', true),
+    ('shah', '7xwDKXNG9dxMsBSCmiAThp7PyDaUXbm23irLr7iPeh7w', 'confirmed', 'prototype', 'prototype data 2026-10-18', true)
+ON CONFLICT (kol, address) DO NOTHING;
