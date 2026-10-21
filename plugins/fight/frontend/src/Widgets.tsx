@@ -15,7 +15,7 @@ export function AddToFight({ kol }: WidgetProps<"fight/add_to_fight">) {
   const label = (
     <>
       <span aria-hidden="true">{inFight ? "✓ " : "⚔️ "}</span>
-      {t("fight.add.button")}
+      <span className="fight-add__word">{t("fight.add.button")}</span>
       <span className="ds-sr-only"> {t("fight.add.who", { name })}</span>
     </>
   );

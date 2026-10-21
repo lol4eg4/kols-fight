@@ -82,10 +82,10 @@ function TableRow({ row, date, href }: RowProps) {
       <td className="board-td board-td--num board-td--wide">
         <Money value={m?.avg_pos} signed={false} reason={reason("avg_pos")} />
       </td>
-      <td className="board-td board-td--num">
+      <td className="board-td board-td--num board-td--wide">
         <TimeAgo minutes={m?.last_min_at_fetch ?? null} reason={reason("last_min_at_fetch")} />
       </td>
-      <td className="board-td">
+      <td className="board-td board-td--wide">
         <SourceChip source={row.source} at={row.fetched_at} />
       </td>
       <td className="board-td board-td--fight">
@@ -280,13 +280,13 @@ export function Leaderboard({ board, urlDate }: LeaderboardProps) {
                   <th scope="col" className="board-th--num board-td--wide">
                     {t("board.col.pos")}
                   </th>
-                  <th scope="col" className="board-th--num" aria-sort={f.sort === "last" ? "ascending" : undefined}>
+                  <th scope="col" className="board-th--num board-td--wide" aria-sort={f.sort === "last" ? "ascending" : undefined}>
                     {t("board.col.last")}
                   </th>
-                  <th scope="col">{t("board.col.source")}</th>
-                  <th scope="col">
-                    <span className="ds-sr-only">{t("board.col.fight")}</span>
+                  <th scope="col" className="board-td--wide">
+                    {t("board.col.source")}
                   </th>
+                  <th scope="col">{t("board.col.fight")}</th>
                 </tr>
               </thead>
               <tbody>

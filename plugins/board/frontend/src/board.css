@@ -225,7 +225,6 @@
   color: var(--color-text-muted);
   font-weight: var(--type-label-font-weight);
   background: var(--color-surface-sunken);
-  white-space: nowrap;
 }
 .board-table .board-th--num {
   text-align: right;
@@ -257,6 +256,21 @@
 }
 .board-td--fight:empty {
   padding: 0;
+}
+/* The table shows the fight icon only; the word stays for screen readers. */
+.board-td--fight .ds-btn {
+  font-family: var(--stack-body);
+  font-size: 1.25rem;
+  line-height: 1;
+  padding-inline: var(--space-sm);
+}
+.board-td--fight .fight-add__word {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 .board-rank {
   font-family: var(--stack-mono);
@@ -580,5 +594,5 @@
   display: block;
 }
 .board-td--kol {
-  min-width: 12rem;
+  min-width: 10rem;
 }
