@@ -112,9 +112,6 @@ export default function NetworkSection({ date }: { date: string }) {
   return (
     <Card as="section" aria-label={t("network.title")}>
       <div className="net-head">
-        <Heading level={2} variant="title">
-          {t("network.title")}
-        </Heading>
         <Badge tone="lavender" shape="pill" icon="🤝">
           {t("network.chip")}
         </Badge>

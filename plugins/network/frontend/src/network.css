@@ -3,7 +3,8 @@
   flex-wrap: wrap;
   gap: var(--space-xs);
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
+  margin-bottom: var(--space-sm);
 }
 .net-row {
   display: grid;
@@ -34,6 +35,16 @@
 }
 .net-row__stats dd {
   margin: 0;
+}
+@media (min-width: 1100px) {
+  .net-row {
+    grid-template-columns: 19rem minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--space-md);
+  }
+  .net-row__stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 .net-row__action:empty {
   display: none;
