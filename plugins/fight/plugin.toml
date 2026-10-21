@@ -1,0 +1,11 @@
+name = "fight"
+layer = 1
+version = "0.1.0"
+tags = ["public"]
+uses = ["snapshots", "score", "registry"]
+emits = ["page:fighter_added", "page:fight_over"]
+listens = []
+slots = ["screen:before_fight"]
+fills = []
+widgets = ["add_to_fight", "fighter_picker"]
+screens = [{ name = "fight_window", path = "/fight", tag = "public" }]

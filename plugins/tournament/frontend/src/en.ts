@@ -1,0 +1,22 @@
+// UI strings of the tournament plugin. Every key starts with "tournament.".
+export const dict: Record<string, string> = {
+  "tournament.title": "Tournament",
+  "tournament.lineup": "Who fights",
+  "tournament.top": "Top 8",
+  "tournament.network": "Our network",
+  "tournament.network_needs": "Needs 8 network KOLs on the board",
+  "tournament.loading": "Loading the tournament",
+  "tournament.error": "The tournament did not load.",
+  "tournament.retry": "Try again",
+  "tournament.empty": "Needs 8 KOLs on the board to start a tournament.",
+  "tournament.no_data": "No tournament for this day.",
+  "tournament.bracket": "Tournament bracket",
+  "tournament.pending": "To be decided",
+  "tournament.winner": "winner",
+  "tournament.round.quarterfinals": "Quarterfinals",
+  "tournament.round.semifinals": "Semifinals",
+  "tournament.round.final": "Final",
+  "tournament.champion": "Champion: {name}",
+  "tournament.watch_final": "Watch the final",
+  "tournament.rank_tiebreak": "Draw in the final: the higher ranked KOL goes on.",
+};

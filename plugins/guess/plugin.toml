@@ -1,0 +1,11 @@
+name = "guess"
+layer = 4
+version = "0.1.0"
+tags = []
+uses = []
+emits = []
+listens = ["page:fight_over"]
+slots = []
+fills = ["fight/before_fight"]
+widgets = []
+screens = []

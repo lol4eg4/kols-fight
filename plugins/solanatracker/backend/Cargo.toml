@@ -1,0 +1,23 @@
+[package]
+name = "plugin-solanatracker"
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[dependencies]
+api-registry.workspace = true
+api-snapshots.workspace = true
+api-solanatracker.workspace = true
+arena-platform.workspace = true
+async-trait.workspace = true
+chrono.workspace = true
+sqlx.workspace = true
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls"] }
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+tokio.workspace = true
+tracing.workspace = true
+
+[dev-dependencies]
+axum.workspace = true

@@ -1,0 +1,11 @@
+name = "fomo"
+layer = 3
+version = "0.1.0"
+tags = ["staff"]
+uses = ["wallets", "journal"]
+emits = []
+listens = []
+slots = []
+fills = []
+widgets = []
+screens = [{ name = "fomo", path = "/team/fomo", tag = "staff" }]

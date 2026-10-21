@@ -1,0 +1,856 @@
+[
+ {
+  "rank": 1,
+  "slug": "decu",
+  "name": "Decu",
+  "score": 95,
+  "tier": "GOAT"
+ },
+ {
+  "rank": 2,
+  "slug": "cooker",
+  "name": "Cooker",
+  "score": 88,
+  "tier": "GOAT"
+ },
+ {
+  "rank": 3,
+  "slug": "trunoest",
+  "name": "Trunoest",
+  "score": 85,
+  "tier": "GOAT"
+ },
+ {
+  "rank": 4,
+  "slug": "cented",
+  "name": "Cented",
+  "score": 83,
+  "tier": "GOAT"
+ },
+ {
+  "rank": 5,
+  "slug": "mr-frog",
+  "name": "Mr. Frog",
+  "score": 80,
+  "tier": "GOAT"
+ },
+ {
+  "rank": 6,
+  "slug": "daumen",
+  "name": "Daumen",
+  "score": 76,
+  "tier": "GOAT"
+ },
+ {
+  "rank": 7,
+  "slug": "theo",
+  "name": "Theo",
+  "score": 75,
+  "tier": "GOAT"
+ },
+ {
+  "rank": 8,
+  "slug": "limfork",
+  "name": "Limfork",
+  "score": 75,
+  "tier": "GOAT"
+ },
+ {
+  "rank": 9,
+  "slug": "mitch",
+  "name": "Mitch",
+  "score": 74,
+  "tier": "GOAT"
+ },
+ {
+  "rank": 10,
+  "slug": "coler",
+  "name": "Coler",
+  "score": 70,
+  "tier": "GOAT"
+ },
+ {
+  "rank": 11,
+  "slug": "jijo",
+  "name": "Jijo",
+  "score": 68,
+  "tier": "Diamond"
+ },
+ {
+  "rank": 12,
+  "slug": "latuche",
+  "name": "Latuche",
+  "score": 67,
+  "tier": "Diamond"
+ },
+ {
+  "rank": 13,
+  "slug": "numero",
+  "name": "Numero",
+  "score": 66,
+  "tier": "Diamond"
+ },
+ {
+  "rank": 14,
+  "slug": "solkrow",
+  "name": "Solkrow",
+  "score": 58,
+  "tier": "Diamond"
+ },
+ {
+  "rank": 15,
+  "slug": "milito",
+  "name": "Milito",
+  "score": 57,
+  "tier": "Diamond"
+ },
+ {
+  "rank": 16,
+  "slug": "johnson",
+  "name": "Johnson",
+  "score": 56,
+  "tier": "Diamond"
+ },
+ {
+  "rank": 17,
+  "slug": "til",
+  "name": "Til",
+  "score": 56,
+  "tier": "Diamond"
+ },
+ {
+  "rank": 18,
+  "slug": "tekkerrss",
+  "name": "Tekkerrss",
+  "score": 55,
+  "tier": "Diamond"
+ },
+ {
+  "rank": 19,
+  "slug": "rilsio",
+  "name": "Rilsio",
+  "score": 55,
+  "tier": "Diamond"
+ },
+ {
+  "rank": 20,
+  "slug": "bandit",
+  "name": "Bandit",
+  "score": 55,
+  "tier": "Diamond"
+ },
+ {
+  "rank": 21,
+  "slug": "kay-the-doc",
+  "name": "Kay The Doc",
+  "score": 55,
+  "tier": "Diamond"
+ },
+ {
+  "rank": 22,
+  "slug": "trey",
+  "name": "Trey",
+  "score": 54,
+  "tier": "Diamond"
+ },
+ {
+  "rank": 23,
+  "slug": "ljc",
+  "name": "LJC",
+  "score": 54,
+  "tier": "Diamond"
+ },
+ {
+  "rank": 24,
+  "slug": "korean",
+  "name": "Korean",
+  "score": 54,
+  "tier": "Diamond"
+ },
+ {
+  "rank": 25,
+  "slug": "cap",
+  "name": "Cap",
+  "score": 54,
+  "tier": "Diamond"
+ },
+ {
+  "rank": 26,
+  "slug": "frost",
+  "name": "Frost",
+  "score": 54,
+  "tier": "Diamond"
+ },
+ {
+  "rank": 27,
+  "slug": "blu6k",
+  "name": "Blu",
+  "score": 53,
+  "tier": "Diamond"
+ },
+ {
+  "rank": 28,
+  "slug": "idontpaytaxes",
+  "name": "IdontPayTaxes",
+  "score": 53,
+  "tier": "Diamond"
+ },
+ {
+  "rank": 29,
+  "slug": "casino",
+  "name": "Casino",
+  "score": 51,
+  "tier": "Diamond"
+ },
+ {
+  "rank": 30,
+  "slug": "kev",
+  "name": "Kev",
+  "score": 51,
+  "tier": "Diamond"
+ },
+ {
+  "rank": 31,
+  "slug": "vein",
+  "name": "Vein",
+  "score": 51,
+  "tier": "Diamond"
+ },
+ {
+  "rank": 32,
+  "slug": "kadenox",
+  "name": "Kadenox",
+  "score": 50,
+  "tier": "Diamond"
+ },
+ {
+  "rank": 33,
+  "slug": "clukz",
+  "name": "Clukz",
+  "score": 49,
+  "tier": "Sendoor"
+ },
+ {
+  "rank": 34,
+  "slug": "dv",
+  "name": "Dv",
+  "score": 48,
+  "tier": "Sendoor"
+ },
+ {
+  "rank": 35,
+  "slug": "art",
+  "name": "Art",
+  "score": 47,
+  "tier": "Sendoor"
+ },
+ {
+  "rank": 36,
+  "slug": "dov",
+  "name": "Dov",
+  "score": 47,
+  "tier": "Sendoor"
+ },
+ {
+  "rank": 37,
+  "slug": "peter",
+  "name": "Peter",
+  "score": 47,
+  "tier": "Sendoor"
+ },
+ {
+  "rank": 38,
+  "slug": "spuno",
+  "name": "Spuno",
+  "score": 46,
+  "tier": "Sendoor"
+ },
+ {
+  "rank": 39,
+  "slug": "tdmilky",
+  "name": "Tdmilky",
+  "score": 46,
+  "tier": "Sendoor"
+ },
+ {
+  "rank": 40,
+  "slug": "kyle",
+  "name": "Kyle",
+  "score": 45,
+  "tier": "Sendoor"
+ },
+ {
+  "rank": 41,
+  "slug": "omar",
+  "name": "Omar",
+  "score": 44,
+  "tier": "Sendoor"
+ },
+ {
+  "rank": 42,
+  "slug": "leck",
+  "name": "Leck",
+  "score": 44,
+  "tier": "Sendoor"
+ },
+ {
+  "rank": 43,
+  "slug": "ducky",
+  "name": "Ducky",
+  "score": 44,
+  "tier": "Sendoor"
+ },
+ {
+  "rank": 44,
+  "slug": "giann",
+  "name": "Giann",
+  "score": 44,
+  "tier": "Sendoor"
+ },
+ {
+  "rank": 45,
+  "slug": "cupsey",
+  "name": "Cupsey",
+  "score": 44,
+  "tier": "Sendoor"
+ },
+ {
+  "rank": 46,
+  "slug": "rambo",
+  "name": "Rambo",
+  "score": 44,
+  "tier": "Sendoor"
+ },
+ {
+  "rank": 47,
+  "slug": "publix",
+  "name": "Publix",
+  "score": 43,
+  "tier": "Sendoor"
+ },
+ {
+  "rank": 48,
+  "slug": "letterbomb",
+  "name": "Letterbomb",
+  "score": 43,
+  "tier": "Sendoor"
+ },
+ {
+  "rank": 49,
+  "slug": "orange",
+  "name": "Orange",
+  "score": 42,
+  "tier": "Sendoor"
+ },
+ {
+  "rank": 50,
+  "slug": "jason",
+  "name": "Jason",
+  "score": 41,
+  "tier": "Sendoor"
+ },
+ {
+  "rank": 51,
+  "slug": "samsrep",
+  "name": "Samsrep",
+  "score": 41,
+  "tier": "Sendoor"
+ },
+ {
+  "rank": 52,
+  "slug": "levis",
+  "name": "Levis",
+  "score": 41,
+  "tier": "Sendoor"
+ },
+ {
+  "rank": 53,
+  "slug": "ram",
+  "name": "Ram",
+  "score": 41,
+  "tier": "Sendoor"
+ },
+ {
+  "rank": 54,
+  "slug": "lucas",
+  "name": "Lucas",
+  "score": 40,
+  "tier": "Sendoor"
+ },
+ {
+  "rank": 55,
+  "slug": "esee",
+  "name": "Esee",
+  "score": 39,
+  "tier": "Sendoor"
+ },
+ {
+  "rank": 56,
+  "slug": "iced",
+  "name": "Iced",
+  "score": 39,
+  "tier": "Sendoor"
+ },
+ {
+  "rank": 57,
+  "slug": "ethan-prosper",
+  "name": "Ethan Prosper",
+  "score": 38,
+  "tier": "Sendoor"
+ },
+ {
+  "rank": 58,
+  "slug": "flames",
+  "name": "Flames",
+  "score": 38,
+  "tier": "Sendoor"
+ },
+ {
+  "rank": 59,
+  "slug": "trenchman",
+  "name": "Trenchman",
+  "score": 38,
+  "tier": "Sendoor"
+ },
+ {
+  "rank": 60,
+  "slug": "beaver",
+  "name": "Beaver",
+  "score": 37,
+  "tier": "Sendoor"
+ },
+ {
+  "rank": 61,
+  "slug": "grimace",
+  "name": "Grimace",
+  "score": 37,
+  "tier": "Sendoor"
+ },
+ {
+  "rank": 62,
+  "slug": "stigman",
+  "name": "Stigman",
+  "score": 37,
+  "tier": "Sendoor"
+ },
+ {
+  "rank": 63,
+  "slug": "nyhrox",
+  "name": "Nyhrox",
+  "score": 37,
+  "tier": "Sendoor"
+ },
+ {
+  "rank": 64,
+  "slug": "laseasy",
+  "name": "laseasy10",
+  "score": 36,
+  "tier": "Sendoor"
+ },
+ {
+  "rank": 65,
+  "slug": "danny",
+  "name": "Danny",
+  "score": 36,
+  "tier": "Sendoor"
+ },
+ {
+  "rank": 66,
+  "slug": "btcforlife",
+  "name": "BTCFORLIFE",
+  "score": 36,
+  "tier": "Sendoor"
+ },
+ {
+  "rank": 67,
+  "slug": "juicy",
+  "name": "juicy",
+  "score": 35,
+  "tier": "Sendoor"
+ },
+ {
+  "rank": 68,
+  "slug": "xander",
+  "name": "Xander",
+  "score": 34,
+  "tier": "Degen"
+ },
+ {
+  "rank": 69,
+  "slug": "chairman",
+  "name": "Chairman",
+  "score": 34,
+  "tier": "Degen"
+ },
+ {
+  "rank": 70,
+  "slug": "iceman",
+  "name": "Iceman",
+  "score": 34,
+  "tier": "Degen"
+ },
+ {
+  "rank": 71,
+  "slug": "radiance",
+  "name": "Radiance",
+  "score": 32,
+  "tier": "Degen"
+ },
+ {
+  "rank": 72,
+  "slug": "h14",
+  "name": "h14",
+  "score": 32,
+  "tier": "Degen"
+ },
+ {
+  "rank": 73,
+  "slug": "naka",
+  "name": "Naka",
+  "score": 31,
+  "tier": "Degen"
+ },
+ {
+  "rank": 74,
+  "slug": "trancey",
+  "name": "trancey",
+  "score": 31,
+  "tier": "Degen"
+ },
+ {
+  "rank": 75,
+  "slug": "earl",
+  "name": "Earl",
+  "score": 30,
+  "tier": "Degen"
+ },
+ {
+  "rank": 76,
+  "slug": "no",
+  "name": "No",
+  "score": 30,
+  "tier": "Degen"
+ },
+ {
+  "rank": 77,
+  "slug": "tech",
+  "name": "Tech",
+  "score": 30,
+  "tier": "Degen"
+ },
+ {
+  "rank": 78,
+  "slug": "crayohla",
+  "name": "Crayohla",
+  "score": 30,
+  "tier": "Degen"
+ },
+ {
+  "rank": 79,
+  "slug": "narc",
+  "name": "Narc",
+  "score": 30,
+  "tier": "Degen"
+ },
+ {
+  "rank": 80,
+  "slug": "connor",
+  "name": "Connor",
+  "score": 29,
+  "tier": "Degen"
+ },
+ {
+  "rank": 81,
+  "slug": "realist",
+  "name": "Realist",
+  "score": 29,
+  "tier": "Degen"
+ },
+ {
+  "rank": 82,
+  "slug": "zuki",
+  "name": "Zuki",
+  "score": 28,
+  "tier": "Degen"
+ },
+ {
+  "rank": 83,
+  "slug": "donut",
+  "name": "Donut",
+  "score": 28,
+  "tier": "Degen"
+ },
+ {
+  "rank": 84,
+  "slug": "1s1mple",
+  "name": "^1s1mple",
+  "score": 28,
+  "tier": "Degen"
+ },
+ {
+  "rank": 85,
+  "slug": "ghost",
+  "name": "Ghost",
+  "score": 27,
+  "tier": "Degen"
+ },
+ {
+  "rank": 86,
+  "slug": "clown",
+  "name": "Clown",
+  "score": 27,
+  "tier": "Degen"
+ },
+ {
+  "rank": 87,
+  "slug": "gh0stee",
+  "name": "Gh0stee",
+  "score": 27,
+  "tier": "Degen"
+ },
+ {
+  "rank": 88,
+  "slug": "fashr",
+  "name": "FASHR",
+  "score": 27,
+  "tier": "Degen"
+ },
+ {
+  "rank": 89,
+  "slug": "heyitsyolo",
+  "name": "Heyitsyolo",
+  "score": 26,
+  "tier": "Degen"
+ },
+ {
+  "rank": 90,
+  "slug": "qtdegen",
+  "name": "QTDEGEN",
+  "score": 25,
+  "tier": "Degen"
+ },
+ {
+  "rank": 91,
+  "slug": "solana-degen",
+  "name": "Solana degen",
+  "score": 24,
+  "tier": "Degen"
+ },
+ {
+  "rank": 92,
+  "slug": "t9ndra",
+  "name": "T9ndra",
+  "score": 23,
+  "tier": "Degen"
+ },
+ {
+  "rank": 93,
+  "slug": "shah",
+  "name": "shah",
+  "score": 23,
+  "tier": "Degen"
+ },
+ {
+  "rank": 94,
+  "slug": "west",
+  "name": "West",
+  "score": 22,
+  "tier": "Degen"
+ },
+ {
+  "rank": 95,
+  "slug": "fz7",
+  "name": "Fz7",
+  "score": 20,
+  "tier": "Degen"
+ },
+ {
+  "rank": 96,
+  "slug": "marker",
+  "name": "Marker",
+  "score": 20,
+  "tier": "Degen"
+ },
+ {
+  "rank": 97,
+  "slug": "monki",
+  "name": "Monki",
+  "score": 19,
+  "tier": "Degen"
+ },
+ {
+  "rank": 98,
+  "slug": "smokez",
+  "name": "Smokez",
+  "score": 19,
+  "tier": "Degen"
+ },
+ {
+  "rank": 99,
+  "slug": "xelf",
+  "name": "Xelf",
+  "score": 17,
+  "tier": "Degen"
+ },
+ {
+  "rank": 100,
+  "slug": "parsiiix",
+  "name": "Parsiiix",
+  "score": 15,
+  "tier": "Degen"
+ },
+ {
+  "rank": 101,
+  "slug": "kook",
+  "name": "kook",
+  "score": 15,
+  "tier": "Degen"
+ },
+ {
+  "rank": 102,
+  "slug": "babatooonde",
+  "name": "babatooonde",
+  "score": 12,
+  "tier": "Degen"
+ },
+ {
+  "rank": 103,
+  "slug": "solstice",
+  "name": "TheSOLstice",
+  "score": 12,
+  "tier": "Degen"
+ },
+ {
+  "rank": 104,
+  "slug": "mrpunk",
+  "name": "Mrpunk.eth",
+  "score": 11,
+  "tier": "Degen"
+ },
+ {
+  "rank": 105,
+  "slug": "brazilzz",
+  "name": "BrazilZZ",
+  "score": 11,
+  "tier": "Degen"
+ },
+ {
+  "rank": 106,
+  "slug": "log",
+  "name": "Log",
+  "score": 10,
+  "tier": "Degen"
+ },
+ {
+  "rank": 107,
+  "slug": "ocr",
+  "name": "ocr",
+  "score": 10,
+  "tier": "Degen"
+ },
+ {
+  "rank": 108,
+  "slug": "smokey",
+  "name": "Smokey",
+  "score": 9,
+  "tier": "Degen"
+ },
+ {
+  "rank": 109,
+  "slug": "maurits",
+  "name": "Maurits",
+  "score": 8,
+  "tier": "Degen"
+ },
+ {
+  "rank": 110,
+  "slug": "zagy",
+  "name": "Zagrebian",
+  "score": 8,
+  "tier": "Degen"
+ },
+ {
+  "rank": 111,
+  "slug": "j7",
+  "name": "J777Crypto",
+  "score": 8,
+  "tier": "Degen"
+ },
+ {
+  "rank": 112,
+  "slug": "boogie",
+  "name": "Boogie",
+  "score": 7,
+  "tier": "Degen"
+ },
+ {
+  "rank": 113,
+  "slug": "ramset",
+  "name": "Ramset",
+  "score": 6,
+  "tier": "Degen"
+ },
+ {
+  "rank": 114,
+  "slug": "brox",
+  "name": "Brox",
+  "score": 5,
+  "tier": "Degen"
+ },
+ {
+  "rank": 115,
+  "slug": "cryptovillain26",
+  "name": "Cryptovillain26",
+  "score": 5,
+  "tier": "Degen"
+ },
+ {
+  "rank": 116,
+  "slug": "aloh-quant",
+  "name": "Aloh Quant",
+  "score": 5,
+  "tier": "Degen"
+ },
+ {
+  "rank": 117,
+  "slug": "pow",
+  "name": "pow",
+  "score": 5,
+  "tier": "Degen"
+ },
+ {
+  "rank": 118,
+  "slug": "red",
+  "name": "Red",
+  "score": 3,
+  "tier": "Degen"
+ },
+ {
+  "rank": 119,
+  "slug": "demonology",
+  "name": "demonology",
+  "score": 1,
+  "tier": "Degen"
+ },
+ {
+  "rank": 120,
+  "slug": "ndf",
+  "name": "NDF_Sonar_trade",
+  "score": 0,
+  "tier": "Degen"
+ },
+ {
+  "rank": 121,
+  "slug": "cowboy",
+  "name": "Cowboy",
+  "score": 0,
+  "tier": "Degen"
+ },
+ {
+  "rank": 122,
+  "slug": "emroonz",
+  "name": "Emroonz",
+  "score": 0,
+  "tier": "Degen"
+ }
+]

@@ -1,0 +1,9 @@
+[package]
+name = "plugin-guess"
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[dependencies]
+arena-platform.workspace = true
+sqlx.workspace = true

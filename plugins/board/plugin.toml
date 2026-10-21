@@ -1,0 +1,11 @@
+name = "board"
+layer = 1
+version = "0.1.0"
+tags = ["public"]
+uses = ["registry", "snapshots", "score"]
+emits = []
+listens = []
+slots = ["screen:network_section", "screen:radar_section", "screen:network_filter", "screen:rank_change", "screen:extra_badges", "screen:ticker", "screen:duel_of_day", "screen:below_fight", "api:in_network"]
+fills = []
+widgets = []
+screens = [{ name = "home", path = "/", tag = "public" }, { name = "kol_card", path = "/kol/:id", tag = "public" }]

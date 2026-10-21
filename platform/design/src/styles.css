@@ -1,0 +1,6 @@
+/* @arena/design styles. Import once, from the shell. Order matters: fonts, tokens, base, pieces. */
+@import "./fonts.css";
+@import "./tokens.css";
+@import "./base.css";
+@import "./components.css";
+@import "./kol.css";

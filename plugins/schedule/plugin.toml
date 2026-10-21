@@ -1,0 +1,11 @@
+name = "schedule"
+layer = 2
+version = "0.1.0"
+tags = ["staff", "admin"]
+uses = ["snapshots", "kolexplorer", "solanatracker", "score", "journal"]
+emits = ["snapshot_opened"]
+listens = []
+slots = ["screen:other_sources"]
+fills = []
+widgets = []
+screens = [{ name = "collection", path = "/team/collection", tag = "staff" }]

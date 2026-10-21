@@ -1,0 +1,3914 @@
+{
+ "snapshot": {
+  "date": "2026-10-18",
+  "status": "closed",
+  "opened_at": "2026-10-18T10:40:00Z",
+  "closed_at": "2026-10-18T10:40:00Z"
+ },
+ "members": [
+  {
+   "kol": "1s1mple",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "1s1mple",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 268,
+     "d7": 809,
+     "d30": 1762,
+     "wr7": 0.43,
+     "wr30": 0.454,
+     "wr_all": null,
+     "avg_pos": 234,
+     "hold_s": 24,
+     "last_min_at_fetch": 60,
+     "traded_24h": true,
+     "unreal": 256,
+     "total": 2018,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 95,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "aloh-quant",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "aloh-quant",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": -268,
+     "d30": -269,
+     "wr7": 0,
+     "wr30": 0,
+     "wr_all": null,
+     "avg_pos": 82,
+     "hold_s": 32,
+     "last_min_at_fetch": 5760,
+     "traded_24h": false,
+     "unreal": -19,
+     "total": -288,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 109,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "art",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "art",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 5210,
+     "d7": 3723,
+     "d30": 80980,
+     "wr7": 0.455,
+     "wr30": 0.3,
+     "wr_all": null,
+     "avg_pos": 371,
+     "hold_s": 40,
+     "last_min_at_fetch": 300,
+     "traded_24h": true,
+     "unreal": 6190,
+     "total": 87170,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 16,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "babatooonde",
+   "reasons": [
+    "network"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "babatooonde",
+    "source": "solanatracker",
+    "fetched_at": "2026-10-18T10:40:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": 1090,
+     "d30": -7090,
+     "wr7": null,
+     "wr30": null,
+     "wr_all": 0.411,
+     "avg_pos": 478,
+     "hold_s": null,
+     "last_min_at_fetch": 720,
+     "traded_24h": null,
+     "unreal": -16010,
+     "total": 30900,
+     "vol30": 200280,
+     "days30": 30,
+     "wins": 418,
+     "losses": 599,
+     "pnl_rank": 112,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "bandit",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "bandit",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": -5486,
+     "d7": 37175,
+     "d30": 47882,
+     "wr7": 0.418,
+     "wr30": 0.367,
+     "wr_all": null,
+     "avg_pos": 653,
+     "hold_s": 33,
+     "last_min_at_fetch": 540,
+     "traded_24h": true,
+     "unreal": -247,
+     "total": 47635,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 31,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "beaver",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "beaver",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": -30,
+     "d7": 4328,
+     "d30": 16541,
+     "wr7": 0.456,
+     "wr30": 0.332,
+     "wr_all": null,
+     "avg_pos": 414,
+     "hold_s": 120,
+     "last_min_at_fetch": 900,
+     "traded_24h": true,
+     "unreal": -818,
+     "total": 15723,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 62,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "blu6k",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "blu6k",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 15515,
+     "d7": 27462,
+     "d30": 57768,
+     "wr7": 0.385,
+     "wr30": 0.334,
+     "wr_all": null,
+     "avg_pos": 186,
+     "hold_s": 28,
+     "last_min_at_fetch": 480,
+     "traded_24h": true,
+     "unreal": -2871,
+     "total": 54897,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 23,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "boogie",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "boogie",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": null,
+     "d30": 482,
+     "wr7": null,
+     "wr30": 0.4,
+     "wr_all": null,
+     "avg_pos": 318,
+     "hold_s": 16,
+     "last_min_at_fetch": 21600,
+     "traded_24h": false,
+     "unreal": -103,
+     "total": 378,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 100,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "brazilzz",
+   "reasons": [
+    "network"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "brazilzz",
+    "source": "solanatracker",
+    "fetched_at": "2026-10-18T10:40:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": -42030,
+     "d30": -113890,
+     "wr7": null,
+     "wr30": null,
+     "wr_all": 0.378,
+     "avg_pos": 1620,
+     "hold_s": null,
+     "last_min_at_fetch": 420,
+     "traded_24h": null,
+     "unreal": 14730,
+     "total": -61420,
+     "vol30": 1780000,
+     "days30": 28,
+     "wins": 746,
+     "losses": 1200,
+     "pnl_rank": 120,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "brox",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "brox",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": -166,
+     "d30": -166,
+     "wr7": 0.5,
+     "wr30": 0.5,
+     "wr_all": null,
+     "avg_pos": 1200,
+     "hold_s": 480,
+     "last_min_at_fetch": 4320,
+     "traded_24h": false,
+     "unreal": null,
+     "total": -166,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 107,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "btcforlife",
+   "reasons": [
+    "network"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "btcforlife",
+    "source": "solanatracker",
+    "fetched_at": "2026-10-18T10:40:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": 4820,
+     "d30": 6860,
+     "wr7": null,
+     "wr30": null,
+     "wr_all": 0.44,
+     "avg_pos": 2270,
+     "hold_s": null,
+     "last_min_at_fetch": 1440,
+     "traded_24h": null,
+     "unreal": -56330,
+     "total": 2260,
+     "vol30": 151940,
+     "days30": 23,
+     "wins": 96,
+     "losses": 122,
+     "pnl_rank": 81,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "cap",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "cap",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": -937,
+     "d7": 4220,
+     "d30": 43820,
+     "wr7": 0.481,
+     "wr30": 0.439,
+     "wr_all": null,
+     "avg_pos": 1600,
+     "hold_s": 60,
+     "last_min_at_fetch": 60,
+     "traded_24h": true,
+     "unreal": 13715,
+     "total": 57534,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 32,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "casino",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "casino",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": -6186,
+     "d7": 4089,
+     "d30": 69904,
+     "wr7": 0.5,
+     "wr30": 0.418,
+     "wr_all": null,
+     "avg_pos": 1900,
+     "hold_s": 60,
+     "last_min_at_fetch": 600,
+     "traded_24h": true,
+     "unreal": -94218,
+     "total": -24315,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 19,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "cented",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "cented",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 11278,
+     "d7": 92650,
+     "d30": 557877,
+     "wr7": 0.527,
+     "wr30": 0.469,
+     "wr_all": null,
+     "avg_pos": 667,
+     "hold_s": 13,
+     "last_min_at_fetch": 60,
+     "traded_24h": true,
+     "unreal": 641,
+     "total": 558519,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 2,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "chairman",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "chairman",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": null,
+     "d30": 11784,
+     "wr7": null,
+     "wr30": 0.544,
+     "wr_all": null,
+     "avg_pos": 2100,
+     "hold_s": 1500,
+     "last_min_at_fetch": 2880,
+     "traded_24h": false,
+     "unreal": 166,
+     "total": 11950,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 71,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "clown",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "clown",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": -4160,
+     "d7": -6431,
+     "d30": 13458,
+     "wr7": 0.361,
+     "wr30": 0.298,
+     "wr_all": null,
+     "avg_pos": 285,
+     "hold_s": 10,
+     "last_min_at_fetch": 420,
+     "traded_24h": true,
+     "unreal": -110,
+     "total": 13348,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 69,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "clukz",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "clukz",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 1076,
+     "d7": 3075,
+     "d30": 29053,
+     "wr7": 0.638,
+     "wr30": 0.494,
+     "wr_all": null,
+     "avg_pos": 820,
+     "hold_s": 15,
+     "last_min_at_fetch": 480,
+     "traded_24h": true,
+     "unreal": -59,
+     "total": 28994,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 42,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "coler",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "coler",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": -425,
+     "d7": 24536,
+     "d30": 250283,
+     "wr7": 0.473,
+     "wr30": 0.399,
+     "wr_all": null,
+     "avg_pos": 356,
+     "hold_s": 31,
+     "last_min_at_fetch": 9,
+     "traded_24h": true,
+     "unreal": -1409,
+     "total": 248874,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 6,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "connor",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "connor",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": -383,
+     "d7": 64,
+     "d30": 9871,
+     "wr7": 0.41,
+     "wr30": 0.388,
+     "wr_all": null,
+     "avg_pos": 496,
+     "hold_s": 60,
+     "last_min_at_fetch": 540,
+     "traded_24h": true,
+     "unreal": 17451,
+     "total": 27322,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 74,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "cooker",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "cooker",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": -1848,
+     "d7": 27384,
+     "d30": 297046,
+     "wr7": 0.886,
+     "wr30": 0.848,
+     "wr_all": null,
+     "avg_pos": 1100,
+     "hold_s": 9,
+     "last_min_at_fetch": 300,
+     "traded_24h": true,
+     "unreal": -339521,
+     "total": -42475,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 5,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "cowboy",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "cowboy",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": null,
+     "d30": -25,
+     "wr7": null,
+     "wr30": 0,
+     "wr_all": null,
+     "avg_pos": 374,
+     "hold_s": 57600,
+     "last_min_at_fetch": 41760,
+     "traded_24h": false,
+     "unreal": -2,
+     "total": -27,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 105,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "crayohla",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "crayohla",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 762,
+     "d7": 3789,
+     "d30": 3025,
+     "wr7": 0.402,
+     "wr30": 0.314,
+     "wr_all": null,
+     "avg_pos": 146,
+     "hold_s": 60,
+     "last_min_at_fetch": 60,
+     "traded_24h": true,
+     "unreal": -153,
+     "total": 2872,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 90,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "cryptovillain26",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "cryptovillain26",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": -635,
+     "d30": -210,
+     "wr7": 0,
+     "wr30": 0.443,
+     "wr_all": null,
+     "avg_pos": 216,
+     "hold_s": 44,
+     "last_min_at_fetch": 4320,
+     "traded_24h": false,
+     "unreal": -107,
+     "total": -316,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 108,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "cupsey",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "cupsey",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 1169,
+     "d7": 4814,
+     "d30": 18440,
+     "wr7": 0.398,
+     "wr30": 0.327,
+     "wr_all": null,
+     "avg_pos": 298,
+     "hold_s": 17,
+     "last_min_at_fetch": 55,
+     "traded_24h": true,
+     "unreal": 4013,
+     "total": 22454,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 57,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "danny",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "danny",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 539,
+     "d7": 2383,
+     "d30": 15011,
+     "wr7": 0.4,
+     "wr30": 0.363,
+     "wr_all": null,
+     "avg_pos": 328,
+     "hold_s": 60,
+     "last_min_at_fetch": 720,
+     "traded_24h": true,
+     "unreal": -2896,
+     "total": 12115,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 68,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "daumen",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "daumen",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 997,
+     "d7": 13424,
+     "d30": 89672,
+     "wr7": 0.733,
+     "wr30": 0.7,
+     "wr_all": null,
+     "avg_pos": 265,
+     "hold_s": 15,
+     "last_min_at_fetch": 26,
+     "traded_24h": true,
+     "unreal": 1149,
+     "total": 90820,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 14,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "decu",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "decu",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 12887,
+     "d7": 124873,
+     "d30": 565129,
+     "wr7": 0.756,
+     "wr30": 0.697,
+     "wr_all": null,
+     "avg_pos": 339,
+     "hold_s": 15,
+     "last_min_at_fetch": 59,
+     "traded_24h": true,
+     "unreal": -1729,
+     "total": 563400,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 1,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "demonology",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "demonology",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": null,
+     "d30": -48,
+     "wr7": null,
+     "wr30": 0,
+     "wr_all": null,
+     "avg_pos": 220,
+     "hold_s": 60,
+     "last_min_at_fetch": 27360,
+     "traded_24h": false,
+     "unreal": -17,
+     "total": -65,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 106,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "donut",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "donut",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": -133,
+     "d7": 116,
+     "d30": 3573,
+     "wr7": 0.356,
+     "wr30": 0.418,
+     "wr_all": null,
+     "avg_pos": 189,
+     "hold_s": 10,
+     "last_min_at_fetch": 120,
+     "traded_24h": true,
+     "unreal": 1218,
+     "total": 4791,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 89,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "dov",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "dov",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": -1237,
+     "d7": -1275,
+     "d30": 56840,
+     "wr7": 0.737,
+     "wr30": 0.551,
+     "wr_all": null,
+     "avg_pos": 318,
+     "hold_s": 11,
+     "last_min_at_fetch": 960,
+     "traded_24h": true,
+     "unreal": -1144,
+     "total": 55696,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 25,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "ducky",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "ducky",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": -357,
+     "d7": -337,
+     "d30": 28698,
+     "wr7": 0.512,
+     "wr30": 0.451,
+     "wr_all": null,
+     "avg_pos": 332,
+     "hold_s": 33,
+     "last_min_at_fetch": 60,
+     "traded_24h": true,
+     "unreal": -9396,
+     "total": 19302,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 44,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "dv",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "dv",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": -89,
+     "d7": 3080,
+     "d30": 42752,
+     "wr7": 0.413,
+     "wr30": 0.431,
+     "wr_all": null,
+     "avg_pos": 171,
+     "hold_s": 7,
+     "last_min_at_fetch": 540,
+     "traded_24h": true,
+     "unreal": -1895,
+     "total": 40857,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 34,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "earl",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "earl",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": -333,
+     "d7": 825,
+     "d30": 9198,
+     "wr7": 0.49,
+     "wr30": 0.387,
+     "wr_all": null,
+     "avg_pos": 332,
+     "hold_s": 41,
+     "last_min_at_fetch": 600,
+     "traded_24h": true,
+     "unreal": -991,
+     "total": 8207,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 75,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "emroonz",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "emroonz",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": null,
+     "d30": -654,
+     "wr7": null,
+     "wr30": 0,
+     "wr_all": null,
+     "avg_pos": 522,
+     "hold_s": 360,
+     "last_min_at_fetch": 37440,
+     "traded_24h": false,
+     "unreal": 2435,
+     "total": 1782,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 110,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "esee",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "esee",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": -1348,
+     "d7": 4652,
+     "d30": 17294,
+     "wr7": 0.384,
+     "wr30": 0.373,
+     "wr_all": null,
+     "avg_pos": 186,
+     "hold_s": 7,
+     "last_min_at_fetch": 1020,
+     "traded_24h": true,
+     "unreal": 2030,
+     "total": 19323,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 60,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "ethan-prosper",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "ethan-prosper",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": -4970,
+     "d7": -4341,
+     "d30": 60421,
+     "wr7": 0.302,
+     "wr30": 0.339,
+     "wr_all": null,
+     "avg_pos": 547,
+     "hold_s": 40,
+     "last_min_at_fetch": 780,
+     "traded_24h": true,
+     "unreal": 34,
+     "total": 60455,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 21,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "fashr",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "fashr",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": -76,
+     "d7": -1479,
+     "d30": 2208,
+     "wr7": 0.484,
+     "wr30": 0.529,
+     "wr_all": null,
+     "avg_pos": 234,
+     "hold_s": 17,
+     "last_min_at_fetch": 420,
+     "traded_24h": true,
+     "unreal": 5,
+     "total": 2213,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 93,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "flames",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "flames",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 511,
+     "d7": 581,
+     "d30": 57726,
+     "wr7": 0.398,
+     "wr30": 0.34,
+     "wr_all": null,
+     "avg_pos": 204,
+     "hold_s": 14,
+     "last_min_at_fetch": 780,
+     "traded_24h": true,
+     "unreal": -88,
+     "total": 57638,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 24,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "frost",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "frost",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 4465,
+     "d7": 11367,
+     "d30": 18737,
+     "wr7": 0.574,
+     "wr30": 0.524,
+     "wr_all": null,
+     "avg_pos": 338,
+     "hold_s": 35,
+     "last_min_at_fetch": 240,
+     "traded_24h": true,
+     "unreal": -685,
+     "total": 18052,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 56,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "fz7",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "fz7",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 123,
+     "d7": 597,
+     "d30": 2624,
+     "wr7": 0.458,
+     "wr30": 0.344,
+     "wr_all": null,
+     "avg_pos": 279,
+     "hold_s": 18,
+     "last_min_at_fetch": 300,
+     "traded_24h": true,
+     "unreal": 14124,
+     "total": 16748,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 91,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "gh0stee",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "gh0stee",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": -264,
+     "d7": 2286,
+     "d30": 4059,
+     "wr7": 0.473,
+     "wr30": 0.384,
+     "wr_all": null,
+     "avg_pos": 294,
+     "hold_s": 60,
+     "last_min_at_fetch": 1020,
+     "traded_24h": true,
+     "unreal": -60,
+     "total": 3999,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 87,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "ghost",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "ghost",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 83,
+     "d7": -7609,
+     "d30": 17555,
+     "wr7": 0.2,
+     "wr30": 0.239,
+     "wr_all": null,
+     "avg_pos": 1500,
+     "hold_s": 129600,
+     "last_min_at_fetch": 1020,
+     "traded_24h": true,
+     "unreal": -19430,
+     "total": -1874,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 58,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "giann",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "giann",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 607,
+     "d7": 5328,
+     "d30": 19220,
+     "wr7": 0.547,
+     "wr30": 0.43,
+     "wr_all": null,
+     "avg_pos": 242,
+     "hold_s": 10,
+     "last_min_at_fetch": 720,
+     "traded_24h": true,
+     "unreal": -99,
+     "total": 19121,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 55,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "grimace",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "grimace",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 58,
+     "d7": 1613,
+     "d30": 10935,
+     "wr7": 0.511,
+     "wr30": 0.468,
+     "wr_all": null,
+     "avg_pos": 204,
+     "hold_s": 16,
+     "last_min_at_fetch": 1080,
+     "traded_24h": true,
+     "unreal": 64,
+     "total": 10999,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 73,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "h14",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "h14",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": 4581,
+     "d30": 13412,
+     "wr7": 0.43,
+     "wr30": 0.312,
+     "wr_all": null,
+     "avg_pos": 245,
+     "hold_s": 27,
+     "last_min_at_fetch": 2880,
+     "traded_24h": false,
+     "unreal": 67,
+     "total": 13479,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 70,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "heyitsyolo",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "heyitsyolo",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": null,
+     "d30": 16274,
+     "wr7": null,
+     "wr30": 0.406,
+     "wr_all": null,
+     "avg_pos": 186,
+     "hold_s": 9,
+     "last_min_at_fetch": 12960,
+     "traded_24h": false,
+     "unreal": -985,
+     "total": 15289,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 63,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "iced",
+   "reasons": [
+    "network"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "iced",
+    "source": "solanatracker",
+    "fetched_at": "2026-10-18T10:40:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": 3810,
+     "d30": 4680,
+     "wr7": null,
+     "wr30": null,
+     "wr_all": 0.47,
+     "avg_pos": 1390,
+     "hold_s": null,
+     "last_min_at_fetch": 180,
+     "traded_24h": null,
+     "unreal": 32240,
+     "total": 91540,
+     "vol30": 938900,
+     "days30": 28,
+     "wins": 364,
+     "losses": 411,
+     "pnl_rank": 85,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "iceman",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "iceman",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 113,
+     "d7": 1469,
+     "d30": 11339,
+     "wr7": 0.426,
+     "wr30": 0.387,
+     "wr_all": null,
+     "avg_pos": 549,
+     "hold_s": 60,
+     "last_min_at_fetch": 480,
+     "traded_24h": true,
+     "unreal": 2683,
+     "total": 14022,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 72,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "idontpaytaxes",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "idontpaytaxes",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 329,
+     "d7": 1812,
+     "d30": 25754,
+     "wr7": 0.636,
+     "wr30": 0.651,
+     "wr_all": null,
+     "avg_pos": 259,
+     "hold_s": 47,
+     "last_min_at_fetch": 540,
+     "traded_24h": true,
+     "unreal": 1184,
+     "total": 26939,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 48,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "j7",
+   "reasons": [
+    "network"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "j7",
+    "source": "solanatracker",
+    "fetched_at": "2026-10-18T10:40:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": -642,
+     "d30": -70500,
+     "wr7": null,
+     "wr30": null,
+     "wr_all": 0.597,
+     "avg_pos": 10790,
+     "hold_s": null,
+     "last_min_at_fetch": 1440,
+     "traded_24h": null,
+     "unreal": 670980,
+     "total": 819560,
+     "vol30": 575760,
+     "days30": 29,
+     "wins": 71,
+     "losses": 46,
+     "pnl_rank": 118,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "jason",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "jason",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": -2543,
+     "d7": -5696,
+     "d30": 143113,
+     "wr7": 0.383,
+     "wr30": 0.278,
+     "wr_all": null,
+     "avg_pos": 481,
+     "hold_s": 26,
+     "last_min_at_fetch": 840,
+     "traded_24h": true,
+     "unreal": 4349,
+     "total": 147462,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 10,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "jijo",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "jijo",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 1388,
+     "d7": 16732,
+     "d30": 75466,
+     "wr7": 0.8,
+     "wr30": 0.656,
+     "wr_all": null,
+     "avg_pos": 474,
+     "hold_s": 47,
+     "last_min_at_fetch": 780,
+     "traded_24h": true,
+     "unreal": -1283,
+     "total": 74183,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 17,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "johnson",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "johnson",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 1491,
+     "d7": 14011,
+     "d30": 41459,
+     "wr7": 0.521,
+     "wr30": 0.481,
+     "wr_all": null,
+     "avg_pos": 531,
+     "hold_s": 240,
+     "last_min_at_fetch": 540,
+     "traded_24h": true,
+     "unreal": -3744,
+     "total": 37715,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 36,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "juicy",
+   "reasons": [
+    "network"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "juicy",
+    "source": "solanatracker",
+    "fetched_at": "2026-10-18T10:40:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": 0,
+     "d30": 52070,
+     "wr7": null,
+     "wr30": null,
+     "wr_all": 0.377,
+     "avg_pos": 14190,
+     "hold_s": null,
+     "last_min_at_fetch": 2880,
+     "traded_24h": null,
+     "unreal": 6260,
+     "total": 160260,
+     "vol30": 768530,
+     "days30": 18,
+     "wins": 26,
+     "losses": 43,
+     "pnl_rank": 28,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "kadenox",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "kadenox",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 732,
+     "d7": -206,
+     "d30": 138655,
+     "wr7": 0.472,
+     "wr30": 0.48,
+     "wr_all": null,
+     "avg_pos": 320,
+     "hold_s": 16,
+     "last_min_at_fetch": 780,
+     "traded_24h": true,
+     "unreal": -199,
+     "total": 138457,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 11,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "kay-the-doc",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "kay-the-doc",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 1057,
+     "d7": 13677,
+     "d30": 41948,
+     "wr7": 0.554,
+     "wr30": 0.456,
+     "wr_all": null,
+     "avg_pos": 486,
+     "hold_s": 180,
+     "last_min_at_fetch": 480,
+     "traded_24h": true,
+     "unreal": -232,
+     "total": 41716,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 35,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "kev",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "kev",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 514,
+     "d7": 7974,
+     "d30": 43331,
+     "wr7": 0.384,
+     "wr30": 0.331,
+     "wr_all": null,
+     "avg_pos": 358,
+     "hold_s": 9,
+     "last_min_at_fetch": 58,
+     "traded_24h": true,
+     "unreal": -2131,
+     "total": 41201,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 33,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "kook",
+   "reasons": [
+    "network"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "kook",
+    "source": "solanatracker",
+    "fetched_at": "2026-10-18T10:40:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": -734,
+     "d30": -10830,
+     "wr7": null,
+     "wr30": null,
+     "wr_all": 0.547,
+     "avg_pos": 425,
+     "hold_s": null,
+     "last_min_at_fetch": 60,
+     "traded_24h": null,
+     "unreal": -839,
+     "total": 3190,
+     "vol30": 181670,
+     "days30": 30,
+     "wins": 378,
+     "losses": 309,
+     "pnl_rank": 114,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "korean",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "korean",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 405,
+     "d7": 4540,
+     "d30": 48118,
+     "wr7": 0.401,
+     "wr30": 0.419,
+     "wr_all": null,
+     "avg_pos": 141,
+     "hold_s": 6,
+     "last_min_at_fetch": 54,
+     "traded_24h": true,
+     "unreal": 4058,
+     "total": 52176,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 30,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "kyle",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "kyle",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": null,
+     "d30": 22202,
+     "wr7": null,
+     "wr30": 1,
+     "wr_all": null,
+     "avg_pos": 2300,
+     "hold_s": 12240,
+     "last_min_at_fetch": 36000,
+     "traded_24h": false,
+     "unreal": -6418,
+     "total": 15784,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 53,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "laseasy",
+   "reasons": [
+    "network"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "laseasy",
+    "source": "solanatracker",
+    "fetched_at": "2026-10-18T10:40:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": -5870,
+     "d30": 17460,
+     "wr7": null,
+     "wr30": null,
+     "wr_all": 0.392,
+     "avg_pos": 735,
+     "hold_s": null,
+     "last_min_at_fetch": 120,
+     "traded_24h": null,
+     "unreal": 4050,
+     "total": 115910,
+     "vol30": 452490,
+     "days30": 30,
+     "wins": 299,
+     "losses": 459,
+     "pnl_rank": 59,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "latuche",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "latuche",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 1581,
+     "d7": 16783,
+     "d30": 73954,
+     "wr7": 0.603,
+     "wr30": 0.515,
+     "wr_all": null,
+     "avg_pos": 560,
+     "hold_s": 60,
+     "last_min_at_fetch": 58,
+     "traded_24h": true,
+     "unreal": -340,
+     "total": 73614,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 18,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "leck",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "leck",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": -2384,
+     "d7": 821,
+     "d30": 34372,
+     "wr7": 0.481,
+     "wr30": 0.378,
+     "wr_all": null,
+     "avg_pos": 464,
+     "hold_s": 18,
+     "last_min_at_fetch": 60,
+     "traded_24h": true,
+     "unreal": -1014,
+     "total": 33358,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 39,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "letterbomb",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "letterbomb",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 891,
+     "d7": 395,
+     "d30": 28878,
+     "wr7": 0.558,
+     "wr30": 0.453,
+     "wr_all": null,
+     "avg_pos": 456,
+     "hold_s": 58,
+     "last_min_at_fetch": 120,
+     "traded_24h": true,
+     "unreal": 2042,
+     "total": 30920,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 43,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "levis",
+   "reasons": [
+    "network"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "levis",
+    "source": "solanatracker",
+    "fetched_at": "2026-10-18T10:40:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": 16970,
+     "d30": 16080,
+     "wr7": null,
+     "wr30": null,
+     "wr_all": 0.423,
+     "avg_pos": 4030,
+     "hold_s": null,
+     "last_min_at_fetch": 7200,
+     "traded_24h": null,
+     "unreal": 11920,
+     "total": 376610,
+     "vol30": 283760,
+     "days30": 21,
+     "wins": 90,
+     "losses": 122,
+     "pnl_rank": 64,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "limfork",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "limfork",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 7029,
+     "d7": 30134,
+     "d30": 149299,
+     "wr7": 0.598,
+     "wr30": 0.545,
+     "wr_all": null,
+     "avg_pos": 473,
+     "hold_s": 24,
+     "last_min_at_fetch": 8,
+     "traded_24h": true,
+     "unreal": 4947,
+     "total": 154247,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 9,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "ljc",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "ljc",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": null,
+     "d30": 66534,
+     "wr7": null,
+     "wr30": 0.8,
+     "wr_all": null,
+     "avg_pos": 1100,
+     "hold_s": 900,
+     "last_min_at_fetch": 18720,
+     "traded_24h": false,
+     "unreal": 529,
+     "total": 67063,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 20,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "log",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "log",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 3,
+     "d7": 464,
+     "d30": 604,
+     "wr7": 0.405,
+     "wr30": 0.311,
+     "wr_all": null,
+     "avg_pos": 198,
+     "hold_s": 9,
+     "last_min_at_fetch": 600,
+     "traded_24h": true,
+     "unreal": -3,
+     "total": 601,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 98,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "lucas",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "lucas",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 2429,
+     "d7": 6917,
+     "d30": 19556,
+     "wr7": 0.351,
+     "wr30": 0.321,
+     "wr_all": null,
+     "avg_pos": 376,
+     "hold_s": 18,
+     "last_min_at_fetch": 540,
+     "traded_24h": true,
+     "unreal": -280,
+     "total": 19276,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 54,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "marker",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "marker",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 1189,
+     "d7": 1305,
+     "d30": 2192,
+     "wr7": 0.25,
+     "wr30": 0.308,
+     "wr_all": null,
+     "avg_pos": 222,
+     "hold_s": 60,
+     "last_min_at_fetch": 360,
+     "traded_24h": true,
+     "unreal": null,
+     "total": 2192,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 94,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "maurits",
+   "reasons": [
+    "network"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "maurits",
+    "source": "solanatracker",
+    "fetched_at": "2026-10-18T10:40:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": -6900,
+     "d30": -7860,
+     "wr7": null,
+     "wr30": null,
+     "wr_all": 0.433,
+     "avg_pos": 3030,
+     "hold_s": null,
+     "last_min_at_fetch": 1440,
+     "traded_24h": null,
+     "unreal": -10790,
+     "total": -28780,
+     "vol30": 110320,
+     "days30": 17,
+     "wins": 42,
+     "losses": 55,
+     "pnl_rank": 113,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "milito",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "milito",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 15455,
+     "d7": 35649,
+     "d30": 89425,
+     "wr7": 0.384,
+     "wr30": 0.339,
+     "wr_all": null,
+     "avg_pos": 275,
+     "hold_s": 20,
+     "last_min_at_fetch": 480,
+     "traded_24h": true,
+     "unreal": -1280,
+     "total": 88144,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 15,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "mitch",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "mitch",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 1835,
+     "d7": 19351,
+     "d30": 58668,
+     "wr7": 0.645,
+     "wr30": 0.679,
+     "wr_all": null,
+     "avg_pos": 1200,
+     "hold_s": 82800,
+     "last_min_at_fetch": 43,
+     "traded_24h": true,
+     "unreal": -16589,
+     "total": 42079,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 22,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "monki",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "monki",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": null,
+     "d30": 8579,
+     "wr7": null,
+     "wr30": 0.344,
+     "wr_all": null,
+     "avg_pos": 242,
+     "hold_s": 18,
+     "last_min_at_fetch": 10080,
+     "traded_24h": false,
+     "unreal": -289,
+     "total": 8290,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 76,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "mr-frog",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "mr-frog",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 1470,
+     "d7": 3580,
+     "d30": 150332,
+     "wr7": 0.87,
+     "wr30": 0.949,
+     "wr_all": null,
+     "avg_pos": 379,
+     "hold_s": 120,
+     "last_min_at_fetch": 60,
+     "traded_24h": true,
+     "unreal": -435,
+     "total": 149896,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 8,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "mrpunk",
+   "reasons": [
+    "network"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "mrpunk",
+    "source": "solanatracker",
+    "fetched_at": "2026-10-18T10:40:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": -28240,
+     "d30": -88550,
+     "wr7": null,
+     "wr30": null,
+     "wr_all": 0.471,
+     "avg_pos": 3850,
+     "hold_s": null,
+     "last_min_at_fetch": 420,
+     "traded_24h": null,
+     "unreal": -5030,
+     "total": -54290,
+     "vol30": 1040000,
+     "days30": 29,
+     "wins": 184,
+     "losses": 206,
+     "pnl_rank": 119,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "naka",
+   "reasons": [
+    "network"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "naka",
+    "source": "solanatracker",
+    "fetched_at": "2026-10-18T10:40:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": 0,
+     "d30": 16890,
+     "wr7": null,
+     "wr30": null,
+     "wr_all": 0.475,
+     "avg_pos": 2010,
+     "hold_s": null,
+     "last_min_at_fetch": 7200,
+     "traded_24h": null,
+     "unreal": -72970,
+     "total": 18230,
+     "vol30": 134310,
+     "days30": 14,
+     "wins": 116,
+     "losses": 127,
+     "pnl_rank": 61,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "narc",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "narc",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": -95,
+     "d7": 81,
+     "d30": 363,
+     "wr7": 0.654,
+     "wr30": 0.701,
+     "wr_all": null,
+     "avg_pos": 197,
+     "hold_s": 1200,
+     "last_min_at_fetch": 540,
+     "traded_24h": true,
+     "unreal": -4458,
+     "total": -4095,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 102,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "ndf",
+   "reasons": [
+    "network"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "ndf",
+    "source": "solanatracker",
+    "fetched_at": "2026-10-18T10:40:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": 0,
+     "d30": 0,
+     "wr7": null,
+     "wr30": null,
+     "wr_all": 0.552,
+     "avg_pos": 5130,
+     "hold_s": null,
+     "last_min_at_fetch": 44640,
+     "traded_24h": null,
+     "unreal": -9,
+     "total": -30850,
+     "vol30": 0,
+     "days30": 0,
+     "wins": 32,
+     "losses": 25,
+     "pnl_rank": 104,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "no",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "no",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": -791,
+     "d7": 460,
+     "d30": 5526,
+     "wr7": 0.325,
+     "wr30": 0.37,
+     "wr_all": null,
+     "avg_pos": 369,
+     "hold_s": 34,
+     "last_min_at_fetch": 60,
+     "traded_24h": true,
+     "unreal": -1700,
+     "total": 3826,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 84,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "numero",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "numero",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 7322,
+     "d7": 16261,
+     "d30": 31226,
+     "wr7": 0.638,
+     "wr30": 0.606,
+     "wr_all": null,
+     "avg_pos": 648,
+     "hold_s": 120,
+     "last_min_at_fetch": 60,
+     "traded_24h": true,
+     "unreal": -804,
+     "total": 30423,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 40,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "nyhrox",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "nyhrox",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": 10641,
+     "d30": 4327,
+     "wr7": 0.414,
+     "wr30": 0.434,
+     "wr_all": null,
+     "avg_pos": 1100,
+     "hold_s": 16,
+     "last_min_at_fetch": 720,
+     "traded_24h": true,
+     "unreal": 802,
+     "total": 5128,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 86,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "ocr",
+   "reasons": [
+    "network"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "ocr",
+    "source": "solanatracker",
+    "fetched_at": "2026-10-18T10:40:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": -24170,
+     "d30": -173740,
+     "wr7": null,
+     "wr30": null,
+     "wr_all": 0.372,
+     "avg_pos": 1520,
+     "hold_s": null,
+     "last_min_at_fetch": 540,
+     "traded_24h": null,
+     "unreal": -14670,
+     "total": -151070,
+     "vol30": 913670,
+     "days30": 30,
+     "wins": 627,
+     "losses": 1100,
+     "pnl_rank": 121,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "omar",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "omar",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 325,
+     "d7": 3359,
+     "d30": 55511,
+     "wr7": 0.429,
+     "wr30": 0.331,
+     "wr_all": null,
+     "avg_pos": 460,
+     "hold_s": 25,
+     "last_min_at_fetch": 720,
+     "traded_24h": true,
+     "unreal": -358,
+     "total": 55153,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 26,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "orange",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "orange",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 261,
+     "d7": -5495,
+     "d30": 25372,
+     "wr7": 0.5,
+     "wr30": 0.423,
+     "wr_all": null,
+     "avg_pos": 530,
+     "hold_s": 53,
+     "last_min_at_fetch": 60,
+     "traded_24h": true,
+     "unreal": -1486,
+     "total": 23887,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 49,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "parsiiix",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "parsiiix",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": -795,
+     "d7": -1631,
+     "d30": 1664,
+     "wr7": 0.407,
+     "wr30": 0.377,
+     "wr_all": null,
+     "avg_pos": 241,
+     "hold_s": 17,
+     "last_min_at_fetch": 1200,
+     "traded_24h": true,
+     "unreal": -252,
+     "total": 1412,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 96,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "peter",
+   "reasons": [
+    "network"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "peter",
+    "source": "solanatracker",
+    "fetched_at": "2026-10-18T10:40:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": 3100,
+     "d30": 24430,
+     "wr7": null,
+     "wr30": null,
+     "wr_all": 0.4,
+     "avg_pos": 961,
+     "hold_s": null,
+     "last_min_at_fetch": 60,
+     "traded_24h": null,
+     "unreal": 990,
+     "total": 98630,
+     "vol30": 362840,
+     "days30": 30,
+     "wins": 177,
+     "losses": 265,
+     "pnl_rank": 50,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "pow",
+   "reasons": [
+    "network"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "pow",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": null,
+     "d30": -4195,
+     "wr7": null,
+     "wr30": 0.182,
+     "wr_all": null,
+     "avg_pos": 12700,
+     "hold_s": 7560,
+     "last_min_at_fetch": 4320,
+     "traded_24h": false,
+     "unreal": -1852,
+     "total": -6047,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 111,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "publix",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "publix",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": -1901,
+     "d7": 4892,
+     "d30": 29480,
+     "wr7": 0.458,
+     "wr30": 0.37,
+     "wr_all": null,
+     "avg_pos": 457,
+     "hold_s": 39,
+     "last_min_at_fetch": 960,
+     "traded_24h": true,
+     "unreal": -4635,
+     "total": 24845,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 41,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "qtdegen",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "qtdegen",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 1847,
+     "d7": -316,
+     "d30": 7507,
+     "wr7": 0.296,
+     "wr30": 0.351,
+     "wr_all": null,
+     "avg_pos": 391,
+     "hold_s": 24,
+     "last_min_at_fetch": 780,
+     "traded_24h": true,
+     "unreal": -4869,
+     "total": 2638,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 79,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "radiance",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "radiance",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 190,
+     "d7": -235,
+     "d30": 23780,
+     "wr7": 0.4,
+     "wr30": 0.341,
+     "wr_all": null,
+     "avg_pos": 231,
+     "hold_s": 12,
+     "last_min_at_fetch": 720,
+     "traded_24h": true,
+     "unreal": 1777,
+     "total": 25557,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 52,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "ram",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "ram",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": 1433,
+     "d30": 8302,
+     "wr7": 0.5,
+     "wr30": 0.652,
+     "wr_all": null,
+     "avg_pos": 286,
+     "hold_s": 45,
+     "last_min_at_fetch": 2880,
+     "traded_24h": false,
+     "unreal": null,
+     "total": 8302,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 77,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "rambo",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "rambo",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": -572,
+     "d7": 4176,
+     "d30": 15723,
+     "wr7": 0.33,
+     "wr30": 0.357,
+     "wr_all": null,
+     "avg_pos": 461,
+     "hold_s": 360,
+     "last_min_at_fetch": 60,
+     "traded_24h": true,
+     "unreal": -863,
+     "total": 14861,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 66,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "ramset",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "ramset",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": null,
+     "d30": 589,
+     "wr7": null,
+     "wr30": 0.366,
+     "wr_all": null,
+     "avg_pos": 408,
+     "hold_s": 45,
+     "last_min_at_fetch": 12960,
+     "traded_24h": false,
+     "unreal": -1779,
+     "total": -1190,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 99,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "realist",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "realist",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": 3088,
+     "d30": 6169,
+     "wr7": 0.434,
+     "wr30": 0.403,
+     "wr_all": null,
+     "avg_pos": 187,
+     "hold_s": 10,
+     "last_min_at_fetch": 4320,
+     "traded_24h": false,
+     "unreal": -13,
+     "total": 6156,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 83,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "red",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "red",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": null,
+     "d30": 0,
+     "wr7": null,
+     "wr30": 0,
+     "wr_all": null,
+     "avg_pos": 165,
+     "hold_s": 8,
+     "last_min_at_fetch": 11520,
+     "traded_24h": false,
+     "unreal": null,
+     "total": 0,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 103,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "rilsio",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "rilsio",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 2652,
+     "d7": 1654,
+     "d30": 53937,
+     "wr7": 0.484,
+     "wr30": 0.492,
+     "wr_all": null,
+     "avg_pos": 652,
+     "hold_s": 41,
+     "last_min_at_fetch": 60,
+     "traded_24h": true,
+     "unreal": -1872,
+     "total": 52066,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 27,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "samsrep",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "samsrep",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 3,
+     "d7": 1743,
+     "d30": 25812,
+     "wr7": 0.231,
+     "wr30": 0.164,
+     "wr_all": null,
+     "avg_pos": 478,
+     "hold_s": 60,
+     "last_min_at_fetch": 60,
+     "traded_24h": true,
+     "unreal": -9088,
+     "total": 16724,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 47,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "shah",
+   "reasons": [
+    "network"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "shah",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 480,
+     "d7": 5947,
+     "d30": -12939,
+     "wr7": 0.398,
+     "wr30": 0.332,
+     "wr_all": null,
+     "avg_pos": 266,
+     "hold_s": 60,
+     "last_min_at_fetch": 120,
+     "traded_24h": true,
+     "unreal": -6778,
+     "total": -19717,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 115,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "smokey",
+   "reasons": [
+    "network"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "smokey",
+    "source": "solanatracker",
+    "fetched_at": "2026-10-18T10:40:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": -43710,
+     "d30": -318810,
+     "wr7": null,
+     "wr30": null,
+     "wr_all": 0.357,
+     "avg_pos": 4420,
+     "hold_s": null,
+     "last_min_at_fetch": 720,
+     "traded_24h": null,
+     "unreal": 29650,
+     "total": -359190,
+     "vol30": 433190,
+     "days30": 14,
+     "wins": 86,
+     "losses": 153,
+     "pnl_rank": 122,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "smokez",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "smokez",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": -138,
+     "d30": 2452,
+     "wr7": 0.474,
+     "wr30": 0.384,
+     "wr_all": null,
+     "avg_pos": 1000,
+     "hold_s": 120,
+     "last_min_at_fetch": 780,
+     "traded_24h": true,
+     "unreal": 2327,
+     "total": 4778,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 92,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "solana-degen",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "solana-degen",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": -1846,
+     "d7": -3352,
+     "d30": 6502,
+     "wr7": 0.321,
+     "wr30": 0.304,
+     "wr_all": null,
+     "avg_pos": 661,
+     "hold_s": 20,
+     "last_min_at_fetch": 240,
+     "traded_24h": true,
+     "unreal": 485,
+     "total": 6987,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 82,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "solkrow",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "solkrow",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 2283,
+     "d7": 10662,
+     "d30": 103526,
+     "wr7": 0.427,
+     "wr30": 0.327,
+     "wr_all": null,
+     "avg_pos": 882,
+     "hold_s": 120,
+     "last_min_at_fetch": 55,
+     "traded_24h": true,
+     "unreal": 11765,
+     "total": 115291,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 12,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "solstice",
+   "reasons": [
+    "network"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "solstice",
+    "source": "solanatracker",
+    "fetched_at": "2026-10-18T10:40:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": -2380,
+     "d30": -35340,
+     "wr7": null,
+     "wr30": null,
+     "wr_all": 0.701,
+     "avg_pos": 9330,
+     "hold_s": null,
+     "last_min_at_fetch": 240,
+     "traded_24h": null,
+     "unreal": -203910,
+     "total": -267010,
+     "vol30": 426880,
+     "days30": 29,
+     "wins": 129,
+     "losses": 53,
+     "pnl_rank": 117,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "spuno",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "spuno",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": -32,
+     "d7": 1883,
+     "d30": 51076,
+     "wr7": 0.421,
+     "wr30": 0.427,
+     "wr_all": null,
+     "avg_pos": 1000,
+     "hold_s": 59,
+     "last_min_at_fetch": 780,
+     "traded_24h": true,
+     "unreal": 180,
+     "total": 51257,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 29,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "stigman",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "stigman",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 1855,
+     "d7": 3959,
+     "d30": 7135,
+     "wr7": 0.357,
+     "wr30": 0.339,
+     "wr_all": null,
+     "avg_pos": 361,
+     "hold_s": 24,
+     "last_min_at_fetch": 31,
+     "traded_24h": true,
+     "unreal": -1626,
+     "total": 5509,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 80,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "t9ndra",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "t9ndra",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": null,
+     "d30": 23854,
+     "wr7": null,
+     "wr30": 0.335,
+     "wr_all": null,
+     "avg_pos": 236,
+     "hold_s": 13,
+     "last_min_at_fetch": 24480,
+     "traded_24h": false,
+     "unreal": -171,
+     "total": 23683,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 51,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "tdmilky",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "tdmilky",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": 8739,
+     "d30": 26675,
+     "wr7": 0.405,
+     "wr30": 0.434,
+     "wr_all": null,
+     "avg_pos": 663,
+     "hold_s": 36,
+     "last_min_at_fetch": 1440,
+     "traded_24h": true,
+     "unreal": -641,
+     "total": 26034,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 46,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "tech",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "tech",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 8,
+     "d7": 1089,
+     "d30": 3833,
+     "wr7": 0.667,
+     "wr30": 0.494,
+     "wr_all": null,
+     "avg_pos": 198,
+     "hold_s": 43,
+     "last_min_at_fetch": 780,
+     "traded_24h": true,
+     "unreal": -915,
+     "total": 2918,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 88,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "tekkerrss",
+   "reasons": [
+    "network"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "tekkerrss",
+    "source": "solanatracker",
+    "fetched_at": "2026-10-18T10:40:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": -1600,
+     "d30": 207060,
+     "wr7": null,
+     "wr30": null,
+     "wr_all": 0.442,
+     "avg_pos": 1530,
+     "hold_s": null,
+     "last_min_at_fetch": 120,
+     "traded_24h": null,
+     "unreal": -298530,
+     "total": 466650,
+     "vol30": 1280000,
+     "days30": 30,
+     "wins": 411,
+     "losses": 516,
+     "pnl_rank": 7,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "theo",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "theo",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 992,
+     "d7": 73625,
+     "d30": 305839,
+     "wr7": 0.535,
+     "wr30": 0.478,
+     "wr_all": null,
+     "avg_pos": 414,
+     "hold_s": 18,
+     "last_min_at_fetch": 540,
+     "traded_24h": true,
+     "unreal": -2041,
+     "total": 303798,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 4,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "til",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "til",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 9649,
+     "d7": 20418,
+     "d30": 36704,
+     "wr7": 0.399,
+     "wr30": 0.367,
+     "wr_all": null,
+     "avg_pos": 659,
+     "hold_s": 38,
+     "last_min_at_fetch": 19,
+     "traded_24h": true,
+     "unreal": 20444,
+     "total": 57148,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 37,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "trancey",
+   "reasons": [
+    "network"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "trancey",
+    "source": "solanatracker",
+    "fetched_at": "2026-10-18T10:40:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": -629,
+     "d30": 15420,
+     "wr7": null,
+     "wr30": null,
+     "wr_all": 0.357,
+     "avg_pos": 717,
+     "hold_s": null,
+     "last_min_at_fetch": 480,
+     "traded_24h": null,
+     "unreal": -14530,
+     "total": 52460,
+     "vol30": 343190,
+     "days30": 30,
+     "wins": 424,
+     "losses": 747,
+     "pnl_rank": 67,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "trenchman",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "trenchman",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": -1319,
+     "d7": -13236,
+     "d30": 34488,
+     "wr7": 0.304,
+     "wr30": 0.374,
+     "wr_all": null,
+     "avg_pos": 860,
+     "hold_s": 60,
+     "last_min_at_fetch": 240,
+     "traded_24h": true,
+     "unreal": 19047,
+     "total": 53534,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 38,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "trey",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "trey",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 2877,
+     "d7": 4123,
+     "d30": 103233,
+     "wr7": 0.54,
+     "wr30": 0.437,
+     "wr_all": null,
+     "avg_pos": 356,
+     "hold_s": 38,
+     "last_min_at_fetch": 780,
+     "traded_24h": true,
+     "unreal": -6565,
+     "total": 96668,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 13,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "trunoest",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "trunoest",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 8221,
+     "d7": 64043,
+     "d30": 386675,
+     "wr7": 0.649,
+     "wr30": 0.633,
+     "wr_all": null,
+     "avg_pos": 324,
+     "hold_s": 21,
+     "last_min_at_fetch": 300,
+     "traded_24h": true,
+     "unreal": -66,
+     "total": 386610,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 3,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "vein",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "vein",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": 18938,
+     "d7": 52168,
+     "d30": 15725,
+     "wr7": 0.42,
+     "wr30": 0.345,
+     "wr_all": null,
+     "avg_pos": 733,
+     "hold_s": 180,
+     "last_min_at_fetch": 120,
+     "traded_24h": true,
+     "unreal": 1780,
+     "total": 17506,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 65,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "west",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "west",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": 12199,
+     "d30": 1481,
+     "wr7": 0.417,
+     "wr30": 0.345,
+     "wr_all": null,
+     "avg_pos": 1000,
+     "hold_s": 7,
+     "last_min_at_fetch": 4320,
+     "traded_24h": false,
+     "unreal": null,
+     "total": 1481,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 97,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "xander",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "xander",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": -16001,
+     "d30": 28654,
+     "wr7": 0.348,
+     "wr30": 0.313,
+     "wr_all": null,
+     "avg_pos": 1100,
+     "hold_s": 120,
+     "last_min_at_fetch": 300,
+     "traded_24h": true,
+     "unreal": -3420,
+     "total": 25234,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 45,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "xelf",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "xelf",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": -271,
+     "d7": -1204,
+     "d30": 444,
+     "wr7": 0.442,
+     "wr30": 0.463,
+     "wr_all": null,
+     "avg_pos": 202,
+     "hold_s": 60,
+     "last_min_at_fetch": 720,
+     "traded_24h": true,
+     "unreal": 794,
+     "total": 1238,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 101,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "zagy",
+   "reasons": [
+    "network"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "zagy",
+    "source": "solanatracker",
+    "fetched_at": "2026-10-18T10:40:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": 264,
+     "d30": -13880,
+     "wr7": null,
+     "wr30": null,
+     "wr_all": 0.479,
+     "avg_pos": 678,
+     "hold_s": null,
+     "last_min_at_fetch": 1440,
+     "traded_24h": null,
+     "unreal": -1700,
+     "total": -15720,
+     "vol30": 277490,
+     "days30": 28,
+     "wins": 159,
+     "losses": 171,
+     "pnl_rank": 116,
+     "in_top_today": false
+    }
+   }
+  },
+  {
+   "kol": "zuki",
+   "reasons": [
+    "top100"
+   ],
+   "row": {
+    "date": "2026-10-18",
+    "kol": "zuki",
+    "source": "kolexplorer",
+    "fetched_at": "2026-10-17T12:00:00Z",
+    "metrics": {
+     "d1": null,
+     "d7": -346,
+     "d30": 7724,
+     "wr7": 0.5,
+     "wr30": 0.436,
+     "wr_all": null,
+     "avg_pos": 265,
+     "hold_s": 11,
+     "last_min_at_fetch": 1440,
+     "traded_24h": true,
+     "unreal": -2981,
+     "total": 4743,
+     "vol30": null,
+     "days30": null,
+     "wins": null,
+     "losses": null,
+     "pnl_rank": 78,
+     "in_top_today": false
+    }
+   }
+  }
+ ]
+}

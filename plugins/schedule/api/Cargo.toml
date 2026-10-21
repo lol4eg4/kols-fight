@@ -1,0 +1,10 @@
+[package]
+name = "api-schedule"
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[dependencies]
+arena-platform.workspace = true
+chrono.workspace = true
+serde.workspace = true

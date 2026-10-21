@@ -1,0 +1,11 @@
+name = "roster"
+layer = 3
+version = "0.1.0"
+tags = ["staff", "admin"]
+uses = ["registry", "snapshots", "journal"]
+emits = ["table_read", "x_handle_verified"]
+listens = ["snapshot_opened"]
+slots = ["screen:wallet_status"]
+fills = ["schedule/other_sources", "board/in_network"]
+widgets = []
+screens = [{ name = "network", path = "/team/network", tag = "staff" }]

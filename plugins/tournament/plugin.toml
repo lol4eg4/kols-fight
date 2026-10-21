@@ -1,0 +1,11 @@
+name = "tournament"
+layer = 4
+version = "0.1.0"
+tags = ["public"]
+uses = ["fight", "score", "roster"]
+emits = []
+listens = []
+slots = []
+fills = ["board/below_fight"]
+widgets = []
+screens = []
