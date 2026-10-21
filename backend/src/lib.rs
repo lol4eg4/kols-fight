@@ -143,11 +143,7 @@ pub fn plugin_routes(
 
 /// Finds the person of the request (platform slot, filled by auth) and checks the route tag.
 /// Nobody on a closed route gets 401; a staff member on an admin route gets 403.
-async fn tag_guard(
-    State((ctx, tag)): State<(Ctx, Tag)>,
-    mut req: Request,
-    next: Next,
-) -> Response {
+async fn tag_guard(State((ctx, tag)): State<(Ctx, Tag)>, mut req: Request, next: Next) -> Response {
     let person = match ctx.slots.get::<dyn PersonOfRequest>() {
         Some(slot) => slot.get().person(req.headers()).await,
         None => Person::NOBODY,

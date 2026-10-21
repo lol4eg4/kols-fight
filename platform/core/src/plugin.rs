@@ -1,8 +1,6 @@
 //! The `Plugin` trait, tagged routes, and construction order.
 
-use crate::{
-    BoxError, ctx::Ctx, manifest::Manifest, page::PageMeta, person::Tag, scheduler::Job,
-};
+use crate::{BoxError, ctx::Ctx, manifest::Manifest, page::PageMeta, person::Tag, scheduler::Job};
 use async_trait::async_trait;
 use axum::routing::MethodRouter;
 use sqlx::migrate::Migrator;
@@ -165,8 +163,10 @@ fn find_cycle(manifests: &[Manifest], index: &HashMap<&str, usize>, left: &[usiz
             .find(|j| left.contains(j))
             .expect("stuck plugin uses another stuck plugin");
         if let Some(start) = path.iter().position(|&p| p == next) {
-            let mut names: Vec<String> =
-                path[start..].iter().map(|&i| manifests[i].name.clone()).collect();
+            let mut names: Vec<String> = path[start..]
+                .iter()
+                .map(|&i| manifests[i].name.clone())
+                .collect();
             names.push(manifests[next].name.clone());
             return names;
         }
@@ -243,7 +243,10 @@ mod tests {
             m("journal", 0, &[]),
         ];
         let order = construction_order(&ms).unwrap();
-        assert_eq!(names(&ms, &order), ["journal", "auth", "registry", "roster", "wallets"]);
+        assert_eq!(
+            names(&ms, &order),
+            ["journal", "auth", "registry", "roster", "wallets"]
+        );
     }
 
     #[test]
@@ -254,13 +257,22 @@ mod tests {
 
         let ms = vec![m("a", 1, &["ghost"])];
         let err = construction_order(&ms).unwrap_err();
-        assert_eq!(err.to_string(), "plugin a uses ghost, which is not in the plugin list");
+        assert_eq!(
+            err.to_string(),
+            "plugin a uses ghost, which is not in the plugin list"
+        );
 
         let ms = vec![m("low", 1, &["high"]), m("high", 2, &[])];
         let err = construction_order(&ms).unwrap_err();
-        assert!(err.to_string().contains("plugin low (layer 1) uses high"), "{err}");
+        assert!(
+            err.to_string().contains("plugin low (layer 1) uses high"),
+            "{err}"
+        );
 
         let ms = vec![m("a", 1, &[]), m("a", 1, &[])];
-        assert!(matches!(construction_order(&ms), Err(StartError::DuplicatePlugin(_))));
+        assert!(matches!(
+            construction_order(&ms),
+            Err(StartError::DuplicatePlugin(_))
+        ));
     }
 }

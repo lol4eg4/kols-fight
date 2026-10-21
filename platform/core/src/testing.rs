@@ -62,7 +62,11 @@ fn random_suffix() -> String {
         .duration_since(UNIX_EPOCH)
         .map(|d| d.as_nanos())
         .unwrap_or_default();
-    let seed = (nanos, std::process::id(), COUNTER.fetch_add(1, Ordering::Relaxed));
+    let seed = (
+        nanos,
+        std::process::id(),
+        COUNTER.fetch_add(1, Ordering::Relaxed),
+    );
     format!("{:016x}", RandomState::new().hash_one(seed))
 }
 
@@ -78,11 +82,29 @@ fn encode(s: &str) -> String {
 }
 
 async fn drop_database(admin: &PgConnectOptions, name: &str) -> Result<(), sqlx::Error> {
-    assert!(name.starts_with(PREFIX), "TestDb drops only its own databases");
+    assert!(
+        name.starts_with(PREFIX),
+        "TestDb drops only its own databases"
+    );
     let mut conn = PgConnection::connect_with(admin).await?;
-    sqlx::raw_sql(&format!("DROP DATABASE IF EXISTS {name} WITH (FORCE)"))
-        .execute(&mut conn)
-        .await?;
+    // FORCE can fail with «permission denied to terminate process» while an autovacuum
+    // worker is in the database; it leaves within moments, so try a few times.
+    let mut tries = 0;
+    loop {
+        match sqlx::raw_sql(&format!("DROP DATABASE IF EXISTS {name} WITH (FORCE)"))
+            .execute(&mut conn)
+            .await
+        {
+            Err(sqlx::Error::Database(e)) if e.code().as_deref() == Some("42501") && tries < 10 => {
+                tries += 1;
+                tokio::time::sleep(std::time::Duration::from_millis(200)).await;
+            }
+            r => {
+                r?;
+                break;
+            }
+        }
+    }
     conn.close().await
 }
 
@@ -113,9 +135,15 @@ impl TestDb {
                 .cloned()
                 .ok_or_else(|| format!("{k} not configured in {}", path.display()))
         };
-        let (host, port, user, password) =
-            (get("PGHOST")?, get("PGPORT")?, get("PGUSER")?, get("PGPASSWORD")?);
-        let port: u16 = port.parse().map_err(|_| "PGPORT is not a port".to_string())?;
+        let (host, port, user, password) = (
+            get("PGHOST")?,
+            get("PGPORT")?,
+            get("PGUSER")?,
+            get("PGPASSWORD")?,
+        );
+        let port: u16 = port
+            .parse()
+            .map_err(|_| "PGPORT is not a port".to_string())?;
         let server = PgConnectOptions::new()
             .host(&host)
             .port(port)
@@ -211,7 +239,11 @@ mod tests {
         let dir = std::env::temp_dir().join(format!("testdb-env-{}", random_suffix()));
         std::fs::create_dir_all(&dir).unwrap();
         let path = dir.join("pg.env");
-        std::fs::write(&path, "# c\nexport PGHOST=localhost\nPGPORT='5432'\nPGUSER=\"u\"\nPGPASSWORD=p@ss/w\n").unwrap();
+        std::fs::write(
+            &path,
+            "# c\nexport PGHOST=localhost\nPGPORT='5432'\nPGUSER=\"u\"\nPGPASSWORD=p@ss/w\n",
+        )
+        .unwrap();
         let env = read_env(&path).unwrap();
         assert_eq!(env["PGHOST"], "localhost");
         assert_eq!(env["PGPORT"], "5432");

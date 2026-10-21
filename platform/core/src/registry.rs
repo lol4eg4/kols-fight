@@ -56,7 +56,10 @@ impl Registry {
             .filter(|r| r.app.as_deref().is_none_or(|a| a == app))
             .cloned()
             .collect();
-        Registry { app: app.to_string(), rules }
+        Registry {
+            app: app.to_string(),
+            rules,
+        }
     }
 
     pub fn app(&self) -> &str {
@@ -96,7 +99,13 @@ impl Registry {
 mod tests {
     use super::*;
 
-    fn rule(plugin: &str, app: Option<&str>, role: Option<Role>, person: Option<i64>, choice: &str) -> Rule {
+    fn rule(
+        plugin: &str,
+        app: Option<&str>,
+        role: Option<Role>,
+        person: Option<i64>,
+        choice: &str,
+    ) -> Rule {
         Rule {
             plugin: plugin.into(),
             app: app.map(Into::into),
@@ -109,7 +118,10 @@ mod tests {
     #[test]
     fn no_rule_is_default() {
         let reg = Registry::new("kol-arena", &[]);
-        assert_eq!(reg.choose("fight", &Person::NOBODY), Impl::Named("default".into()));
+        assert_eq!(
+            reg.choose("fight", &Person::NOBODY),
+            Impl::Named("default".into())
+        );
     }
 
     #[test]
@@ -124,10 +136,19 @@ mod tests {
         let reg = Registry::new("kol-arena", &rules);
         assert_eq!(reg.rules().len(), 4);
         assert_eq!(reg.choose("duel", &Person::NOBODY), Impl::Off);
-        assert_eq!(reg.choose("duel", &Person::staff(3)), Impl::Named("default".into()));
-        assert_eq!(reg.choose("duel", &Person::staff(7)), Impl::Named("v2".into()));
+        assert_eq!(
+            reg.choose("duel", &Person::staff(3)),
+            Impl::Named("default".into())
+        );
+        assert_eq!(
+            reg.choose("duel", &Person::staff(7)),
+            Impl::Named("v2".into())
+        );
         assert_eq!(reg.choose("fight", &Person::NOBODY), Impl::Off);
-        assert_eq!(reg.choose("fight", &Person::admin(1)), Impl::Named("default".into()));
+        assert_eq!(
+            reg.choose("fight", &Person::admin(1)),
+            Impl::Named("default".into())
+        );
     }
 
     #[test]
@@ -137,6 +158,9 @@ mod tests {
             rule("radar", None, None, None, "default"),
         ];
         let reg = Registry::new("kol-arena", &rules);
-        assert_eq!(reg.choose("radar", &Person::NOBODY), Impl::Named("default".into()));
+        assert_eq!(
+            reg.choose("radar", &Person::NOBODY),
+            Impl::Named("default".into())
+        );
     }
 }

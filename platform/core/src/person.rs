@@ -37,16 +37,28 @@ pub struct Person {
 
 impl Person {
     /// Nobody: the public page.
-    pub const NOBODY: Person = Person { id: None, role: Role::Nobody };
+    pub const NOBODY: Person = Person {
+        id: None,
+        role: Role::Nobody,
+    };
     /// The server itself: scheduled jobs and install steps. Admin role, no id.
-    pub const SYSTEM: Person = Person { id: None, role: Role::Admin };
+    pub const SYSTEM: Person = Person {
+        id: None,
+        role: Role::Admin,
+    };
 
     pub fn staff(id: i64) -> Self {
-        Person { id: Some(id), role: Role::Staff }
+        Person {
+            id: Some(id),
+            role: Role::Staff,
+        }
     }
 
     pub fn admin(id: i64) -> Self {
-        Person { id: Some(id), role: Role::Admin }
+        Person {
+            id: Some(id),
+            role: Role::Admin,
+        }
     }
 
     /// Staff or admin.
@@ -71,7 +83,11 @@ impl<S: Send + Sync> FromRequestParts<S> for Person {
     type Rejection = Infallible;
 
     async fn from_request_parts(parts: &mut Parts, _state: &S) -> Result<Self, Self::Rejection> {
-        Ok(parts.extensions.get::<Person>().copied().unwrap_or_default())
+        Ok(parts
+            .extensions
+            .get::<Person>()
+            .copied()
+            .unwrap_or_default())
     }
 }
 

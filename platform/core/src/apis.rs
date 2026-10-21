@@ -5,8 +5,8 @@
 //! implementation serves this person, so a plugin can be `off` for an app, role or person.
 
 use crate::{
-    plugin::StartError,
     person::Person,
+    plugin::StartError,
     registry::{DEFAULT_IMPL, Impl, OFF, Registry},
 };
 use std::{
@@ -109,7 +109,11 @@ impl Apis {
             });
         }
         let names: Vec<&'static str> = impls.iter().map(|(n, _)| *n).collect();
-        let entry = Arc::new(Entry { plugin, impls, stub });
+        let entry = Arc::new(Entry {
+            plugin,
+            impls,
+            stub,
+        });
         map.insert(TypeId::of::<T>(), Box::new(entry));
         self.impls
             .write()
@@ -212,7 +216,10 @@ mod tests {
 
     #[test]
     fn pick_follows_registry() {
-        let rules = [rule(Some(Role::Nobody), "off"), rule(Some(Role::Admin), "other")];
+        let rules = [
+            rule(Some(Role::Nobody), "off"),
+            rule(Some(Role::Admin), "other"),
+        ];
         let apis = Apis::new(Registry::new("app", &rules));
         apis.provide::<dyn Greet>(
             "greeter",
