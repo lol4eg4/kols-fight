@@ -1,13 +1,25 @@
-//! Backend of the `roster` plugin (layer 3).
+//! Backend of the `roster` plugin (layer 3): the network sheet, membership, the X handle.
 //!
-//! Skeleton: registers [`api_roster::RosterApi`] with «not built» answers and mounts no
-//! routes yet. The plugin's lane builds it.
+//! The sheet is the main list (read daily at 05:45 UTC and on the admin button). Group,
+//! rates and notes live only in the roster tables; they leave through the staff-only
+//! [`api_roster::RosterApi::rates`] and the team and admin routes. There is no public route.
 
-use arena_platform::{Api, Ctx, Plugin, PluginEntry, StartError};
+use api_roster::RosterApi;
+use api_schedule::SnapshotOpened;
+use arena_platform::{BoxError, Ctx, Job, Plugin, PluginEntry, Route, StartError};
 use sqlx::migrate::Migrator;
 use std::sync::Arc;
 
-mod not_built;
+mod roster;
+mod routes;
+mod sheet;
+mod store;
+
+pub use roster::{
+    InNetworkFiller, MemberPatch, NoHttpClient, OpError, ReachInput, Roster, RosterImpl,
+    SheetFetch, SyncReport,
+};
+pub use sheet::{Parsed, SheetError, SheetRow, Skipped, formats_of, parse as parse_sheet};
 
 /// Plugin name: folder, schema and crate suffix.
 pub const NAME: &str = "roster";
@@ -21,31 +33,47 @@ pub const ENTRY: PluginEntry = PluginEntry {
     build,
 };
 
-/// APIs this plugin calls (`uses` in plugin.toml), taken from `Ctx` at construction.
-#[allow(dead_code)] // read once the lane builds the plugin
-struct Uses {
-    registry: Api<dyn api_registry::RegistryApi>,
-    snapshots: Api<dyn api_snapshots::SnapshotsApi>,
-    journal: Api<dyn api_journal::JournalApi>,
+pub struct RosterPlugin {
+    roster: Arc<Roster>,
 }
 
-pub struct RosterPlugin {
-    #[allow(dead_code)] // read once the lane builds the plugin
-    uses: Uses,
+impl RosterPlugin {
+    pub fn roster(&self) -> Arc<Roster> {
+        self.roster.clone()
+    }
 }
 
 fn build(ctx: &Ctx) -> Result<Arc<dyn Plugin>, StartError> {
-    let uses = Uses {
+    Ok(build_with(ctx, Arc::new(NoHttpClient))?)
+}
+
+/// Builds the plugin with the given sheet reader (tests give a fake one).
+pub fn build_with(
+    ctx: &Ctx,
+    fetcher: Arc<dyn SheetFetch>,
+) -> Result<Arc<RosterPlugin>, StartError> {
+    let roster = Arc::new(Roster {
+        pool: ctx.pool.clone(),
+        config: ctx.config.clone(),
+        events: ctx.events.clone(),
         registry: ctx.apis.require::<dyn api_registry::RegistryApi>(NAME)?,
         snapshots: ctx.apis.require::<dyn api_snapshots::SnapshotsApi>(NAME)?,
         journal: ctx.apis.require::<dyn api_journal::JournalApi>(NAME)?,
-    };
-    ctx.apis.provide::<dyn api_roster::RosterApi>(
+        fetcher,
+    });
+    ctx.apis.provide::<dyn RosterApi>(
         NAME,
-        vec![("default", Arc::new(not_built::NotBuilt))],
+        vec![("default", Arc::new(RosterImpl(roster.clone())))],
         Arc::new(api_roster::stub::Stub),
     )?;
-    Ok(Arc::new(RosterPlugin { uses }))
+    ctx.slots
+        .fill::<dyn api_board::InNetwork>(NAME, Arc::new(InNetworkFiller(roster.clone())))?;
+    let on_open = roster.clone();
+    ctx.events.on::<SnapshotOpened, _, _>(NAME, move |e| {
+        let roster = on_open.clone();
+        async move { roster.add_to_snapshot(e.date).await.map_err(BoxError::from) }
+    });
+    Ok(Arc::new(RosterPlugin { roster }))
 }
 
 impl Plugin for RosterPlugin {
@@ -55,5 +83,13 @@ impl Plugin for RosterPlugin {
 
     fn migrations(&self) -> &'static Migrator {
         &MIGRATOR
+    }
+
+    fn routes(&self, _ctx: &Ctx) -> Vec<Route> {
+        routes::routes(self.roster.clone())
+    }
+
+    fn jobs(&self, _ctx: &Ctx) -> Vec<Job> {
+        self.roster.jobs()
     }
 }
