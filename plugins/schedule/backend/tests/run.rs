@@ -336,22 +336,19 @@ async fn restart_closes_and_ranks_an_old_open_snapshot() {
 }
 
 #[tokio::test]
-async fn manual_rerun_of_a_closed_date_reopens_runs_and_journals() {
+async fn manual_rerun_of_an_earlier_date_only_closes_ranks_and_journals() {
     let (db, fakes, s) = rig().await;
     let d = days_ago(3);
-    fakes.snapshots.seed(d, SnapshotStatus::Closed, &[]);
+    fakes.snapshots.seed(d, SnapshotStatus::Open, &[]);
 
     let started = s.start_manual(Person::admin(7), d).await.unwrap();
     started.done.await.unwrap();
 
+    // The sources give today's numbers only: they never write into an earlier date.
     assert_eq!(
         fakes.calls(),
         [
             "journal".into(),
-            format!("open {d}"),
-            format!("event {d}"),
-            "kolexplorer".into(),
-            "solanatracker".into(),
             format!("close {d}"),
             format!("rank {d}"),
         ]

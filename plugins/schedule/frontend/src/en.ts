@@ -36,7 +36,7 @@ export const dict: Record<string, string> = {
   "schedule.step.rank": "Rank the board",
   "schedule.run.title": "Run now",
   "schedule.run.date": "Date to collect (UTC)",
-  "schedule.run.hint": "Leave it empty for today. A past date collects it again.",
+  "schedule.run.hint": "Leave it empty for today. A past date is closed and ranked again; the sources give only today's numbers.",
   "schedule.run.button": "Run now",
   "schedule.run.busy": "Starting the run",
   "schedule.run.disabled_running": "A collection is already running.",

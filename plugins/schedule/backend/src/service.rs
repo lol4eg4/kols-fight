@@ -262,7 +262,8 @@ impl Schedule {
     }
 
     /// «Run now»: starts a run for `date` (today, or a date that has a snapshot) in the
-    /// background. Answers busy at once when a run or the data lock is held.
+    /// background. Answers busy at once when a run or the data lock is held. The sources
+    /// only give today's numbers, so an earlier date is only closed and ranked again.
     pub async fn start_manual(
         &self,
         person: Person,
@@ -346,6 +347,9 @@ impl Schedule {
             .await;
         let _ = started.send(Some(run_id));
         match recorded {
+            Ok(_) if date < self.today() => {
+                self.close_rank_steps(run_id, date).await;
+            }
             Ok(_) => {
                 self.run_steps(run_id, date).await;
             }
@@ -561,15 +565,21 @@ impl Schedule {
     }
 
     async fn close_and_rank(&self, date: NaiveDate) {
+        let run_id =
+            match store::insert_run(&self.inner.pool, date, "recovery", None, Utc::now()).await {
+                Ok(id) => id,
+                Err(e) => {
+                    tracing::error!(error = %e, "recovery: cannot store the run");
+                    return;
+                }
+            };
+        self.close_rank_steps(run_id, date).await;
+    }
+
+    /// Close and rank only: run `run_id` for an earlier date.
+    async fn close_rank_steps(&self, run_id: i64, date: NaiveDate) -> Overall {
         let p = &Person::SYSTEM;
         let i = &self.inner;
-        let run_id = match store::insert_run(&i.pool, date, "recovery", None, Utc::now()).await {
-            Ok(id) => id,
-            Err(e) => {
-                tracing::error!(error = %e, "recovery: cannot store the run");
-                return;
-            }
-        };
         let mut rec = Recorder {
             pool: &i.pool,
             run_id,
@@ -582,8 +592,7 @@ impl Schedule {
             Ok(_) => rec.step("close", t, Outcome::ok(), true).await,
             Err(e) => {
                 rec.step("close", t, Outcome::failed(e), true).await;
-                self.finish(rec).await;
-                return;
+                return self.finish(rec).await;
             }
         }
         let t = Utc::now();
@@ -592,6 +601,6 @@ impl Schedule {
             Err(e) => Outcome::failed(e),
         };
         rec.step("rank", t, outcome, true).await;
-        self.finish(rec).await;
+        self.finish(rec).await
     }
 }
