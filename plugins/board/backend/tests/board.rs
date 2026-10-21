@@ -14,7 +14,7 @@ use api_snapshots::{
 use arena_platform::{Config, Ctx, Person, Plugin};
 use async_trait::async_trait;
 use axum::{body::Body, http::Request};
-use chrono::{DateTime, Duration, NaiveDate, Utc};
+use chrono::{DateTime, Duration, NaiveDate, NaiveTime, Utc};
 use plugin_board::{is_stale, parse_date, solscan_url};
 use serde_json::Value;
 use std::{
@@ -298,7 +298,10 @@ fn setup(fill_slot: bool) -> Setup {
 
 /// `setup`, with day 1 closed but not ranked yet when `rank_day1` is false.
 fn build(fill_slot: bool, rank_day1: bool) -> Setup {
-    let now = Utc::now();
+    // Ages at the end of day 0, where a day-0 board measures them.
+    let end0 = (day0() + Duration::days(1))
+        .and_time(NaiveTime::MIN)
+        .and_utc();
     let mut view0: SnapshotView = serde_json::from_str(DAY0_VIEW).unwrap();
     for m in &mut view0.members {
         let ago = match m.kol.as_str() {
@@ -306,7 +309,7 @@ fn build(fill_slot: bool, rank_day1: bool) -> Setup {
             "cooker" => 47,
             _ => 1,
         };
-        m.row.as_mut().unwrap().fetched_at = now - Duration::hours(ago);
+        m.row.as_mut().unwrap().fetched_at = end0 - Duration::hours(ago);
     }
     let mut view1 = view0.clone();
     view1.snapshot.date = day1();
@@ -403,12 +406,19 @@ fn row<'a>(board: &'a Value, kol: &str) -> &'a Value {
 #[test]
 fn stale_after_48_hours() {
     let now: DateTime<Utc> = "2026-10-20T12:00:00Z".parse().unwrap();
-    assert!(!is_stale(now - Duration::hours(48), now));
+    let today = now.date_naive();
+    assert!(!is_stale(today, now - Duration::hours(48), now));
     assert!(is_stale(
+        today,
         now - Duration::hours(48) - Duration::seconds(1),
         now
     ));
-    assert!(!is_stale(now, now));
+    assert!(!is_stale(today, now, now));
+    // A past day is measured at its end, not now.
+    let past = today - Duration::days(10);
+    let fetched: DateTime<Utc> = "2026-10-10T06:00:00Z".parse().unwrap();
+    assert!(!is_stale(past, fetched, now));
+    assert!(is_stale(past, fetched - Duration::hours(31), now));
 }
 
 #[test]

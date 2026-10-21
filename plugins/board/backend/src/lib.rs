@@ -21,7 +21,7 @@ use axum::{
     response::{IntoResponse, Response},
     routing::get,
 };
-use chrono::{DateTime, Duration, NaiveDate, Utc};
+use chrono::{DateTime, Duration, NaiveDate, NaiveTime, Utc};
 use serde::Deserialize;
 use serde_json::json;
 use sqlx::migrate::Migrator;
@@ -47,9 +47,13 @@ pub const STALE_AFTER_HOURS: i64 = 48;
 /// Longest KOL id accepted in a path.
 pub const MAX_ID_LEN: usize = 64;
 
-/// Whether a row fetched at `fetched_at` is stale at `now`.
-pub fn is_stale(fetched_at: DateTime<Utc>, now: DateTime<Utc>) -> bool {
-    now - fetched_at > Duration::hours(STALE_AFTER_HOURS)
+/// Whether a row of `date`'s board fetched at `fetched_at` is stale: measured at the end
+/// of that day, or at `now` while the day runs, so a past day keeps the marks it had.
+pub fn is_stale(date: NaiveDate, fetched_at: DateTime<Utc>, now: DateTime<Utc>) -> bool {
+    let day_end = (date + Duration::days(1))
+        .and_time(NaiveTime::MIN)
+        .and_utc();
+    now.min(day_end) - fetched_at > Duration::hours(STALE_AFTER_HOURS)
 }
 
 /// Strict `YYYY-MM-DD`.
@@ -249,7 +253,7 @@ impl Board {
                 in_network: slot.is_member(person, &r.kol).await,
                 source: row.map(|x| x.source),
                 fetched_at: row.map(|x| x.fetched_at),
-                stale: row.is_some_and(|x| is_stale(x.fetched_at, now)),
+                stale: row.is_some_and(|x| is_stale(date, x.fetched_at, now)),
                 metrics: row.map(|x| (&x.metrics).into()),
             });
         }
@@ -420,7 +424,7 @@ impl Board {
             badges: ranked.card.badges.clone(),
             source: row.map(|x| x.source),
             fetched_at: row.map(|x| x.fetched_at),
-            stale: row.is_some_and(|x| is_stale(x.fetched_at, now)),
+            stale: row.is_some_and(|x| is_stale(date, x.fetched_at, now)),
             metrics: row.map(|x| (&x.metrics).into()),
             formats: profile.formats.clone(),
             links: dto::Links {
